@@ -1,0 +1,88 @@
+.time-to-shine-page {
+    .gigi-content-block {
+        .gigi-content-block__container {
+            .gigi-content-block__items {
+                .gigi-content-block__item {
+                    .gigi-content-block__wrapper {
+                        .gigi-content-block__content {
+                            .gigi-content-block__content-wrapper {
+                                .gigi-content-block__content-item {
+                                    .gigi-content-block__desc {
+                                        p {
+                                            margin: 0 0 12px;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        &.wrapper-1-items {
+            .gigi-content-block__container {
+                .gigi-content-block__items {
+                    .gigi-content-block__item {
+                        width: calc((100% - 3px) / 2);
+                    }
+                }
+            }  
+        }
+    }
+}
+.gigi-white-page__container {
+    margin-top: 141px;
+    @media ( min-width: 768px ){
+        margin-top: 152px;
+    }
+    padding: 0 16px;
+    .gigi-white-page__wrapper {
+        max-width: 687px;
+        margin: 0 auto;
+        color: #000;
+        @media ( min-width: 1024px ) {
+            margin-left: 21.3%
+        }
+        .gigi-white-page__heading {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 17px;
+            margin-bottom: 32px;
+            @media ( min-width: 768px ) {
+                font-size: 16px;
+                line-height: 20px;
+                margin-bottom: 56px;
+            }
+        }
+        .gigi-white-page__content__title {
+            font-size: 14px;
+            line-height: 17px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .gigi-white-page__content__description {
+            font-size: 12px;
+            line-height: 15px;
+            @media ( min-width: 768px ) {
+                font-size: 14px;
+                line-height: 17px;
+                & p {
+                    margin-bottom: -14px;
+                }
+            }
+        }
+        .gigi-white-page__content__wrapper {
+            margin-bottom: 32px;
+            @media ( min-width: 768px ) {
+                margin-bottom: 46px;
+            }
+            &:last-child {
+                margin-bottom: 0px;
+                @media (min-width: 768px ) {
+                    margin-bottom: 41px;
+                }
+               
+            }
+        }
+    }
+}

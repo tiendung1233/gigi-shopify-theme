@@ -1,0 +1,93 @@
+.gigi-key-points__container {
+    padding-right: 16px;
+    padding-left: 16px;
+    font-family: "F Grotesk";
+
+    @media ( min-width: 768px ) {
+        padding-right: 48px;
+        padding-left: 48px;
+    }
+    .gigi-key-points__wrapper {
+        display: flex;
+        flex-direction: column;
+        row-gap: 31px;
+        @media( min-width: 768px ) {
+            row-gap: 48px;
+        }
+    }
+    .gigi-key-points__item {
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+        width: 100%;
+        @media ( min-width: 768px) {
+            flex-direction: row;
+            gap: 17px;
+        }
+    }
+    .gigi-key-points__item-material {
+        @media ( min-width: 768px) {
+            gap: 11px;
+        }
+        .gigi-key-poins__item--title {
+            @media ( min-width: 768px) {
+                padding-right: 5px;
+            }
+        }     
+    }
+    .gigi-key-points__item-lentes{
+        @media ( min-width: 768px) {
+            gap: 12px;
+        }
+        .gigi-key-poins__item--title {
+            @media ( min-width: 768px) {
+                padding-right: 5px;
+            }
+        }
+    }
+    .gigi-key-points__item-technologies,
+    .gigi-key-points__item-components {
+        @media ( min-width: 768px) {
+            gap: 11px;
+        }
+        .gigi-key-poins__item--title {
+            @media ( min-width: 768px) {
+                padding-right: 5px;
+            }
+        }
+    }
+    .gigi-key-poins__item--title {
+        color: #000000;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 15px;
+        @media ( min-width: 768px ) {
+            display: flex;
+            justify-content: flex-end;
+            width: 51%;
+        }
+
+        @media ( min-width: 990px ) {
+            display: flex;
+            justify-content: flex-end;
+            width: 59%;
+        }
+    }
+    .gigi-key-poins__item--des {
+        color: #000000;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 15px;
+        letter-spacing: 0;
+        @media ( min-width: 768px ) {
+            width: 48%;
+        }
+
+        @media ( min-width: 990px ) {
+            width: 40%;
+        }
+        & p {
+            margin: 0;
+        }
+    }
+}

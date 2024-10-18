@@ -1,0 +1,47 @@
+.gigis-rich-text-container {
+    display: flex;
+    .gigis-rich-text__wrapper {
+        width: 100%;
+        .gigis-rich-text__heading {
+            line-height: 30px;
+            letter-spacing: 0;
+            @media (min-width: 768px){
+                line-height: 36px;
+            }
+        }
+        .gigis-rich-text__content {
+            & p {
+                margin: 0;
+            }
+        }
+        .gigis-hero-banner__button-wrapper {
+            gap: 20px;
+            @media (min-width: 768px){
+                gap: 20px;
+            }
+            .gigi-button_rich-text {    
+                line-height:25px;
+                &::after {
+                    bottom:5px;
+                }
+            }
+            .rocket-button-gigi {
+                font-weight: 400;
+            }
+            
+        }
+        .rich-text__blocks {
+            max-width: 100%;
+        }
+    }
+}
+.rich-text__container--left {
+    justify-content: flex-start;
+}
+.rich-text__container--center {
+    justify-content: center;
+}
+.rich-text__container--right {
+    justify-content: flex-end;
+}
+

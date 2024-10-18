@@ -1,0 +1,87 @@
+{% comment %}
+    Renders Rocket Scalpers Button.
+
+    Accepts:
+
+    If it's a Section settings:
+        - section: {Object} passes in the section information.
+        - type: {String} type of button will be change from each type of button when user choosen.
+        - url: {String} url to be added to the input the user will get/copy.
+        - label: {String} is button content.
+        - Usage:
+            {% render 'rocket-gigi-buttons',
+                type: section.settings.button_type,
+                url: section.settings.button_url,
+                label: section.settings.button_label,
+                color: block.settings.color_button
+            %}
+
+    else it's a Block settings:
+        - block: {Object} passes in the block information.
+        - type: {String} type of button will be change from each type of button when user choosen.
+        - url: {String} url to be added to the input the user will get/copy.
+        - label: {String} is button content.
+        - Usage:
+            {% render 'rocket-gigi-buttons',
+                type: block.settings.button_type,
+                url: block.settings.button_url,
+                label: block.settings.button_label,
+                color: block.settings.color_button
+            %}
+
+    Schema must be apply for using this button:
+        {
+            "type": "header",
+            "content": "Button"
+        },
+        {
+            "type": "select",
+            "id": "button_type",
+            "options": [
+                {
+                    "value": "primary",
+                    "label": "Primary"
+                },
+                {
+                    "value": "secondary",
+                    "label": "Secondary"
+                },
+                {
+                    "value": "filled",
+                    "label": "filled"
+                },
+                {
+                    "value": "link_l",
+                    "label": "Link/L"
+                },
+                {
+                    "value": "link_s",
+                    "label": "Link/S"
+                }
+            ],
+            "default": "secondary",
+            "label": "Button Type"
+        },
+        {
+            "type": "url",
+            "id": "button_url",
+            "label": "Button URL"
+        },
+        {
+            "type": "text",
+            "id": "button_label",
+            "label": "Button Label",
+            "default": "Comprar ahora"
+        }
+
+{% endcomment %}
+
+{% liquid
+    assign button_class = "gigi-button rocket-font-fgrotesk fw-400"
+%}
+
+{% if url != blank %}
+    <a href="{{ url }}" class="{{ button_class }} {{ type }}" style="--color-button: {{ color }}">{{ label }}</a>
+{% else %}
+    <div class="{{ button_class }} {{ type }}" disable="disable" style="--color-button: {{ color }}">{{ label }}</div>
+{% endif %}

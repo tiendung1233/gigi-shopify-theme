@@ -1,0 +1,638 @@
+
+.rocket-store-locator {
+  // padding: 120px 16px 80px 16px;
+  // padding-top: 108px;
+  *:focus-visible{
+    outline: none;
+    box-shadow: none;
+  }
+  color: #000;
+  --font-grotesk: 'F Grotesk', sans-serif;
+  font-family:var(--font-grotesk);
+  *{
+    box-sizing: border-box;
+  }
+  .rocket-map-hidden {
+    display: none;
+  }
+  .rocket-city-option {
+    cursor: pointer;
+    text-transform: capitalize;
+  }
+  .rocket-stores-container.loading {
+    min-height: 30rem;
+  }
+  .input-search {
+    position: relative;
+    transform: translateY(-2px);
+    z-index: 2;
+  }
+  #input-search-mapautocomplete-list {
+    gap: 12px;
+    padding: 12px 0;
+    max-height: 336px;
+    overflow-y: auto;
+    font-size: 12px;
+    line-height: 15px;
+    position: absolute;
+    z-index: 99;
+    background: white;
+    box-shadow: 0 0 0 1px #f0f0f0;
+    border-radius: 3px;
+    padding: 12px;
+    @media (min-width: 768px) {
+      max-height: 376px;
+    }
+    div {
+      margin-bottom: 10px;
+    }
+  }
+  .rocket-stores-container.loading:before, .rocket-stores-container.hold-on:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 99;
+    background: white;
+    opacity: 0.8;
+  }
+  .rocket-stores-container.hold-on:before {
+    content: "Por favor seleccione el país que desea ver" !important;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    font-size: 30px;
+   
+  }
+  .loading__spinner {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    position: absolute;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    width: 6rem;
+    z-index: 999;
+  }
+  input:disabled, .rocket-disabled {
+    cursor: not-allowed;
+    // opacity: 0.5;
+  }
+  .rocket-disabled {
+    pointer-events: none;
+    user-select: none;
+  }
+  .rocket-stores-header {
+    padding: 0 16px;
+    margin-bottom: 22px;
+
+    .section_title {
+      font-size: 20px;
+      line-height: 20px;
+      font-weight: 700;
+      color: inherit;
+      font-family: inherit;
+      letter-spacing: 0px;
+    }
+    
+    .section_description {
+      font-size: 12px;
+      line-height: 15px;
+      max-width: 350px;
+      p{
+        margin: 0;
+      }
+    }
+  }
+
+  .rocket-store-wrapper {
+    display: flex;
+    flex-direction: column-reverse;
+
+    .country {
+      span {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 13px;
+      }
+    }
+  }
+ 
+  .multi-stores {
+    display: flex;
+    flex-direction: column;
+    @media(min-width: 768px) {
+      height: 100%;
+    }
+  }
+#list-info-store{
+  padding-top: 12px;
+  @media(min-width: 768px) {
+    padding-top:0
+  }
+}
+  .store-info {
+    background-color: #fff;
+    padding: 10px 16px;
+    & ~ .store-info {
+      padding-top: 14px;
+      @media(min-width: 768px){
+        padding-top: 0;
+      }
+    }
+   @media(min-width: 768px){
+    padding: 0 22px 24px 24px;
+   }
+    cursor: pointer;
+   
+
+    &.info-map-store {
+      padding: 10px;
+    }
+
+    &:hover,
+    &.active {
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      transition: box-shadow 0.3s ease-in-out;
+    }
+
+    // &.active {
+    //   border: 1px solid #000;
+    // }
+
+    .store_name {
+      display: block;
+      font-size: 14px;
+      line-height:16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+  
+
+    .store_description {
+      font-size: 10px;
+      max-width: 280px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 12px;
+      line-height: 15px;
+      a {
+        display: inline-block;
+        color: #000;
+        text-decoration: none;
+      }
+
+      p {
+        margin: 0;
+      }
+      .store_view_map a{
+        font-size: 10px;
+        line-height: 12px;
+        text-decoration: underline;
+        margin-top: 8px;
+      }
+      .store_categories {
+        display: block;
+        margin-bottom: 12px;
+      }
+
+      .store_address {
+        margin-bottom: 0;
+      }
+      .store_email a{
+        color: #B8B8B8
+      }
+      .store_working_time {
+        display: block;
+        margin-bottom: 3px;
+      }
+
+      .store_note {
+        display: block;
+        margin-top: 15px;
+      }
+    }
+  }
+
+  #map_google {
+    height: 400px;
+  }
+
+  button.gm-ui-hover-effect {
+      transform: translate(-4px, 6px);
+  }
+
+  select {
+    padding: 7px 12px 7px 12px;
+    -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari and Chrome */
+    appearance:none;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position-x: calc(100% - 9px);
+    background-position-y: 7px;
+    border-radius: 0px;
+    border: 1px solid #191919;
+    width: 100%;
+    margin-bottom: 16px;
+    text-transform: capitalize;
+    font-size: 10px;
+    color: #000;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #D9D9D9;
+    border-radius: 100px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .rocket-store-locator {
+    // padding: 160px 56px 80px 56px;
+    .rocket-stores-header {
+      margin-bottom: 32px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .rocket-store-wrapper {
+      
+      .country {
+        span {
+          text-transform: uppercase;
+          font-size: 14px;
+        }
+      }
+    }
+
+    .rocket-stores-area {
+      min-width: 465px;
+    }
+
+    .store-info {
+      .store_description {
+        max-width: unset;
+      }
+    }
+
+    select {
+      background-position-x: calc(100% - 8px);
+      background-position-y: 10px;
+      padding: 8px 12px 8px 12px;
+      font-weight: 300;
+      font-size: 13px;
+      margin-bottom: 24px;
+    }
+  }
+}
+
+@media (min-width: 1440px) {
+  .rocket-store-locator {
+    #map_google {
+      width: 662px;
+      height: 564px;
+    }
+  }
+}
+
+@media (min-width: 1280px) {
+  .rocket-store-locator {
+  
+    #map_google {
+      width: 100%;
+    }
+  }
+}
+
+.rocket-stores{
+  &-header{
+    .section_description{
+      margin-bottom: 32px;
+      @media(min-width: 992px) {
+        margin-bottom: 0;
+      }
+    }
+  }
+ 
+  &-inputs{
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  
+  &-inputs{
+    .input-search{
+      width: 100%;
+    }
+  }
+  &-search{
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    &-input{
+      padding: 0;
+      color: #000;
+      font-family: var(--font-grotesk);
+      border: none;
+      margin: 0;
+      padding-bottom: 7px;
+      border-bottom: 1px solid #D9D9D9;
+      font-size: 12px;
+      line-height: 15px;
+      width: 100%;
+      background: #fff;
+      --color-foreground: 255, 255, 255;
+      width: 182px;
+      @media(min-width: 768px){
+        border-bottom: 1px solid #000;
+        width: 149px;
+
+      }
+      &::placeholder {
+        color: #000;
+        font-size: 12px;
+       line-height: 15px;
+       }
+    }
+  }
+  
+  &-select{
+    position: relative;
+    &[open]{
+      summary svg{
+        transform:  rotate(-90deg);
+      }
+    }
+    summary{
+      font-size: 12px;
+      line-height: 15px;
+      display: flex;
+      white-space: nowrap;
+      gap: 10px;
+      align-items: center;
+      cursor: pointer;
+      text-transform: capitalize;
+     
+      svg{
+        width: 6.7px;
+        height: 10px;
+        flex: 0 0 6.7px;
+        transform: rotate(90deg);
+        path{
+          fill: #000;
+        }
+      }
+    }
+  }
+  &-options{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    max-width: 169px;
+    z-index: 100;
+  }
+  &-option-wrapper{
+    margin-top: 12px;
+    box-shadow: 0 0 0 1px #F0F0F0;
+    border-radius: 3px;
+    padding: 12px;
+    background: #fff;
+  }
+  &-option-list{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding:  0;
+    padding-bottom: 12px;
+    margin-top: 12px;
+    max-height: 336px;
+    overflow-y: auto;
+    font-size: 12px;
+    line-height: 15px;
+    @media(min-width: 768px) {
+      max-height: 376px;
+    }
+  }
+  &-option{
+    cursor: pointer;
+    text-transform: capitalize;
+  }
+  &-search-submit{
+    background: #fff;
+    color: #000;
+    padding: 8px 16px;
+    border-radius: 3px;
+    font-size: 12px;
+    line-height: 1;
+    --buttons-radius: 3px;
+    border-radius: 3px;
+    min-height: 30px;
+    min-width: 131px;
+    display: none;
+    letter-spacing: normal;
+    opacity: 1!important;
+    border: 1px solid #000;
+    &::before,
+    &:after{
+      content: none;
+    }
+
+    @media(min-width: 768px){
+      display: flex;
+    }
+  }
+}
+.rocket-store-locator{
+  #map_google{
+    height: calc( 100vw * 557 / 375);
+    max-height: 557px;
+    @media(min-width: 768px){
+      height: calc( 100vw * 700 / 1440);
+      max-height: 700px;
+    }
+  }
+  .hidden-list,
+  .show-list {
+    --color-button: 0, 0, 0;
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translate(-50%);
+    z-index: 1000;
+    background-color: #000;
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: normal;
+    --buttons-radius: 3px;
+    border-radius: 3px;
+    min-height: 34px;
+    min-width: 139px;
+    display: none;
+    @media(min-width: 768px) {
+      display: none;
+    }
+  }
+  .hidden-list{
+    min-width: 147px;
+  }
+  .hidden-list.active,
+  .show-list.active {
+    display: flex;
+  }
+  #rocket-store-list{
+    color: #000;
+    @media(min-width: 768px) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 358px;
+      height: 100%;
+      z-index: 20;
+      background: #fff;
+      border-right: 1px solid #D9D9D9;
+    }
+  }
+  .rocket-store-list-placeholder{
+    height: calc( 100vw * 557 / 375);
+    font-size: 16px;
+    line-height: 20px;
+    padding: 24px 16px
+  }
+  .rocket-store-list-header{
+    font-size: 14px;
+    line-height: 16px;
+    color: #B8B8B8;
+    padding: 16px;
+    border-top: 1px solid #D9D9D9;
+    @media(min-width: 768px) {
+      padding:  16px 24px;
+    }
+  }
+  .rocket-store-list-body{
+    // border-top: 1px solid #D9D9D9;
+    @media(min-width: 768px) {
+      height: calc(100% - 50px);
+      overflow: auto;
+      margin-top: 24px;
+      overflow-x: clip;
+    }
+  }
+  .rocket-stores-search-option{
+    display: flex;
+    align-items: center;
+    gap : 4px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #D9D9D9;
+     input{
+      border: none;
+      padding: 0;
+      font-size: 12px;
+      line-height: 15px;
+      --color-foreground: 255, 255, 255;
+      &::placeholder {
+       color: #000;
+       font-size: 12px;
+      line-height: 15px;
+      }
+      
+    }
+    .icon{
+      width:12px;
+      height: 12px;
+      flex: 0 0 12px
+    }
+  }
+  .action-list-store{
+    @media(min-width:768px){
+      display: none;
+    }
+  }
+}
+#rocket-map-area.disabled,
+#rocket-store-list.disabled {
+  display: none;
+}
+.rocket-stores-container{
+  position: relative;
+  height: auto;
+  max-height: auto;
+  @media(min-width: 768px){
+    height: calc( 100vw * 700 / 1440);
+    max-height: 700px;
+    overflow: hidden;
+  }
+}
+main.layout-page\.stores{
+  padding-top: 108px;
+}
+@media(max-width:767px){
+  main.layout-page\.stores{
+    padding-top: 93px;
+  }
+  details.country.rocket-stores-select summary{
+    gap: 10px;
+  }
+  details.country.rocket-stores-select summary  {
+    width: 58px;
+    span{
+      text-overflow: ellipsis;
+      overflow: hidden;
+      display: inline-block;
+    }
+    
+  }
+ 
+  details.city.rocket-stores-select summary  {
+    width: 58px;
+   span{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+   }
+  }
+}
+@media(min-width:768px){
+ 
+  details.country.rocket-stores-select summary  {
+    min-width: 58px;
+ 
+  }   
+  details.city.rocket-stores-select summary {
+    min-width: 55px;
+  }
+}
+
+.rocket-store-list-wrapper{
+  height: calc( 100% - 49px);
+  border-top: 1px solid #d9d9d9;
+}
+@media(min-width:768px){
+.rocket-store-list-wrapper{
+  padding-right: 8px;
+}
+}
+
+#notStoreSearch {
+  padding: 24px 16px;
+  color: red;
+  @media(min-width: 768px){
+  padding: 24px;
+     
+  }
+ 
+}

@@ -1,0 +1,68 @@
+{% comment %}
+  Renders a product media with variants picker
+
+  Accepts:
+  - card_product: {Object} Product Liquid object (optional).
+
+  Usage:
+  {% render 'rocket-gigi-variants-swiper' %}
+{% endcomment %}
+{% liquid
+    assign product = card_product
+%}
+<div class="gigi-product-card__media-swiper" id="swiper-{{ product.id }}">
+    <div class="card__media-featured swiper">
+        <div class="media-featured__list swiper-wrapper">
+            {%- for variant in product.variants -%}
+                <div class="media-featured__item swiper-slide">
+                    {{ variant.featured_image
+                    | image_url: width: '468'
+                    | image_tag:
+                    loading: 'lazy',
+                    alt: variant.title,
+                    width: 468,
+                    height: 312,
+                    class: 'gigi-product-card__image-featured'
+                    }}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="swiper-button swiper-button-next">{%- render 'icon-block-banner-arrow' -%}</div>
+        <div class="swiper-button swiper-button-prev">{%- render 'icon-block-banner-arrow' -%}</div>
+    </div>
+    <div class="card__media-thumbnails swiper-thumbs">
+        <div class="media-thumbnails__list swiper-wrapper">
+            {%- for variant in product.variants -%}
+                <div class="media-thumbnails__item swiper-slide">
+                    {{ variant.featured_image
+                    | image_url: width: variant.featured_image.width
+                    | image_tag:
+                    loading: 'lazy',
+                    alt: variant.title,
+                    width: variant.featured_image.width,
+                    height: variant.featured_image.height,
+                    class: 'gigi-product-card__image-thumbs'
+                    }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script>
+    const swiper_thumbs_{{ product.id }} = new Swiper('#swiper-{{ product.id }} .swiper-thumbs', {
+        slidesPerView: 5,
+        spaceBetween: 0,
+    });
+
+    const swiper_{{ product.id }} = new Swiper('#swiper-{{ product.id }} .swiper', {
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        slidesPerView: 1,
+        spaceBetween: 0,
+        thumbs: {
+            swiper: swiper_thumbs_{{ product.id }},
+        }
+    });
+</script>

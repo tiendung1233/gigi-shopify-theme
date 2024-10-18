@@ -1,0 +1,1104 @@
+{%- style -%}
+    .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top_mb }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mb }}px;
+    }
+
+    @media screen and (min-width: 1024px) {
+    .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    }
+{%- endstyle -%}
+
+<section class="section-{{ section.id }}-padding" id="{{ section.id }}">
+    <list-store-market>
+        <div class="rocket-map-{{ section.id }} rocket-store-locator rocket-font-helvetica-neue">
+            {% assign listStores = shop.metaobjects.store.values %}
+            <style>
+                .rocket-store-locator select {
+                    background-image: url({{'arrow.svg'|asset_url}});
+                }
+            </style>
+            {% if section.settings.map_api != blank
+            and section.settings.lat_center != blank
+            and section.settings.lng_center != blank
+            %}
+                <div class="rocket-stores-header wrap">
+                    <div class="section_description">
+                        {{ section.settings.section_description }}
+                    </div>
+                    <div
+                            id="rocket-stores-area"
+                            class="wrap info-map rocket-stores-area"
+                    >
+                        <div id="action-search" class="rocket-stores-search">
+                            <div class="rocket-stores-inputs">
+                                <details class="country rocket-stores-select">
+                                    <summary>
+                                        <span>{{ 'general.map.select_country' | t }}</span> {% render 'rocket-icon-arrow-right' %}
+                                    </summary>
+                                    {% comment %} <span>{{ 'general.map.select_country' | t }}</span> {% endcomment %}
+                                    <div class="rocket-stores-options">
+                                        <div class="rocket-stores-option-wrapper">
+                                            <div class="rocket-stores-search-option">
+                                                {% render 'icon-search' %}
+                                                <input placeholder="{{ 'general.map.search' | t }}"
+                                                       class="rocket-stores-input" id="rocket-stores-input-search">
+                                            </div>
+                                            <div class="rocket-stores-option-list" id="country">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </details>
+                                <details class="city rocket-stores-select rocket-disabled">
+                                    <summary>
+                                        <span>{{ 'general.map.select_city' | t }}</span> {% render 'rocket-icon-arrow-right' %}
+                                    </summary>
+                                    <div class="rocket-stores-options">
+                                        <div class="rocket-stores-option-wrapper">
+                                            <div class="rocket-stores-search-option">
+                                                {% render 'icon-search' %}
+                                                <input placeholder="{{ 'general.map.search' | t }}"
+                                                       class="rocket-stores-input" id="rocket-city-input-search">
+                                            </div>
+                                            <div class="rocket-stores-option-list" id="city">
+                                                <div class="pls-select-country">{{ 'general.map.pls_select_country' | t }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </details>
+                                <div class="input-search">
+                                    <input
+                                            disabled
+                                            class="rocket-stores-search-input"
+                                            id="input-search-map"
+                                            type="text"
+                                            name="postal-code"
+                                            placeholder="{{ 'general.map.placeholder' | t }}"
+                                    >
+                                    <span
+                                            id="error-empty-search"
+                                            class="hidden tw-font-caslonroman tw-text-[13px] tw-not-italic tw-font-normal"
+                                    >
+                  {{- 'general.map.error_empty' | t -}}
+                </span>
+                                </div>
+                            </div>
+                            <button disabled id="rocket-stores-search-submit" class="button rocket-stores-search-submit"
+                            >{{ 'general.map.search' | t }}</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="rocket-stores-container hold-on">
+                    {%- render 'loading-spinner' -%}
+                    <div id="rocket-store-list" class="hidden">
+                        <div class="rocket-store-list-placeholder hidden ">{{ 'general.map.list_placeholder' | t }}</div>
+                        <div class="multi-stores ">
+                            <div id="rocket-store-list-header"
+                                 class="rocket-store-list-header ">{{ 'general.map.list_result_header' | t }}</div>
+                            <div class="rocket-store-list-wrapper">
+                                <div class="rocket-store-list-body">
+                                    <div
+                                            class="rocket-map-hidden"
+                                            id="notStoreSearch"
+                                    >
+                                        {{ 'general.map.empty' | t }}
+                                    </div>
+                                    {% assign order = 1 %}
+
+
+                                    <div id="list-info-store">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-list-store wrap">
+                        <div id="btn-hidden-list" class="hidden-list button"
+                             onclick="showOrHiddenListStore(this,'none')">{{ 'general.map.view_map' | t }}</div>
+
+                        <div class="show-list active button"
+                             onclick="showOrHiddenListStore(this,'block')">{{ 'general.map.view_list_store' | t }}</div>
+                    </div>
+
+                    <div class="cs-section-{{ section.id }}-padding rocket-store-wrapper container--fullscreen revolution--map ">
+                        <div id="rocket-map-area" class="google-map  wrap-map wrap">
+                            <div class="contact-map-holder" id="map_google"></div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div style="height: 50rem; display: flex; justify-content: center; align-items: center">
+                    <h1>{{ 'general.map.not_api_google' | t }}</h1>
+                </div>
+            {% endif %}
+        </div>
+
+        {% assign listStores = shop.metaobjects.store.values %}
+        {% paginate listStores by 999 %}
+            {% assign listStoreJson = '[' %}
+            {% for store in listStores %}
+                {% assign storeJson = store | json %}
+                {% unless forloop.last %}
+                    {% assign storeJson = storeJson | append: ',' %}
+                {% endunless %}
+                {% assign listStoreJson = listStoreJson | append: storeJson %}
+            {% endfor %}
+            {% assign listStoreJson = listStoreJson | append: ']' %}
+
+            <span id="totalPage" style="display: none">{{ paginate.pages }}</span>
+        {% endpaginate %}
+
+        <script type="application/json" data-id="list-store">
+        {{ listStoreJson }}
+
+        </script>
+        <script defer src="https://polyfill.io/v3/polyfill.min.js"></script>
+    </list-store-market>
+</section>
+
+
+<script>
+    var gmarkers = [], cityCircle = null, listDataSearch = [], infowindow, midpointCenter, listCountry = [],
+        listMarket = [];
+
+    async function getDataJsonMap() {
+        let listStore = [];
+        let storeJson = document.querySelector('list-store-market').querySelector('script[data-id="list-store"]').innerHTML;
+        listStore.push(storeJson);
+        let totalPage = Number(document.getElementById('totalPage').innerHTML);
+        if (totalPage > 0) {
+            for (let i = 2; i <= totalPage; i++) {
+                let url = '/pages/stores?page=' + i + '&sections={{ section.id }}';
+                let storeJson = await getDataStore(url, listStore);
+                listStore.push(storeJson);
+            }
+        }
+        localStorage.setItem('listStore', JSON.stringify(listStore))
+    }
+
+    async function getDataStore(url) {
+        let res = await fetch(url);
+        let doc = await res.json();
+        doc = doc[`{{ section.id }}`];
+        let newPackageProduct = document.createElement("div");
+        newPackageProduct.insertAdjacentHTML('afterbegin', doc);
+        let storeJson = newPackageProduct.querySelector('list-store-market').querySelector('script[data-id="list-store"]').innerHTML;
+        return storeJson;
+    }
+
+
+    function renderInfoStore(store) {
+        let storeCity = '';
+
+        let storeName = store.name.replaceAll(" ", "").replaceAll("'", "");
+        let storeCountry = store.country.replaceAll(" ", "_").toLowerCase();
+        if (store.city) {
+            storeCity = store.city.replaceAll(" ", "_").toLowerCase();
+        }
+
+        let storeInfo = document.createElement('div');
+        storeCity = storeCity.replace(/[^\w\s]/gi, '');
+        storeName = storeName.replace(/[^\w\s]/gi, '')
+        storeInfo.className = `store-info store-list ${storeName} country-${storeCountry}-city-${storeCity}`;
+        storeInfo.id = `${store.latitude}-${store.longitude}`;
+        storeInfo.setAttribute('onclick', `getContactStore('${storeName}',this)`);
+
+        let textStoreInfo = '<div class="store_title">';
+        textStoreInfo += `<span class="store_name">${store.name}</span>`;
+        textStoreInfo += '<span class="search_distance_information"></span>';
+        textStoreInfo += '</div>';
+
+        textStoreInfo += '<div class="store_description">';
+        if (store.fiscal_name) {
+            textStoreInfo += `<p class="store_address" style="display: none">${store.fiscal_name}</p>`;
+        }
+        if (store.phone) {
+            textStoreInfo += `<p class="store_phone" style="display: none">
+                <a
+                    class="decoration-none"
+                    href="tel:${store.phone}"
+                >
+                    ${store.phone}
+                </a>
+            </p>`;
+        }
+        if (store.mobile) {
+            textStoreInfo += `<p class="store_phone" style="display: none">
+                <a
+                    class="decoration-none"
+                    href="tel:${store.mobile}"
+                >
+                    ${store.mobile}
+                </a>
+            </p>`;
+        }
+        let storeAddress = store.street + ' ' + store.city + ' ' + store.state + ' ' + store.country;
+        if (storeAddress) {
+            textStoreInfo += `<p class="store_address">${storeAddress}</p>`;
+        }
+        if (store.email) {
+            textStoreInfo += `<p class="store_email">
+                <a class="decoration-none" href="mailto:${store.email}">
+                    ${store.email}
+                </a>
+            </p>`;
+        }
+        if (store.website) {
+            textStoreInfo += `<p>
+                <a
+                    target="_blank"
+                    href="${store.website}"
+                >
+                    {{- 'general.map.website' | t -}}
+                </a>
+            </p>`;
+        }
+        textStoreInfo += `<div class="store_description">
+            <p class="store_view_map">
+                <a href="https://maps.google.com/maps?saddr=&daddr=${storeAddress}" target="_blank"> {{ 'general.map.see_on_map' | t }}</a>
+            </p>
+        </div>`;
+
+        storeInfo.innerHTML = textStoreInfo;
+
+        document.getElementById('list-info-store').appendChild(storeInfo)
+    }
+
+    async function initMap() {
+        if (!localStorage.getItem("listStore")) {
+            document.querySelector('.rocket-stores-container').querySelector('.loading__spinner').classList.remove('hidden');
+            document.querySelector('.rocket-stores-container').classList.remove('hold-on')
+            document.querySelector('.rocket-stores-container').classList.add('loading')
+            await getDataJsonMap();
+            document.querySelector('.rocket-stores-container').querySelector('.loading__spinner').classList.add('hidden')
+            document.querySelector('.rocket-stores-container').classList.remove('loading')
+            document.querySelector('.rocket-stores-container').classList.add('hold-on')
+        }
+        document.querySelector('.rocket-stores-container').querySelector('.loading__spinner').classList.remove('loading');
+
+        var lat_center = {{ section.settings.lat_center }};
+        var lng_center = {{ section.settings.lng_center }};
+
+        var center = new google.maps.LatLng(lat_center, lng_center);
+        var stylez = [
+            {
+                featureType: "all",
+                elementType: "all",
+                stylers: [
+                    {saturation: -100} // <-- THIS
+                ]
+            }
+        ];
+
+        var mapOptions = {
+            zoom: {{ section.settings.default_zoom_map }},
+            center: center,
+        }
+
+        infowindow = new google.maps.InfoWindow()
+
+        map = new google.maps.Map(document.getElementById('map_google'), mapOptions)
+        var mapType = new google.maps.StyledMapType(stylez, {name: "Grayscale"});
+        map.mapTypes.set('tehgrayz', mapType);
+        map.setMapTypeId('tehgrayz');
+
+        let listStores = JSON.parse(localStorage.getItem("listStore"));
+        listStores.forEach(store => {
+            if (typeof (store) == 'string') {
+                let listStore = JSON.parse(store)
+                listStore.forEach(store => {
+                    if (typeof listMarket[`${store.country.toLowerCase()}`] == "undefined") {
+                        listMarket[`${store.country.toLowerCase()}`] = []
+                        listMarket[`${store.country.toLowerCase()}`][`${String(store.latitude)}-${String(store.longitude)}`] = store
+                    } else {
+                        if (typeof listMarket[`${store.country.toLowerCase()}`][`${String(store.latitude)}-${String(store.longitude)}`] == "undefined") {
+                            listMarket[`${store.country.toLowerCase()}`][`${String(store.latitude)}-${String(store.longitude)}`] = store
+                        }
+                    }
+                    //renderInfoStore(store);
+                    if (store.city && store.country) {
+                        if (typeof listCountry[`${store.country.toLowerCase()}`] == "undefined") {
+                            listCountry[`${store.country.toLowerCase()}`] = `${store.city.toLowerCase()}`;
+                        } else {
+                            if (listCountry[`${store.country.toLowerCase()}`].search(`${store.city.toLowerCase()}`) < 0) {
+                                listCountry[`${store.country.toLowerCase()}`] = listCountry[`${store.country.toLowerCase()}`] + '||' + `${store.city.toLowerCase()}`;
+                            }
+                        }
+                    }
+                })
+            }
+        })
+
+        if (listCountry) {
+            let listCountryEl = document.getElementById('country');
+            let listCountryArray = [];
+            for (let [key, value] of Object.entries(listCountry)) {
+                listCountryArray.push(key)
+            }
+            listCountryArray.sort()
+            listCountryArray.forEach(key => {
+                let divElement = document.createElement("div");
+                divElement.className = 'rocket-stores-option';
+                divElement.setAttribute('value', `${key}`);
+                divElement.innerHTML = `${key}`;
+                divElement.setAttribute('value', `${key}`)
+                divElement.addEventListener('click', function () {
+                    renderCity(divElement);
+                    listDataSearch = [];
+                    gmarkers = [];
+                    addMarketByCountry(divElement.getAttribute('value'));
+                    document.getElementById('input-search-map').value = '';
+                    document.getElementById('input-search-map').disabled = false;
+                    document.getElementById('rocket-store-list').classList.remove('hidden')
+                    document.querySelectorAll('.rocket-disabled').forEach(item => {
+                        item.classList.remove('rocket-disabled')
+                    })
+                })
+                listCountryEl.appendChild(divElement);
+            })
+            for (let [key, value] of Object.entries(listCountry)) {
+
+            }
+        }
+        document.getElementById('rocket-stores-input-search').addEventListener('input', function () {
+            searchValueSelect('rocket-stores-input-search', '.rocket-stores-option')
+        });
+        document.getElementById('rocket-city-input-search').addEventListener('input', function () {
+            searchValueSelect('rocket-city-input-search', '.rocket-city-option')
+        });
+        document.getElementById('rocket-stores-search-submit').addEventListener('click', function () {
+            let valueSearch = document.getElementById('input-search-map').value;
+            if (valueSearch) {
+                searchStore(valueSearch, 'search');
+                document.getElementById('error-empty-search').classList.add('hidden');
+                document.getElementById('rocket-store-list-header').classList.remove('rocket-map-hidden');
+            } else {
+                removeSearchStore();
+            }
+        });
+    }
+
+    function searchValueSelect(inputID, optionClass) {
+        let valueInput = document.getElementById(`${inputID}`).value;
+        let showAllStore = false;
+        if (valueInput) {
+            valueInput = valueInput.toUpperCase();
+        } else {
+            showAllStore = true;
+        }
+        document.querySelectorAll(`${optionClass}`).forEach(option => {
+            let txtValue = option.textContent || option.innerText || option.innerHTML;
+            if (!showAllStore) {
+                if (txtValue.toUpperCase().indexOf(valueInput) > -1) {
+                    option.style.display = "block";
+                } else {
+                    option.style.display = "none";
+                }
+            } else {
+                option.style.display = "block";
+            }
+        });
+    }
+
+    function infoCallback(content, marker) {
+        let storeLive = document.getElementById(marker.storeId),
+            span = document.createElement('span'),
+            stringDistance = ''
+        if (storeLive) {
+            stringDistance = storeLive.querySelector('.search_distance_information').innerHTML
+            span.innerHTML = content
+            span.querySelector('.search_distance_information').innerHTML = stringDistance
+            content = span.innerHTML
+        }
+        infowindow.setContent(content)
+        infowindow.open(map, marker)
+    }
+
+    function addMarker(marker) {
+        let contentInfoStore = '<div class="info-map-store store-info" id="info-map-store-' + marker.name + '" data-id="' + marker.storeId + '">'
+        if (marker.name) {
+            contentInfoStore += '<div class="store_title"><div class="store_name">' + marker.name + '<span class="search_distance_information"></span></div></div><div class="store_description">'
+        }
+        if (marker.address) {
+            contentInfoStore += '<div class="store_address">' + marker.address + ' </div>'
+        }
+        if (marker.phone) {
+            contentInfoStore += '<div class="phone"><a class="decoration-none" href="tel:' + marker.phone + '">' + marker.phone + '</a></div>'
+        }
+        if (marker.mobile) {
+            contentInfoStore += '<div class="phone"><a class="decoration-none" href="tel:' + marker.mobile + '">' + marker.mobile + '</a></div>'
+        }
+        if (marker.zipcode) {
+            contentInfoStore += '<div class="zipcode"> Zip: ' + marker.zipcode + ' </div>'
+        }
+
+        contentInfoStore += '</div></div>'
+        let icon = marker.icon;
+
+        if (!icon && marker.iconMapDefault) {
+            icon = marker.iconMapDefault
+        }
+
+        let pos = new google.maps.LatLng(marker.lat, marker.lng);
+
+        if (icon) {
+            marker = new google.maps.Marker({
+                position: pos,
+                storeId: marker.lat + '-' + marker.lng,
+                name: marker.name,
+                address: marker.address,
+                lat: marker.lat,
+                lng: marker.lng,
+                country: marker.country,
+                city: marker.city,
+                icon: icon,
+                zipcode: marker.zipcode,
+                contentInfoStore: contentInfoStore,
+                map: map
+            })
+        } else {
+            marker = new google.maps.Marker({
+                position: pos,
+                storeId: marker.lat + '-' + marker.lng,
+                name: marker.name,
+                address: marker.address,
+                lat: marker.lat,
+                lng: marker.lng,
+                country: marker.country,
+                city: marker.city,
+                zipcode: marker.zipcode,
+                contentInfoStore: contentInfoStore,
+                map: map
+            });
+        }
+
+        gmarkers.push(marker)
+        marker.addListener('click', () => {
+            infoCallback(contentInfoStore, marker)
+            map.setZoom({{ section.settings.default_zoom_map | plus: 3 }})
+            map.setCenter(marker.getPosition())
+            Array.from(document.getElementsByClassName('store-info')).forEach(element => {
+                element.classList.remove("active");
+            });
+            let currentStore = document.querySelector('#' + marker.storeId);
+            currentStore.classList.add("active");
+            currentStore.scrollIntoView();
+        })
+    }
+
+    function getContactStore(titleStore, el) {
+        document.getElementById('list-info-store').querySelectorAll('.store-info.active').forEach(item => {
+            item.classList.remove('active')
+        })
+        el.classList.add("active")
+        searchStore(titleStore, 'zoom');
+        showOrHiddenListStore(document.getElementById('btn-hidden-list'), 'none');
+    }
+
+    async function searchStore(value, event) {
+        closeAllLists();
+        var countResult = 0, indexMarket = 0, cities = [], bounds = new google.maps.LatLngBounds(),
+            radius = 0
+        if (cityCircle) {
+            cityCircle.setMap(null)
+        }
+        for (let i = 0; i < gmarkers.length; i++) {
+            var marker = gmarkers[i]
+            if (event == 'search') {
+                document.querySelectorAll('.search_distance_information').forEach(item => {
+                    item.innerHTML = ''
+                })
+
+                if (
+                    (marker.name && marker.name.toLowerCase().replace(/\s/g, '').replace(/\'/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').search(value.toLowerCase().replace(/\s/g, '').replace(/\'/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')) > -1) ||
+                    (marker.zipcode && marker.zipcode.toLowerCase().replace(/\s/g, '').replace(/\'/g, '') == value.toLowerCase().replace(/\s/g, '').replace(/\'/g, '')) ||
+                    (marker.zipcode && marker.zipcode.toLowerCase().replace(/\s/g, '').replace(/\'/g, '').search(value.toLowerCase().replace(/\s/g, '').replace(/\'/g, '')) > -1) ||
+                    (marker.zipcode && value.toLowerCase().replace(/\s/g, '').replace(/\'/g, '').search(marker.zipcode.toLowerCase().replace(/\s/g, '').replace(/\'/g, '')) > -1) ||
+                    (marker.zipcode && marker.zipcode == value) ||
+                    (marker.address && marker.address.toLowerCase().replace(/\s/g, '').replace(/\'/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').search(value.toLowerCase().replace(/\s/g, '').replace(/\'/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')) > -1)
+                ) {
+                    document.getElementById(marker.storeId).classList.remove('rocket-map-hidden')
+                    document.getElementById(marker.storeId).classList.remove('store-not-active')
+                    document.getElementById(marker.storeId).classList.add('store-active')
+                    countResult++
+                    indexMarket = i
+                    if (gmarkers[i].getVisible() == false) {
+                        gmarkers[i].setVisible(true)
+                    }
+                    cities.push(new google.maps.LatLng(marker.lat, marker.lng))
+                } else {
+                    document.getElementById(marker.storeId).classList.add('rocket-map-hidden')
+                    document.getElementById(marker.storeId).classList.add('store-not-active')
+                    document.getElementById(marker.storeId).classList.remove('store-active')
+                    if (gmarkers[i].getVisible() == true) {
+                        gmarkers[i].setVisible(false)
+                    }
+                }
+            } else {
+                if (marker.name.toLowerCase().replace(/\s/g, '').replace(/\'/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '') == value.toLowerCase().replace(/\s/g, '').replace(/\'/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')) {
+                    map.setZoom({{ section.settings.default_zoom_map | plus: 3 }})
+                    map.panTo(marker.getPosition())
+                    infoCallback(marker.contentInfoStore, marker);
+                    if (window.screen.width <= 768) {
+                        showOrHiddenListStore(document.getElementById('btn-hidden-list'), 'none');
+                    }
+                }
+            }
+
+        }
+        if (countResult == 0 && event == 'search') {
+            document.getElementById('notStoreSearch').classList.remove('rocket-map-hidden')
+        }
+
+        if (countResult > 0) {
+            if (countResult == 1) {
+                if (!radius) {
+                    map.setZoom({{ section.settings.default_zoom_map | plus: 3 }})
+                    map.setCenter(gmarkers[indexMarket].getPosition())
+                    infoCallback(gmarkers[indexMarket].contentInfoStore, gmarkers[indexMarket])
+                }
+                midpointCenter = gmarkers[indexMarket]
+                renderResultStore(midpointCenter, radius, cities)
+            } else {
+                for (let i = 0; i < cities.length; i++) {
+                    bounds.extend(cities[i])
+                }
+                let latlng = new google.maps.LatLng(bounds.getCenter().lat(), bounds.getCenter().lng())
+                let geocoder = new google.maps.Geocoder()
+
+                new Promise((resolve) => {
+                    geocoder.geocode({
+                        'latLng': latlng
+                    }, function (results, status) {
+                        if (status === google.maps.GeocoderStatus.OK) {
+                            if (results.length > 1) {
+                                let pos = new google.maps.LatLng(bounds.getCenter().lat(), bounds.getCenter().lng())
+                                midpointCenter = new google.maps.Marker({
+                                    position: pos,
+                                    address: results[1].formatted_address,
+                                    lat: marker.lat,
+                                    lng: marker.lng,
+                                    map: map
+                                });
+                                midpointCenter.setVisible(false)
+                                renderResultStore(midpointCenter, radius, cities)
+                                resolve()
+                            }
+                        }
+                    })
+                })
+            }
+            showOrHiddenListStore(document.getElementById('btn-hidden-list'), 'none');
+        }
+        if (document.querySelectorAll('.store-active')[document.querySelectorAll('.store-active').length - 1]) {
+            document.querySelectorAll('.store-active')[document.querySelectorAll('.store-active').length - 1].classList.add('border-unset')
+        }
+    }
+
+    function renderResultStore(midpointCenter, radius, cities) {
+        if (midpointCenter && radius) {
+            // Draw a circle with the specified radius around the seeker's location
+
+            let citiesNew = [], boundsNew = new google.maps.LatLngBounds()
+            for (let j = 0; j < gmarkers.length; j++) {
+                if (google.maps.geometry.spherical.computeDistanceBetween(midpointCenter.getPosition(), gmarkers[j].getPosition()) <= radius) {
+
+                    let textDistance = '{{ 'general.map.search_distance_information' | t }}',
+                        store = document.getElementById(gmarkers[j].name.replace(/\s/g, ''))
+
+                    if (google.maps.geometry.spherical.computeDistanceBetween(midpointCenter.getPosition(), gmarkers[j].getPosition()) == 0) {
+                        textDistance = '<span style="color: red">{{ 'general.map.is_store_search' | t }}</span>'
+                    }
+
+                    if (store) {
+                        let request = {
+                            origin: midpointCenter.address,
+                            destination: gmarkers[j].address,
+                            travelMode: google.maps.TravelMode.DRIVING,
+                            unitSystem: google.maps.UnitSystem.metric
+                        }
+
+                        let directionsService = new google.maps.DirectionsService()
+                        let directionsRenderer = new google.maps.DirectionsRenderer()
+                        directionsRenderer.setMap(map)
+
+                        directionsService.route(request, (result, status) => {
+                            if (status === google.maps.DirectionsStatus.OK) {
+                                let distance = result.routes[0].legs[0].distance.text
+                                store.querySelector('.search_distance_information').innerHTML = textDistance.replaceAll('%%km%%', distance)
+                            }
+                        })
+
+                    }
+                    gmarkers[j].setVisible(true)
+                    document.getElementById(gmarkers[j].name.replace(/\s/g, '')).classList.remove('rocket-map-hidden')
+                    document.getElementById(gmarkers[j].name.replace(/\s/g, '')).classList.remove('store-not-active')
+                    document.getElementById(gmarkers[j].name.replace(/\s/g, '')).classList.add('store-active')
+                    citiesNew.push(new google.maps.LatLng(gmarkers[j].lat, gmarkers[j].lng))
+                }
+            }
+            if (cities) {
+                citiesNew = citiesNew.concat(cities)
+            }
+            for (var k = 0; k < citiesNew.length; k++) {
+                boundsNew.extend(citiesNew[k])
+            }
+            map.fitBounds(boundsNew)
+        }
+
+        document.getElementById('notStoreSearch').classList.add('rocket-map-hidden')
+    }
+
+    window.initMap = initMap
+
+    function showOrHiddenListStore(el, type) {
+        let listStore = document.getElementById('rocket-store-list'),
+            section_map = document.getElementById('rocket-map-area'),
+            actionListStore = el.closest('.action-list-store')
+        if (listStore) {
+            if (type == 'block') {
+                listStore.classList.remove('disabled')
+                section_map.classList.add('disabled')
+                actionListStore.querySelector('.show-list').classList.remove('active')
+                actionListStore.querySelector('.hidden-list').classList.add('active')
+
+            } else {
+                listStore.classList.add('disabled')
+                section_map.classList.remove('disabled')
+                actionListStore.querySelector('.show-list').classList.add('active')
+                actionListStore.querySelector('.hidden-list').classList.remove('active')
+            }
+        }
+        scrollTo(0, 0)
+    }
+
+    function onlyUnique(value, index, array) {
+        return array.indexOf(value) === index;
+    }
+
+    function resetMap() {
+        document.getElementById('list-info-store').innerHTML = '';
+        for (let i = 0; i < gmarkers.length; i++) {
+            gmarkers[i].setMap(null);
+        }
+    }
+
+    function addMarketByCountry(countryName) {
+        if (listMarket[countryName]) {
+            let elMap = document.querySelector('.rocket-stores-container')
+            elMap.classList.remove('hold-on');
+            elMap.classList.add('loading');
+            elMap.querySelector('.loading__spinner').classList.remove('hidden');
+            let cities = [];
+            resetMap();
+            let listMarketByCountry = listMarket[countryName];
+
+
+            for (let [key, value] of Object.entries(listMarketByCountry)) {
+                let store = value
+                renderInfoStore(store);
+                if (store.latitude && store.longitude && store.name) {
+                    let storeAddress = '';
+                    if(store.street) {
+                        storeAddress += store.street + ' '
+                    }
+                    if( store.city) {
+                        storeAddress += store.city + ' '
+                    }
+                    if( store.state) {
+                        storeAddress += store.state + ' '
+                    }
+                    if( store.country) {
+                        storeAddress += store.country + ' '
+                    }
+                    let storeName = store.name.replaceAll(" ", "").replaceAll("'", "");
+                    let marker = {
+                        "icon": null,
+                        "iconMapDefault": {% if section.settings.image_icon_map_default != blank %} {{ section.settings.image_icon_map_default | img_url: '50x50' | json }} {% else %} null {% endif %},
+                        "lat": parseFloat(store.latitude),
+                        "lng": parseFloat(store.longitude),
+                        "storeId": storeName,
+                        "name": store.name,
+                        "country": store.country,
+                        "city": store.city,
+                        "address": storeAddress,
+                        "zipcode": store.zip,
+                        "phone": store.phone,
+                        "mobile": store.mobile,
+                        "email": store.email,
+                        "website": store.website
+                    }
+                    addMarker(marker)
+                    cities.push(new google.maps.LatLng(marker.lat, marker.lng));
+                }
+
+                if (store.latitude && store.longitude && store.name) {
+                    let storeAddress = store.street + ' ' + store.city + ' ' + store.state + ' ' + store.country;
+                    if (store.name) {
+                        listDataSearch.push(store.name)
+                    }
+                    if (storeAddress) {
+                        listDataSearch.push(storeAddress)
+                    }
+                    if (store.zip) {
+                        listDataSearch.push(store.zip)
+                    }
+                    listDataSearch = listDataSearch.filter(onlyUnique);
+                }
+            }
+
+            let bounds = new google.maps.LatLngBounds()
+            for (let i = 0; i < cities.length; i++) {
+                bounds.extend(cities[i]);
+            }
+            map.fitBounds(bounds);
+
+
+            elMap.classList.remove('loading');
+            elMap.querySelector('.loading__spinner').classList.add('hidden')
+        }
+    }
+
+    function renderCity(el) {
+        let valueSelect = el.getAttribute('value'),
+            valueCity = listCountry[valueSelect],
+            selectCity = document.getElementById('city');
+        selectCity.querySelector('.pls-select-country').classList.add('hidden');
+        selectCity.closest('details').querySelector('summary').querySelector('span').innerHTML = `{{ 'general.map.select_city' | t }}`;
+        document.getElementById('rocket-stores-input-search').value = '';
+        hiddenAllListStoreByCoutry('country-' + valueSelect)
+        selectCity.querySelectorAll('.rocket-city-option').forEach(item => {
+            item.remove()
+        });
+
+
+        if (valueCity) {
+            valueCity = valueCity.split('||')
+            valueCity = valueCity.filter(onlyUnique);
+            valueCity.sort()
+            valueCity.forEach((item, index) => {
+                let divCity = document.createElement("div");
+                divCity.innerHTML = item;
+                divCity.setAttribute('value', item);
+                divCity.className = 'rocket-city-option';
+                divCity.addEventListener('click', function () {
+                    filterMarketToCity(divCity)
+                })
+                selectCity.appendChild(divCity);
+            })
+            let detail = el.closest('details');
+            detail.querySelector('summary').querySelector('span').innerHTML = valueSelect;
+            document.getElementById('country').setAttribute('value', valueSelect)
+            detail.removeAttribute('open');
+
+        } else {
+            document.querySelector('.rocket-map-{{ section.id }}').querySelectorAll('.store-info').forEach(item => {
+                item.classList.remove('rocket-map-hidden')
+            });
+            selectCity.querySelector('option').textContent = '{{ 'general.map.select' | t }}';
+            selectCity.disabled = true
+        }
+
+        document.getElementById('country').querySelectorAll('.rocket-stores-option').forEach(item => {
+            item.style.display = 'block';
+        })
+        showOrHiddenListStore(document.getElementById('btn-hidden-list'), 'none');
+    }
+
+    function filterMarketToCity(el) {
+        let citySelected = el.getAttribute('value');
+        if (citySelected) {
+            let countrySelected = document.getElementById('country').getAttribute('value');
+            citySelected = citySelected.replace(/[^\w\s]/gi, '');
+            countrySelected = countrySelected.replace(/[^\w\s]/gi, '');
+            let valueShow = 'country-' + countrySelected.replaceAll(" ", "_") + '-city-' + citySelected.replaceAll(" ", "_")
+            hiddenAllListStore()
+            showListStore(valueShow, citySelected)
+        }
+
+        let detail = el.closest('details');
+        detail.querySelector('summary').querySelector('span').innerHTML = citySelected;
+        document.getElementById('rocket-city-input-search').value = '';
+
+        document.getElementById('city').setAttribute('value', citySelected)
+        detail.removeAttribute('open');
+        document.getElementById('city').querySelectorAll('.rocket-city-option').forEach(item => {
+            item.style.display = 'block'
+        })
+        showOrHiddenListStore(document.getElementById('btn-hidden-list'), 'none');
+    }
+
+    function hiddenAllListStoreByCoutry(citySelect) {
+        document.querySelector('.rocket-map-{{ section.id }}').querySelectorAll('.store-list').forEach(item => {
+            if (!item.classList.contains('rocket-map-hidden') && item.className.search(citySelect) < 0) {
+                item.classList.add('rocket-map-hidden')
+            }
+        })
+    }
+
+    function hiddenAllListStore() {
+        document.querySelector('.rocket-map-{{ section.id }}').querySelectorAll('.store-list').forEach(item => {
+            if (!item.classList.contains('rocket-map-hidden')) {
+                item.classList.add('rocket-map-hidden')
+            }
+        })
+    }
+
+    function showListStore(value, citySelected) {
+        document.querySelector('.rocket-map-{{ section.id }}').querySelectorAll('.' + value).forEach((item, index) => {
+            item.classList.remove('rocket-map-hidden');
+        });
+        let bounds = new google.maps.LatLngBounds()
+        for (let i = 0; i < gmarkers.length; i++) {
+            var marker = gmarkers[i];
+            let cityMarket = marker.city ? marker.city.toLowerCase() : ''
+            if (marker.address.search(citySelected) > -1 || marker.address.toLowerCase().search(citySelected) > -1
+                || marker.city == citySelected || cityMarket == citySelected.toLowerCase()) {
+                marker.setVisible(true);
+                bounds.extend(marker);
+            } else {
+                marker.setVisible(false)
+            }
+        }
+        map.fitBounds(bounds);
+    }
+
+    document.getElementById('input-search-map').addEventListener("keypress", function (event) {
+        if (event.key === "Enter" || event.keyCode == 13) {
+            if(this.value) {
+                searchStore(this.value, 'search')
+                document.getElementById('error-empty-search').classList.add('hidden');
+                document.getElementById('rocket-store-list-header').classList.remove('rocket-map-hidden');
+            } else {
+                removeSearchStore()
+            }
+            closeAllLists()
+        }
+    });
+
+
+    document.getElementById('input-search-map').addEventListener('input', function () {
+        if (!this.value) {
+            removeSearchStore();
+        } else {
+            if (document.getElementById('rocket-stores-search-submit').disabled) {
+                document.getElementById('rocket-stores-search-submit').disabled = false;
+            }
+        }
+
+        let a, b, i, val = this.value
+        /*close any already open lists of autocompleted values*/
+        closeAllLists()
+        if (!val) {
+            return false
+        }
+        currentFocus = -1
+        /*create a DIV element that will contain the items (values):*/
+        a = document.createElement('div')
+        a.setAttribute('id', this.id + 'autocomplete-list')
+        a.setAttribute('class', 'autocomplete-items')
+        /*append the DIV element as a child of the autocomplete container:*/
+        this.parentNode.appendChild(a)
+        /*for each item in the array...*/
+        for (i = 0; i < listDataSearch.length; i++) {
+            /*check if the item starts with the same letters as the text field value:*/
+            if (listDataSearch[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                /*create a DIV element for each matching element:*/
+                b = document.createElement('DIV')
+                b.style.cursor = 'pointer'
+                /*make the matching letters bold:*/
+                b.innerHTML = '<strong>' + listDataSearch[i].substr(0, val.length) + '</strong>'
+                b.innerHTML += listDataSearch[i].substr(val.length)
+                /*insert a input field that will hold the current array item's value:*/
+                b.innerHTML += '<input type=\'hidden\' value=\'' + listDataSearch[i] + '\'>'
+                /*execute a function when someone clicks on the item value (DIV element):*/
+                b.addEventListener('click', function (e) {
+                    //searchStore(this.getElementsByTagName('input')[0].value, 'search')
+                    /*insert the value for the autocomplete text field:*/
+                    document.getElementById('input-search-map').value = this.getElementsByTagName('input')[0].value
+                    searchStore(this.getElementsByTagName('input')[0].value, 'search')
+                    /*close the list of autocompleted values,
+                    (or any other open lists of autocompleted values:*/
+                    closeAllLists()
+                })
+                a.appendChild(b)
+            }
+        }
+    })
+
+    function removeSearchStore() {
+        document.querySelectorAll('.store-not-active').forEach(item => {
+            item.classList.remove('tw-hidden')
+            item.classList.remove('store-not-active')
+        })
+        document.querySelectorAll('.store-active').forEach(item => {
+            item.classList.remove('store-active')
+            item.classList.remove('border-unset')
+        })
+        document.getElementById('notStoreSearch').classList.add('tw-hidden')
+        for (let i = 0; i < gmarkers.length; i++) {
+            gmarkers[i].setVisible(true)
+        }
+        document.querySelectorAll('.search_distance_information').forEach(item => {
+            item.innerHTML = ''
+        })
+        document.querySelectorAll('.rocket-map-hidden').forEach(item => {
+            if (item.id != 'notStoreSearch') {
+                item.classList.remove('rocket-map-hidden')
+            }
+        })
+        document.getElementById('notStoreSearch').classList.add('rocket-map-hidden');
+
+        let bounds = new google.maps.LatLngBounds()
+        for (let i = 0; i < gmarkers.length; i++) {
+            if (gmarkers[i].lat && gmarkers[i].lng) {
+                gmarkers[i].lat = parseFloat(gmarkers[i].lat)
+                gmarkers[i].lng = parseFloat(gmarkers[i].lng)
+                bounds.extend(gmarkers[i]);
+            }
+        }
+        map.fitBounds(bounds);
+        infowindow.setContent('');
+        document.getElementById('rocket-store-list-header').classList.add('rocket-map-hidden');
+        document.getElementById('rocket-stores-search-submit').disabled = true;
+    }
+
+    function closeAllLists(elmnt) {
+        var x = document.getElementsByClassName('autocomplete-items')
+        for (var i = 0; i < x.length; i++) {
+            if (elmnt != x[i] && elmnt != document.getElementById('input-search-map')) {
+                x[i].parentNode.removeChild(x[i])
+            }
+        }
+    }
+
+    function closeDetailsOnClickOutside() {
+        const detailsElements = document.querySelectorAll('.rocket-stores-select');
+
+        const closeOnClickOutside = (event) => {
+            detailsElements.forEach((detailsElement) => {
+                if (!detailsElement.contains(event.target)) {
+                    detailsElement.removeAttribute('open');
+                }
+            });
+        };
+
+        document.addEventListener('click', closeOnClickOutside);
+    }
+
+    closeDetailsOnClickOutside();
+</script>
+<script
+        src="https://maps.googleapis.com/maps/api/js?key={{ section.settings.map_api }}&language=en&callback=initMap&v=3.53&libraries=geometry"
+        async
+></script>
+{% schema %}
+{
+  "name": "Google Map",
+  "class": "revolution--map",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "richtext",
+      "id": "section_description",
+      "label": "Section description"
+    },
+    {
+      "type": "header",
+      "content": "Google Maps Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_icon_map_default",
+      "label": "Default Icon On Map",
+      "info": "Applies to all store icons if that store does not have an image. Leave blank if you want to use Google's default icon"
+    },
+    {
+      "type": "text",
+      "id": "map_api",
+      "label": "Google Maps API Key",
+      "info": "You'll need to register a [Google Maps API Key](http://shopify-support.krownthemes.com/article/385-generate-an-api-key-for-google-maps) to display the map."
+    },
+    {
+      "type": "text",
+      "id": "lat_center",
+      "label": "Latitude Center",
+      "info": "This field is required, omitting it will cause an error"
+    },
+    {
+      "type": "text",
+      "id": "lng_center",
+      "label": "Longitude Center",
+      "info": "This field is required, omitting it will cause an error"
+    },
+    {
+      "type": "range",
+      "id": "default_zoom_map",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 5,
+      "label": "Default zoom map"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "label": "Padding Top"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "label": "Padding Bottom"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mb",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "label": "Padding Top on Mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mb",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "label": "Padding Bottom on Mobile"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Google map",
+      "category": "Store information"
+    }
+  ]
+}
+{% endschema %}

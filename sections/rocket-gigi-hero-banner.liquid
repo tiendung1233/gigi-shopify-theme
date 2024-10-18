@@ -1,0 +1,673 @@
+{% liquid 
+    assign autoplay_enable = section.settings.autoplay
+%}
+{%- style -%}
+
+    @media ( min-width: 768px ) {
+        .section-{{ section.id }} .rocket-gigi-hero-banner__content-container .rocket-gigi-hero-banner__content-title span {
+            font-size: {{ section.settings.font_size_title }}px;
+        }
+        .section-{{ section.id }} .rocket-gigi-hero-banner__content-container .rocket-gigi-hero-banner__content-content span {
+            font-size: {{ section.settings.font_size_content }}px;
+        }
+    }
+{%- endstyle -%}
+<div class="section-{{ section.id }} section-{{ section.id }}-padding rocket-gigi-hero-banner__container">
+    <div class="hero-banner__absolute">   
+        <div id="swiper-banner-{{ section.id }}" class="rocket-gigi-hero-banner__inner ">       
+            <div class="rocket-gigi-hero-banner__wrapper swiper-wrapper">  
+                {% for block in section.blocks %}
+                    {% case block.type %}
+                        {%- when 'banner' -%}
+                            {% assign content_alignment = block.settings.content_alignment %}
+                            {% assign content_position = block.settings.content_position %}
+
+                            {%- style -%}
+                                .section-{{ section.id }} .rocket-gigi-hero-banner__inner .gigi-hero-banner__title-{{ block.id }} span {
+                                    color: {{ block.settings.color_text }};
+                                    font-weight: {{ block.settings.font_weight_title }};
+                                    font-size: {{ block.settings.font_size_title_mb }}px;
+                                    line-height: 30px;
+                                }
+                                .section-{{ section.id }} .rocket-gigi-hero-banner__inner .rocket-gigi-hero-banner__content-wrapper .gigi-hero-banner__content-{{ block.id }} span {
+                                    color: {{ block.settings.color_text }};
+                                    font-weight: {{ block.settings.font_weight_content }};
+                                    font-size: {{ block.settings.font_size_content_mb }}px;
+                                }
+                                .section-{{ section.id }} .rocket-gigi-hero-banner__inner .gigi-hero-banner__wrapper-{{ block.id }} {
+                                    padding-top: {{ block.settings.padding_top_mb }}px;
+                                    padding-bottom: {{ block.settings.padding_bottom_mb }}px;
+                                    padding-left: {{ block.settings.padding_left_mb }}px;
+                                    padding-right: {{ block.settings.padding_right_mb }}px;
+                                }
+                                .section-{{ section.id }} .rocket-gigi-hero-banner__inner .gigi-hero-banner__button-{{ block.id }} .gigi-btn-hero-banner {
+                                    font-size: {{ block.settings.font_size_button_mb }}px;    
+                                }
+                                .section-{{ section.id }} .rocket-gigi-hero-banner__inner .gigi-hero-banner__button-{{ block.id }} {
+                                    margin-top: {{ block.settings.mt_btn_mb }}px;
+                                    column-gap: {{ block.settings.col_gap_btn_mb }}px;
+                                }
+                                .section-{{ section.id }} .rocket-gigi-hero-banner__inner .gigi-hero-banner__content-{{ block.id }} {
+                                    margin-top: {{ block.settings.mt_des_mb }}px;
+                                }
+                                .section-{{ section.id }} .rocket-gigi-hero-banner__inner .gigi-hero-banner__title-{{ block.id }} {
+                                    max-width: {{ block.settings.m_width_title_mb }}%;
+                                }
+                                
+
+                                @media ( min-width: 768px ) {
+                                    .section-{{ section.id }} .rocket-gigi-hero-banner__inner .gigi-hero-banner__title-{{ block.id }} span {
+                                        font-size: {{ block.settings.font_size_title }}px;
+                                        line-height: 36px;
+                                    }
+                                    .section-{{ section.id }} .rocket-gigi-hero-banner__inner .rocket-gigi-hero-banner__content-wrapper .gigi-hero-banner__content-{{ block.id }} span {
+                                        font-size: {{ block.settings.font_size_content }}px;
+                                    }
+                                    .section-{{ section.id }} .rocket-gigi-hero-banner__inner .gigi-hero-banner__wrapper-{{ block.id }} {
+                                        padding-top: {{ block.settings.padding_top }}px;
+                                        padding-bottom: {{ block.settings.padding_bottom }}px;
+                                        padding-left: {{ block.settings.padding_left }}px;
+                                        padding-right: {{ block.settings.padding_right }}px;
+                                    }
+                                    .section-{{ section.id }} .rocket-gigi-hero-banner__inner .gigi-hero-banner__button-{{ block.id }} .gigi-btn-hero-banner {
+                                        font-size: {{ block.settings.font_size_button }}px;
+                                        line-height: 15px;  
+                                    }
+                                    .section-{{ section.id }} .rocket-gigi-hero-banner__inner .gigi-hero-banner__button-{{ block.id }} {
+                                        margin-top: {{ block.settings.mt_btn }}px;
+                                        column-gap: {{ block.settings.col_gap_btn }}px;
+                                    }
+                                    .section-{{ section.id }} .rocket-gigi-hero-banner__inner .gigi-hero-banner__content-{{ block.id }} {
+                                        margin-top: {{ block.settings.mt_des }}px;
+                                    }
+                                    .section-{{ section.id }} .rocket-gigi-hero-banner__inner .gigi-hero-banner__title-{{ block.id }} {
+                                        max-width: {{ block.settings.m_width_title }}%;
+                                    }
+                                }
+                            {%- endstyle -%}
+                            {% assign num = 3 %}
+                            {% for i in (1..num) %}
+                                {%  assign produ_name = 'rocket_button_url_' | append: i %}
+                                {% assign var_pro = block.settings[produ_name]  %}
+                                {% if var_pro != blank %}
+                                    {% assign var_pro_assign = block.settings[produ_name]  %}
+                                    {% break %}
+                                {% endif %}
+                            {% endfor %}
+                            <div onclick="location.href='{{ var_pro_assign }}'" class="rocket-gigi-hero-banner__img-bg rocket-gigi-hero-banner__img-bg-{{ section.id }} gigi-hero-banner__bg-{{ content_position }} swiper-slide ">
+                                <div class="gigi-banner-img-wrapper">
+                                    {% if block.settings.type_media == 'image' %}   
+                                        {% if block.settings.image_banner_des != blank %}
+                                            {{ block.settings.image_banner_des 
+                                                | image_url: width: 1440, height: image_height_des
+                                                | image_tag: preload: true, alt: 'rocket-gigi-hero-banner', class: 'image_banner image_banner_des image-full'
+                                            }}
+                                        {% endif %}
+                                        {% if block.settings.image_banner_mb != blank %}
+                                            {{ block.settings.image_banner_mb 
+                                                | image_url: width: 375, height: image_height_mb
+                                                | image_tag: preload: true, alt: 'rocket-gigi-hero-banner', class: 'image_banner image_banner_mb image-full'
+                                            }}
+                                        {% endif %}
+                                    {% else %}
+                                        {% if block.settings.video_des != blank %}
+                                            {{
+                                                block.settings.video_des
+                                                | video_tag: image_size: '1100x', loop: true, muted: true, autoplay: true, class: 'video_des video_banner image-full'
+                                            }}
+                                        {% endif %}
+                                        {% if block.settings.video_mb != blank %}
+                                            {{
+                                                block.settings.video_mb
+                                                | video_tag: image_size: '1100x', loop: true, muted: true, autoplay: true, class: 'video_mb video_banner image-full'
+                                            }}
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                                <div class="rocket-gigi-hero-banner__content-container {% if block.settings.content_position == 'right' %} gigi-hero-banner-right-container {% endif %}">
+                                    <div class="rocket-gigi-hero-banner__content-wrapper rocket-gigi-hero-banner__content-wrapper-{{ section.id }} gigi-hero-banner__wrapper-{{ block.id }} gigi-hero-banner__wrapper-{{ content_alignment }} ">
+                                        {% if block.settings.title != blank %}
+                                            <div class="rocket-gigi-hero-banner__content-title rocket-font-fgrotesk gigi-hero-banner__title-{{ block.id }}">
+                                                <span onclick="location.href='{{ var_pro_assign }}'">{{ block.settings.title }} </span>
+                                            </div>
+                                        {% endif %}
+                                        {% if block.settings.content != blank %}
+                                            <div class="rocket-gigi-hero-banner__content-content rocket-font-fgrotesk gigi-hero-banner__content-{{ block.id }}">
+                                                <span onclick="location.href='{{ var_pro_assign }}'">{{ block.settings.content }} </span>
+                                            </div>
+                                        {% endif %}
+                                        <div class="rocket-gigis-hero-banner__button-wrapper gigi-hero-banner__button-{{ block.id }} gigi-hero-banner__button-{{ content_alignment }}">
+                                            {% if block.settings.rocket_button_label_1 != blank %}
+                                                {% render 'rocket-gigi-buttons',
+                                                    type: block.settings.rocket_button_type, 
+                                                    url: block.settings.rocket_button_url_1,
+                                                    label: block.settings.rocket_button_label_1,
+                                                    color: block.settings.color_text_button
+                                                %}
+                                            {% endif %}
+                                            {% if block.settings.rocket_button_label_2 != blank %}
+                                                {% render 'rocket-gigi-buttons',
+                                                    type: block.settings.rocket_button_type, 
+                                                    url: block.settings.rocket_button_url_2,
+                                                    label: block.settings.rocket_button_label_2,
+                                                    color: block.settings.color_text_button
+                                                %}
+                                            {% endif %}
+                                            {% if block.settings.rocket_button_label_3 != blank %}
+                                                {% render 'rocket-gigi-buttons',
+                                                    type: block.settings.rocket_button_type, 
+                                                    url: block.settings.rocket_button_url_3,
+                                                    label: block.settings.rocket_button_label_3,
+                                                    color: block.settings.color_text_button
+                                                %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>	
+                            </div>
+                    {% endcase %}
+                {% endfor %}
+            </div>
+            <div class="rocket-button-prev_{{ section.id }} rocket-button-prev rocket-button-navigation">   
+                {% render 'rocket-icon-arrow-left', classes: 'rocket-icon-arrow-left' %}
+            </div>
+            <div class="rocket-button-next_{{ section.id }} rocket-button-next rocket-button-navigation">
+                {% render 'rocket-icon-arrow-right', classes: 'rocket-icon-arrow-right' %}
+            </div>
+        </div> 
+    </div>      
+    
+</div>
+
+<script>
+    const swiper_hero_{{ section.index }} = new Swiper('#swiper-banner-{{ section.id }}', {
+        direction: 'horizontal',
+        navigation: {
+            nextEl: '.rocket-button-next_{{ section.id }}',
+            prevEl: '.rocket-button-prev_{{ section.id }}',
+        },
+        slidesPerView: 1,
+        loop: true,
+        {% if autoplay_enable %} 
+            autoplay: {
+              delay: 5000,
+            },
+        {% endif %}
+      });
+    
+</script>
+{% schema %}
+    {
+        "name": "GIGI - Hero Banner",
+        "class": "section rocket-gigi-hero-banner",
+        "tag": "section",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Layout"
+            },
+                {
+                    "type": "checkbox",
+                    "id": "autoplay",
+                    "label": "Autoplay Carousel",
+                    "default": false
+                }
+              
+        ],
+        "blocks": [
+            {
+                "name": "Banner",
+                "type": "banner",
+                "settings": [   
+                    {
+                        "type": "header",
+                        "content": "Media"
+                    },
+                        {
+                            "type": "select",
+                            "id": "type_media",
+                            "options": [
+                                {
+                                    "value": "image",
+                                    "label": "Image"
+                                },
+                                {
+                                    "value": "video",
+                                    "label": "Video"
+                                }
+                            ],
+                            "default": "image",
+                            "label": "Type of Media"
+                        },
+                        {
+                            "type": "image_picker",
+                            "id": "image_banner_des",
+                            "label": "Image for Desktop"
+                        },
+                        {
+                            "type": "image_picker",
+                            "id": "image_banner_mb",
+                            "label": "Image for Mobile"
+                        },
+                        {
+                            "type": "video",
+                            "id": "video_des",
+                            "label": "Video Desktop"
+                        },
+                        {
+                            "type": "video",
+                            "id": "video_mb",
+                            "label": "Video Mobile"
+                        },
+                    {
+                        "type": "header",
+                        "content": "Layout"
+                    },
+                        {
+                            "type": "select",
+                            "id": "content_position",
+                            "options": [
+                                {
+                                    "value": "left",
+                                    "label": "Left"
+                                },
+                                {
+                                    "value": "center",
+                                    "label": "Center"
+                                },
+                                {
+                                    "value": "right",
+                                    "label": "Right"
+                                }
+                            ],
+                            "default": "center",
+                            "label": "Desktop content position"
+                        },
+                        {
+                            "type": "select",
+                            "id": "content_alignment",
+                            "options": [
+                                {
+                                    "value": "left",
+                                    "label": "Left"
+                                },
+                                {
+                                    "value": "center",
+                                    "label": "Center"
+                                },
+                                {
+                                    "value": "right",
+                                    "label": "Right"
+                                }
+                            ],
+                            "default": "center",
+                            "label": "Content Alignment"
+                        },
+                        {
+                            "type": "color",
+                            "id": "color_bg",
+                            "label": "Custom Color Background",
+                            "default": "#242833"
+                        },
+                        {
+                            "type": "color",
+                            "id": "color_text",
+                            "label": "Custom Color Text",
+                            "default": "#ffffff"
+                        },   
+                        {
+                            "type": "color",
+                            "id": "color_text_button",
+                            "label": "Custom Color Text Button",
+                            "default": "#000000"
+                        },
+                    {
+                        "type": "header",
+                        "content": "Title"
+                    },
+                        {
+                            "type": "richtext",
+                            "id": "title",
+                            "label": "Title",
+                            "default": "<p>Lorem ipsum</p>"
+                        },
+                        {
+                            "type": "select",
+                            "id": "font_weight_title",
+                            "options": [
+                                {
+                                    "value": "250",
+                                    "label": "250"
+                                },
+                                {
+                                    "value": "400",
+                                    "label": "400"  
+                                },
+                                {
+                                    "value": "600",
+                                    "label": "600"
+                                }
+                            ],
+                            "default": "400",
+                            "label": "Font Weight Title"
+                        },
+                        {
+                            "type": "range",
+                            "id": "font_size_title",
+                            "label": "Font Size Title",
+                            "min": 0,
+                            "max": 100,
+                            "step": 1,
+                            "default": 28
+                        },
+                        {
+                            "type": "range",
+                            "id": "font_size_title_mb",
+                            "label": "Font Size Title on Mobile",
+                            "min": 0,
+                            "max": 100,
+                            "step": 1,
+                            "default": 22
+                        },
+                        {
+                            "type": "range",
+                            "id": "m_width_title",
+                            "label": "Max Width Title on Desktop",
+                            "min": 0,
+                            "max": 100,
+                            "step": 1,
+                            "default": 100
+                        },
+                        {
+                            "type": "range",
+                            "id": "m_width_title_mb",
+                            "label": "Max Width Title on Mobile",
+                            "min": 0,
+                            "max": 100,
+                            "step": 1,
+                            "default": 100
+                        },
+                    {
+                        "type": "header",
+                        "content": "Content"
+                    },
+                        {
+                            "type": "richtext",
+                            "id": "content",
+                            "label": "Content",
+                            "default": "<p>Diseños distintos y más ligeros</p>"
+                        },
+                        {
+                            "type": "select",
+                            "id": "font_weight_content",
+                            "options": [
+                                {
+                                    "value": "250",
+                                    "label": "250"
+                                },
+                                {
+                                    "value": "400",
+                                    "label": "400"  
+                                },
+                                {
+                                    "value": "600",
+                                    "label": "600"
+                                }
+                            ],
+                            "default": "400",
+                            "label": "Font Weight Content"
+                        },
+                        {
+                            "type": "range",
+                            "id": "font_size_content",
+                            "label": "Font Size Content",
+                            "min": 0,
+                            "max": 100,
+                            "step": 1,
+                            "default": 28
+                        },
+                        {
+                            "type": "range",
+                            "id": "font_size_content_mb",
+                            "label": "Font Size Content on Mobile",
+                            "min": 0,
+                            "max": 100,
+                            "step": 1,
+                            "default": 12
+                        },
+                    {
+                        "type": "header",
+                        "content": "Button"
+                    },
+                    {
+                        "type": "select",
+                        "id": "rocket_button_type",
+                        "options": [
+                            {
+                            "value": "primary",
+                            "label": "t:sections.blocks-banner.settings.button.settings.type.default"
+                            },
+                            {
+                            "value": "secondary",
+                            "label": "t:sections.blocks-banner.settings.button.settings.type.secondary"
+                            },
+                            {
+                            "value": "filled",
+                            "label": "t:sections.blocks-banner.settings.button.settings.type.filled"
+                            },
+                            {
+                            "value": "link_l",
+                            "label": "t:sections.blocks-banner.settings.button.settings.type.link_l"
+                            },
+                            {
+                            "value": "link_s",
+                            "label": "t:sections.blocks-banner.settings.button.settings.type.link_s"
+                            }
+                        ],
+                        "default": "link_l",
+                        "label": "t:sections.blocks-banner.settings.button.settings.type.label"
+                    },
+                        {
+                            "type": "text",
+                            "id": "rocket_button_label_1",
+                            "label": "Button Label 1",
+                            "default": "Text Button"
+                        },
+                        {
+                            "type": "url",
+                            "id": "rocket_button_url_1",
+                            "label": "Button URL 1"
+                        },
+                        {
+                            "type": "text",
+                            "id": "rocket_button_label_2",
+                            "label": "Button Label 2",
+                            "default": "Text Button"
+                        },
+                        {
+                            "type": "url",
+                            "id": "rocket_button_url_2",
+                            "label": "Button URL 2"
+                        },
+                        {
+                            "type": "text",
+                            "id": "rocket_button_label_3",
+                            "label": "Button Label 3",
+                            "default": "Text Button"
+                        },
+                        {
+                            "type": "url",
+                            "id": "rocket_button_url_3",
+                            "label": "Button URL 3"
+                        },
+                        {
+                            "type": "range",
+                            "id": "font_size_button",
+                            "label": "Font Size Button",
+                            "min": 0,
+                            "max": 30,
+                            "step": 1,
+                            "default": 27
+                        },
+                        {
+                            "type": "range",
+                            "id": "font_size_button_mb",
+                            "label": "Font Size Button on Mobile",
+                            "min": 0,
+                            "max": 30,
+                            "step": 1,
+                            "default": 11
+                        },
+                        {
+                            "type": "header",
+                            "content": "Content Spacing"
+                        },
+                            {
+                                "type": "range",
+                                "id": "mt_des",
+                                "label": "Margin Top Content on Desktop",
+                                "min": 0,
+                                "max": 50,
+                                "step": 1,
+                                "default": 23
+                            },
+                            {
+                                "type": "range",
+                                "id": "mt_des_mb",
+                                "label": "Margin Top Content on Mobile",
+                                "min": 0,
+                                "max": 50,
+                                "step": 1,
+                                "default": 8
+                            },
+                            {
+                                "type": "range",
+                                "id": "mt_btn",
+                                "label": "Margin Top Button on Desktop",
+                                "min": 0,
+                                "max": 50,
+                                "step": 1,
+                                "default": 8
+                            },
+                            {
+                                "type": "range",
+                                "id": "mt_btn_mb",
+                                "label": "Margin Top Button on Mobile",
+                                "min": 0,
+                                "max": 50,
+                                "step": 1,
+                                "default": 12
+                            },
+                            {
+                                "type": "range",
+                                "id": "col_gap_btn",
+                                "label": "Spacing Between Button on Desktop",
+                                "min": 0,
+                                "max": 50,
+                                "step": 1,
+                                "default": 12
+                            },  
+                            {
+                                "type": "range",
+                                "id": "col_gap_btn_mb",
+                                "label": "Spacing Between Button on Mobile",
+                                "min": 0,
+                                "max": 50,
+                                "step": 1,
+                                "default": 12
+                            },  
+                    {
+                        "type": "header",
+                        "content": "Section Padding"
+                    },
+                        {
+                            "type": "range",
+                            "id": "padding_top",
+                            "label": "Top Padding",
+                            "min": 0,
+                            "max": 100,
+                            "step": 1,
+                            "default": 40
+                        },
+                        {
+                            "type": "range",
+                            "id": "padding_bottom",
+                            "label": "Bottom Padding",
+                            "min": 0,
+                            "max": 100,
+                            "step": 1,
+                            "default": 52
+                        },
+                        {
+                            "type": "range",
+                            "id": "padding_top_mb",
+                            "label": "Top Padding on Mobile",
+                            "min": 0,
+                            "max": 100,
+                            "step": 1,
+                            "default": 40
+                        },
+                        {
+                            "type": "range",
+                            "id": "padding_bottom_mb",
+                            "label": "Bottom Padding on Mobile",
+                            "min": 0,
+                            "max": 100,
+                            "step": 1,
+                            "default": 42
+                        },
+                        {
+                            "type": "range",
+                            "id": "padding_left",
+                            "label": "Left Padding",
+                            "min": 0,
+                            "max": 100,
+                            "step": 1,
+                            "default": 40
+                        },
+                        {
+                            "type": "range",
+                            "id": "padding_right",
+                            "label": "Right Padding",
+                            "min": 0,
+                            "max": 100,
+                            "step": 1,
+                            "default": 52
+                        },
+                        {
+                            "type": "range",
+                            "id": "padding_left_mb",
+                            "label": "Left Padding on Mobile",
+                            "min": 0,
+                            "max": 100,
+                            "step": 1,
+                            "default": 16
+                        },
+                        {
+                            "type": "range",
+                            "id": "padding_right_mb",
+                            "label": "Right Padding on Mobile",
+                            "min": 0,
+                            "max": 100,
+                            "step": 1,
+                            "default": 52
+                        }   
+                    
+                ]
+            }
+        ],
+        "presets": [
+            {
+                "name": "GIGI - Hero Banner",
+                "blocks": [
+                    {
+                      "type": "banner"
+                    },
+                    {
+                      "type": "banner"
+                    }
+                ]
+            }
+        ]
+    }
+{% endschema %}

@@ -1,0 +1,71 @@
+.gigi-accordion {
+    padding-left: 16px;
+    padding-right: 16px;
+    --font-grotesk: "F Grotesk";
+    font-family: var(--font-grotesk);
+    color: #000;
+    h2{
+        font-family: var(--font-grotesk);
+        letter-spacing: normal;
+    }
+    .gigi-accordion__header {
+        margin-bottom: 0;
+
+        .gigi-accordion__header-title {
+            margin: 0;
+        }
+    }
+
+    .gigi-accordion__tabs {
+        display: flex;
+        flex-direction: column;
+
+        .gigi-accordion__tab {
+            border-bottom: 1px solid #D9D9D9;
+            cursor: pointer;
+
+            &:not(:first-child) {
+                margin-top: 9px;
+            }
+
+            .gigi-accordion__tab-title {
+                display: flex;
+                justify-content: space-between;
+                padding: 0 0 11px;
+
+                .gigi-accordion__title-text {
+                    margin: 0;
+                }
+
+                .gigi-accordion__button {
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                    width: 30px;
+                }
+            }
+            .gigi-accordion__tab-desc {
+                height: 0;
+                visibility: hidden;
+
+                p {
+                    margin: 0;
+                    padding-bottom: 1rem;
+                }
+            }
+
+            &.visible {
+                .gigi-accordion__button {
+                    svg {
+                        transform: rotate(180deg);
+                    }
+                }
+
+                .gigi-accordion__tab-desc {
+                    height: auto;
+                    visibility: visible;
+                }
+            }
+        }
+    }
+}

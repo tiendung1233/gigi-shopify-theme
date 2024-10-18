@@ -1,0 +1,709 @@
+{% liquid
+    assign columns_class = ""
+    if section.blocks.size == 1
+        assign columns_class = "one-column"
+    elsif section.blocks.size == 2
+        assign columns_class = "two-columns"
+    elsif section.blocks.size == 3
+        assign columns_class = "three-columns slider"
+    else
+        assign columns_class = "slider"
+    endif
+
+    assign layout_class = ""
+    if section.settings.layout_mobile == "column"
+        assign layout_class = "layout-column"
+    endif
+
+    if section.settings.heading == blank and section.settings.padding_top == 0
+        assign empty_title = "empty-title"
+    endif
+
+    if section.blocks.size > 3
+        assign auto_swiper = true
+    else
+        assign auto_swiper = section.settings.enable_swiper
+    endif
+%}
+
+<style>
+    #gigi-blocks-banner-{{ section.id }} {
+        padding-top: {{ section.settings.padding_top_mb }}px;
+        padding-bottom: {{ section.settings.padding_bottom_mb }}px;
+        background-color: {{ section.settings.color_background }};
+    }
+
+    @media screen and (min-width: 768px) {
+        #gigi-blocks-banner-{{ section.id }} {
+            padding-top: {{ section.settings.padding_top }}px;
+            padding-bottom: {{ section.settings.padding_bottom }}px;
+        }
+    }
+</style>
+<div class="gigi-blocks-banner {{ empty_title }}" id="gigi-blocks-banner-{{ section.id }}">
+    <div class="gigi-blocks-banner__section-header {{ layout_class }} {% if section.blocks.size <= 3 %} hidden {% endif %}">
+        <style>
+            #gigi-blocks-banner-{{ section.id }} .gigi-blocks-banner__section-title {
+                font-weight: {{ section.settings.font_weight_title }};
+                font-size: {{ section.settings.font_size_title_mb }}px;
+                line-height: {{ section.settings.font_size_title_mb | times: 1.231875 }}px;
+                color: {{ section.settings.color_text }};
+            }
+
+            #gigi-blocks-banner-{{ section.id }} .swiper-button svg path {
+                fill: {{ section.settings.color_button }};
+            }
+
+            @media screen and (min-width: 768px) {
+                #gigi-blocks-banner-{{ section.id }} .gigi-blocks-banner__section-title {
+                    font-size: {{ section.settings.font_size_title }}px;
+                    line-height: {{ section.settings.font_size_title | times: 1.1666 }}px;
+                }
+            }
+        </style>
+        <div class="gigi-blocks-banner__section-title {{ auto_swiper }}">{{ section.settings.heading }}</div>
+        {% if auto_swiper %}
+          <div class="gigi-blocks-banner__section-navigation">
+              <div class="swiper-button button-prev rocket-button-prev_{{ section.id }}">{%- render 'icon-block-banner-arrow' -%}</div>
+              <div class="swiper-button button-next rocket-button-next_{{ section.id }}">{%- render 'icon-block-banner-arrow' -%}</div>
+          </div>
+        {% endif %}
+    </div>
+    <div id="swiper-blocks-banner-{{ section.id }}" class="gigi-blocks-banner__container swiper swiper-{{ section.id }} {{ columns_class }} {{ layout_class }}">
+        <div class="gigi-blocks-banner__items {% if auto_swiper %}swiper-wrapper{% endif %} {{ columns_class }}">
+            {% for block in section.blocks %}
+                    <div class="gigi-blocks-banner__item {% if auto_swiper %}swiper-slide{% endif %}" id="block-{{ block.id }}">
+                        <style>
+                            #gigi-blocks-banner-{{ section.id }} #block-{{ block.id }} {
+                                padding-top: {{ block.settings.padding_top_mb }}px;
+                                padding-bottom: {{ block.settings.padding_bottom_mb }}px;
+                                padding-left: {{ block.settings.padding_left_mb }}px;
+                                padding-right: {{ block.settings.padding_right_mb }}px;
+                                background-color: {{ section.settings.color_background }};
+                            }
+
+                            #gigi-blocks-banner-{{ section.id }} #block-{{ block.id }} .gigi-blocks-banner__title {
+                                font-weight: {{ block.settings.font_weight_title }};
+                                font-size: {{ block.settings.font_size_title_mb }}px;
+                                line-height: {{ block.settings.font_size_title_mb | times: 1.25 }}px;
+                                color: {{ block.settings.color_text }};
+                            }
+
+                            #gigi-blocks-banner-{{ section.id }} #block-{{ block.id }} .gigi-button {
+                                font-size: {{ block.settings.font_size_button_mb }}px;
+                                line-height: {{ block.settings.font_size_button_mb | times: 1.2 }}px;
+                            }
+
+                            @media screen and (min-width: 768px) {
+                                #gigi-blocks-banner-{{ section.id }} #block-{{ block.id }} {
+                                    padding-top: {{ block.settings.padding_top }}px;
+                                    padding-bottom: {{ block.settings.padding_bottom }}px;
+                                    padding-left: {{ block.settings.padding_left }}px;
+                                    padding-right: {{ block.settings.padding_right }}px;
+                                }
+
+                                #gigi-blocks-banner-{{ section.id }} #block-{{ block.id }} .gigi-blocks-banner__title {
+                                    font-size: {{ block.settings.font_size_title }}px;
+                                    line-height: {{ block.settings.font_size_title | times: 1.25 }}px;
+                                }
+
+                                #gigi-blocks-banner-{{ section.id }} #block-{{ block.id }} .gigi-button {
+                                    font-size: {{ block.settings.font_size_button }}px;
+                                    line-height: {{ block.settings.font_size_button | times: 1.2 }}px;
+                                }
+                            }
+                        </style>
+                        <div class="gigi-blocks-banner__wrapper">
+                            <div class="gigi-blocks-banner__content h-align--{{ block.settings.horizontal_alignment }} v-align--{{ block.settings.vertical_alignment }}">
+                                <div class="gigi-blocks-banner__content-wrapper">
+                                    {% if block.settings.heading != blank %}
+                                        <a href="{{ block.settings.button_link }}">
+                                            <div class="gigi-blocks-banner__title">{{ block.settings.heading }}</div>
+                                        </a>
+                                    {% endif %}
+
+                                    {% if block.settings.button_label != blank %}
+                                        {% render "rocket-gigi-buttons",
+                                                type: block.settings.button_type,
+                                                url: block.settings.button_link,
+                                                label: block.settings.button_label,
+                                                color: block.settings.color_button
+                                        %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="gigi-blocks-banner__media">
+                                <a href="{{ block.settings.button_link }}">
+                                {% if block.settings.type_of_media == 'image' %}
+                                    {% if block.settings.image != blank %}
+                                        {% liquid
+                                            assign image_height = block.settings.image.width | divided_by: block.settings.image.aspect_ratio
+                                        %}
+                                        {{ block.settings.image
+                                        | image_url: width: 1440, height: image_height
+                                        | image_tag: loading: 'lazy', alt: 'gigi-blocks-banner', class: 'media-des media-full'
+                                        }}
+                                    {% endif %}
+                                    {% if section.settings.layout_mobile == 'row' %}
+                                      {% if block.settings.image_mobile_row != blank %}
+                                        {% liquid
+                                            assign image_mb_row = block.settings.image_mobile_row
+                                        %}
+                                        {{ image_mb_row
+                                        | image_url: width: image_mb_row.width
+                                        | image_tag: loading: 'lazy', alt: 'gigi-blocks-banner', class: 'media-mb media-full'
+                                        }}
+                                      {% else %}
+                                        {% if block.settings.image_mobile != blank %}
+                                          {% liquid
+                                              assign image_mb = block.settings.image_mobile
+                                          %}
+                                          {{ image_mb
+                                          | image_url: width: image_mb.width
+                                          | image_tag: loading: 'lazy', alt: 'gigi-blocks-banner', class: 'media-mb media-full'
+                                          }}
+                                        {% endif %}
+                                      {% endif %}
+                                    {% else %}
+                                      {% if block.settings.image_mobile != blank %}
+                                        {% liquid
+                                            assign image_mb = block.settings.image_mobile
+                                        %}
+                                        {{ image_mb
+                                        | image_url: width: image_mb.width
+                                        | image_tag: loading: 'lazy', alt: 'gigi-blocks-banner', class: 'media-mb media-full'
+                                        }}
+                                      {% endif %}
+                                    {% endif %}
+                                {% else %}
+                                    {% if block.settings.video != blank %}
+                                        {{
+                                        block.settings.video
+                                        | video_tag: image_size: '1100x', loop: true, muted: true, autoplay: true, playsinline: true, class: 'media-des media-full'
+                                        }}
+                                    {% endif %}
+                                    {% if block.settings.video_mobile != blank %}
+                                        {{
+                                        block.settings.video_mobile
+                                        | video_tag: image_size: '1100x', loop: true, muted: true, autoplay: true, playsinline: true, class: 'media-mb media-full'
+                                        }}
+                                    {% endif %}
+                                {% endif %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% if auto_swiper %}
+<script>
+    var swiper_{{ section.index }} = new Swiper('#swiper-blocks-banner-{{ section.id }}', {
+        direction: 'horizontal',
+        navigation: {
+            nextEl: '.rocket-button-next_{{ section.id }}',
+            prevEl: '.rocket-button-prev_{{ section.id }}',
+        },
+        slidesPerView: 1.5,
+        spaceBetween: 0,
+        breakpoints: {
+            768: {
+                slidesPerView: 3,
+                spaceBetween: 0,
+            }
+        }
+    });
+    
+    {% if section.settings.layout_mobile == "column" %}
+    window.innerWidth <= 768 ? swiper_{{ section.index }}.destroy(true, true) : swiper_{{ section.index }}.init(swiper_{{ section.index }});
+
+    window.onresize = function () {
+        if (window.innerWidth <= 768) {
+            swiper_{{ section.index }}.destroy(true, true);
+        } else {
+            swiper_{{ section.index }}.init(swiper_{{ section.index }});
+        }
+    }
+    {% endif %}
+</script>
+{% endif %}
+{% schema %}
+{
+  "name": "t:sections.blocks-banner.name",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_swiper",
+      "label": "Enable swipe",
+      "default": false,
+      "info": "t:sections.blocks-banner.settings.swiper_note"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.blocks-banner.settings.header.section_title"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Title",
+      "label": "t:sections.blocks-banner.settings.header.title_label"
+    },
+    {
+      "type": "select",
+      "id": "font_weight_title",
+      "options": [
+        {
+          "value": "250",
+          "label": "t:sections.blocks-banner.settings.header.font_weight_title.options__1"
+        },
+        {
+          "value": "400",
+          "label": "t:sections.blocks-banner.settings.header.font_weight_title.options__2"
+        },
+        {
+          "value": "600",
+          "label": "t:sections.blocks-banner.settings.header.font_weight_title.options__3"
+        }
+      ],
+      "default": "400",
+      "label": "t:sections.blocks-banner.settings.header.font_weight_title.label"
+    },
+    {
+      "type": "range",
+      "id": "font_size_title",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "t:sections.blocks-banner.settings.header.font_size_title",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "font_size_title_mb",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "t:sections.blocks-banner.settings.header.font_size_title_mb",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "t:sections.blocks-banner.settings.layout.layout_mobile.name"
+    },
+    {
+      "type": "select",
+      "id": "layout_mobile",
+      "options": [
+        {
+          "value": "row",
+          "label": "t:sections.blocks-banner.settings.layout.layout_mobile.options__1"
+        },
+        {
+          "value": "column",
+          "label": "t:sections.blocks-banner.settings.layout.layout_mobile.options__2"
+        }
+      ],
+      "default": "row",
+      "label": "t:sections.blocks-banner.settings.layout.layout_mobile.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.blocks-banner.settings.padding.section_padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mb",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "t:sections.blocks-banner.settings.padding.padding_top_mb",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mb",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "t:sections.blocks-banner.settings.padding.padding_bottom_mb",
+      "default": 52
+    },
+    {
+      "type": "header",
+      "content": "t:sections.blocks-banner.settings.colors.name"
+    },
+    {
+      "type": "color",
+      "id": "color_background",
+      "label": "t:sections.blocks-banner.settings.colors.settings.background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "t:sections.blocks-banner.settings.colors.settings.text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "color_button",
+      "label": "t:sections.blocks-banner.settings.colors.settings.button",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "block",
+      "name": "t:sections.blocks-banner.blocks.name",
+      "settings": [
+        {
+          "type": "header",
+          "content": "t:sections.blocks-banner.settings.media.name"
+        },
+        {
+          "type": "select",
+          "id": "type_of_media",
+          "options": [
+            {
+              "value": "image",
+              "label": "t:sections.blocks-banner.settings.media.type_of_media.image"
+            },
+            {
+              "value": "video",
+              "label": "t:sections.blocks-banner.settings.media.type_of_media.video"
+            }
+          ],
+          "default": "image",
+          "label": "t:sections.blocks-banner.settings.media.type_of_media.label"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.blocks-banner.settings.media.image-desktop"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "t:sections.blocks-banner.settings.media.image-mobile"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile_row",
+          "label": "t:sections.blocks-banner.settings.media.image-mobile-row",
+          "info": "t:sections.blocks-banner.settings.media.expect-row"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "t:sections.blocks-banner.settings.media.video-desktop"
+        },
+        {
+          "type": "video",
+          "id": "video_mobile",
+          "label": "t:sections.blocks-banner.settings.media.video-mobile"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.blocks-banner.settings.heading.name"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "GIGI - Blocks Banner",
+          "label": "t:sections.blocks-banner.settings.heading.settings.title"
+        },
+        {
+          "type": "select",
+          "id": "font_weight_title",
+          "options": [
+            {
+              "value": "250",
+              "label": "t:sections.blocks-banner.settings.heading.settings.font_weight_title.options__1"
+            },
+            {
+              "value": "400",
+              "label": "t:sections.blocks-banner.settings.heading.settings.font_weight_title.options__2"
+            },
+            {
+              "value": "600",
+              "label": "t:sections.blocks-banner.settings.heading.settings.font_weight_title.options__3"
+            }
+          ],
+          "default": "400",
+          "label": "t:sections.blocks-banner.settings.heading.settings.font_weight_title.label"
+        },
+        {
+          "type": "range",
+          "id": "font_size_title",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "t:sections.blocks-banner.settings.heading.settings.font_size_title",
+          "default": 28
+        },
+        {
+          "type": "range",
+          "id": "font_size_title_mb",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "t:sections.blocks-banner.settings.heading.settings.font_size_title_mb",
+          "default": 22
+        },
+        {
+          "type": "header",
+          "content": "t:sections.blocks-banner.settings.button.name"
+        },
+        {
+          "type": "select",
+          "id": "rocket_button_type",
+          "options": [
+            {
+              "value": "primary",
+              "label": "t:sections.blocks-banner.settings.button.settings.type.default"
+            },
+            {
+              "value": "secondary",
+              "label": "t:sections.blocks-banner.settings.button.settings.type.secondary"
+            },
+            {
+              "value": "filled",
+              "label": "t:sections.blocks-banner.settings.button.settings.type.filled"
+            },
+            {
+              "value": "link_l",
+              "label": "t:sections.blocks-banner.settings.button.settings.type.link_l"
+            },
+            {
+              "value": "link_s",
+              "label": "t:sections.blocks-banner.settings.button.settings.type.link_s"
+            }
+          ],
+          "default": "link_l",
+          "label": "t:sections.blocks-banner.settings.button.settings.type.label"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "button_label",
+          "default": "Discover more",
+          "label": "t:sections.blocks-banner.settings.button.settings.label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.blocks-banner.settings.button.settings.link"
+        },
+        {
+          "type": "range",
+          "id": "font_size_button",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "t:sections.blocks-banner.settings.button.settings.font_size_button",
+          "default": 27
+        },
+        {
+          "type": "range",
+          "id": "font_size_button_mb",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "t:sections.blocks-banner.settings.button.settings.font_size_button_mb",
+          "default": 11
+        },
+        {
+          "type": "header",
+          "content": "t:sections.blocks-banner.settings.layout.content_alignment"
+        },
+        {
+          "type": "select",
+          "id": "horizontal_alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "t:sections.blocks-banner.settings.layout.horizontal_alignment.options__1"
+            },
+            {
+              "value": "center",
+              "label": "t:sections.blocks-banner.settings.layout.horizontal_alignment.options__2"
+            },
+            {
+              "value": "right",
+              "label": "t:sections.blocks-banner.settings.layout.horizontal_alignment.options__3"
+            }
+          ],
+          "default": "left",
+          "label": "t:sections.blocks-banner.settings.layout.horizontal_alignment.label"
+        },
+        {
+          "type": "select",
+          "id": "vertical_alignment",
+          "options": [
+            {
+              "value": "top",
+              "label": "t:sections.blocks-banner.settings.layout.vertical_alignment.options__1"
+            },
+            {
+              "value": "middle",
+              "label": "t:sections.blocks-banner.settings.layout.vertical_alignment.options__2"
+            },
+            {
+              "value": "bottom",
+              "label": "t:sections.blocks-banner.settings.layout.vertical_alignment.options__3"
+            }
+          ],
+          "default": "top",
+          "label": "t:sections.blocks-banner.settings.layout.vertical_alignment.label"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.blocks-banner.settings.padding.block_padding"
+        },
+        {
+          "type": "range",
+          "id": "padding_top",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "t:sections.all.padding.padding_top",
+          "default": 40
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "t:sections.all.padding.padding_bottom",
+          "default": 52
+        },
+        {
+          "type": "range",
+          "id": "padding_top_mb",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "t:sections.blocks-banner.settings.padding.padding_top_mb",
+          "default": 40
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom_mb",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "t:sections.blocks-banner.settings.padding.padding_bottom_mb",
+          "default": 52
+        },
+        {
+          "type": "range",
+          "id": "padding_left",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "t:sections.blocks-banner.settings.padding.padding_left",
+          "default": 40
+        },
+        {
+          "type": "range",
+          "id": "padding_right",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "t:sections.blocks-banner.settings.padding.padding_right",
+          "default": 52
+        },
+        {
+          "type": "range",
+          "id": "padding_left_mb",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "t:sections.blocks-banner.settings.padding.padding_left_mb",
+          "default": 40
+        },
+        {
+          "type": "range",
+          "id": "padding_right_mb",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "t:sections.blocks-banner.settings.padding.padding_right_mb",
+          "default": 52
+        },
+        {
+          "type": "header",
+          "content": "t:sections.blocks-banner.settings.colors.name"
+        },
+        {
+          "type": "color",
+          "id": "color_text",
+          "label": "t:sections.blocks-banner.settings.colors.settings.text",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "color_button",
+          "label": "t:sections.blocks-banner.settings.colors.settings.button",
+          "default": "#000000"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.blocks-banner.name",
+      "blocks": [
+        {
+          "type": "block"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

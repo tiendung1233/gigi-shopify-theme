@@ -1,0 +1,126 @@
+{%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form gigi-newsletter-form' -%}
+    <input type="hidden" name="contact[tags]" value="newsletter">
+    <div class="newsletter-form__field-wrapper">
+        <div class="gigi-newsletter-form__field--submit gigi-field--email">
+            <div class="field gigi-field gigi-field-flex-email">
+                <input
+                        id="NewsletterForm--{{ section.id }}"
+                        type="email"
+                        name="contact[email]"
+                        class="field__input gigi-field__input gigi-field__input--email gigi-field__input--flex "
+                        value="{{ form.email }}"
+                        aria-required="true"
+                        autocorrect="off"
+                        autocapitalize="off"
+                        autocomplete="email"
+                >
+
+                <label class="field__label gigi-field__label gigi-field__label--email" for="NewsletterForm--{{ section.id }}">
+                    {{ 'newsletter.label.email' | t }}
+                </label>
+                <span class="error-format hidden-field"></span>
+            </div>
+            <button
+                    type="button"
+                    class="newsletter-form__button field__button field__button--subcribe btn-default"
+                    name="commit"
+                    id="Subscribe"
+                    aria-label="{{ 'newsletter.button_label.subcribe' | t }}"
+            >
+                {{ 'newsletter.button_label.subcribe' | t }}
+            </button>
+        </div>
+        <div class="gigi-newsletter-form__field--submit gigi-field--birthday hidden-field">
+            <div class="gigi-description--birthday">
+                <span class="rocket-font-fgrotesk">{{ 'newsletter.description.description_birthday' | t }}</span>
+            </div>
+            <div class="gigi-newsletter--birthday__wrapper">
+                <div class="field gigi-field ">
+                    <input
+                            id="NewsletterBirthdayForm--{{ section.id }}"
+                            type="date"
+                            name="contact[birthday]"
+                            class="field__input gigi-field__input gigi-field__input--birthday gigi-field__input--flex"
+                            aria-required="true"
+                            autocorrect="off"
+                            autocapitalize="off"
+                            {% if form.errors %}
+                                autofocus
+                                aria-invalid="true"
+                                aria-describedby="ContactFooter-error"
+                            {% elsif form.posted_successfully? %}
+                                aria-describedby="ContactFooter-success"
+                            {% endif %}
+                            required
+                    >
+                    <label class="field__label gigi-field__label gigi-field__label--birthday" for="NewsletterBirthdayForm--{{ section.id }}">
+                        {{ 'newsletter.label.birthday' | t }}
+                    </label>
+                </div>
+                <button
+                        type="submit"
+                        class="newsletter-form__button field__button field__button--submit"
+                        name="commit"
+                        id="Send"
+                        aria-label="{{ 'newsletter.button_label.send' | t }}"
+                >
+                    {{ 'newsletter.button_label.send' | t }}
+                </button>
+            </div>
+
+        </div>
+        {%- if form.errors -%}
+            <small class="newsletter-form__message form__message" id="ContactFooter-error">
+                {%- render 'icon-error' -%}
+                {{- form.errors.translated_fields.email | capitalize }}
+                {{ form.errors.messages.email -}}
+            </small>
+        {%- endif -%}
+    </div>
+    {%- if form.posted_successfully? -%}
+        <h3
+                class="newsletter-form__message newsletter-form__message--success form__message"
+                id="ContactFooter-success"
+                tabindex="-1"
+                autofocus
+        >
+            {% render 'icon-success' -%}
+            {{- 'newsletter.success' | t }}
+        </h3>
+    {%- endif -%}
+    {% if block.settings.enable_select_options %}
+        <div class="newsletter-form__select-wrapper">
+            <div class="newsletter-form__select-items">
+                <input
+                        class="newsletter-form__select-radio"
+                        id="NewsletterForm--{{ block.id }}-input-women"
+                        type="radio"
+                        name="{{ 'newsletter.option_field' | t }}"
+                        value="{{ 'newsletter.select_options.women' | t }}"
+                >
+                <label class="newsletter-form__select-label" for="NewsletterForm--{{ block.id }}-input-women">{{ 'newsletter.select_options.women' | t }}</label>
+            </div>
+            <div class="newsletter-form__select-items">
+                <input
+                        class="newsletter-form__select-radio"
+                        id="NewsletterForm--{{ block.id }}-input-unisex"
+                        type="radio"
+                        name="{{ 'newsletter.option_field' | t }}"
+                        value="{{ 'newsletter.select_options.unisex' | t }}"
+                >
+                <label class="newsletter-form__select-label" for="NewsletterForm--{{ block.id }}-input-unisex">{{ 'newsletter.select_options.unisex' | t }}</label>
+            </div>
+            <div class="newsletter-form__select-items">
+                <input
+                        class="newsletter-form__select-radio"
+                        id="NewsletterForm--{{ block.id }}-input-men"
+                        type="radio"
+                        name="{{ 'newsletter.option_field'  | t }}"
+                        value="{{ 'newsletter.select_options.men' | t }}"
+                >
+                <label class="newsletter-form__select-label" for="NewsletterForm--{{ block.id }}-input-men">{{ 'newsletter.select_options.men' | t }}</label>
+            </div>
+        </div>
+        <span class="error-gender hidden-field"></span>
+    {% endif %}
+{%- endform -%}

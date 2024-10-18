@@ -1,0 +1,54 @@
+.product-carousels--header_heading{
+	letter-spacing: 0;
+	margin: 0;
+	color: #000;
+}
+.gigis-product-carousels--header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding: 0 16px;
+  @media (min-width: 768px) {
+  	margin-bottom: 23px;
+  }
+}
+.product-carousels__active-arrow .swiper {
+	padding-left: 0;
+
+	@media (min-width: 768px) {
+  	padding-left: 16px;
+  }
+}
+.gigi-product_carousels__section-navigation{
+	display: none;
+	@media (min-width: 768px) {
+		display: flex;
+		gap: 16px;
+		justify-content: flex-end;
+  }
+	.swiper-button-prev, 
+	.swiper-button-next{
+		width: 6.7px;
+    height: 10px;
+    position: unset;
+    margin: 0;
+    -webkit-tap-highlight-color: transparent;
+    color: #000;
+
+    &::after {
+        display: none;
+    }
+	}
+}
+.product-carousels__container--right .swiper > .swiper-wrapper{
+	justify-content: flex-end;
+}
+.product-carousels__container--center .swiper > .swiper-wrapper {
+	justify-content: center;
+}
+@media (max-width: 767px) {
+	.gigis-product-carousels--header h3{
+		font-size: 16px;
+	}
+}

@@ -1,0 +1,183 @@
+<form-newsletter-klaviyo>
+    <div class="footer__newsletter newsletter-form gigi-newsletter-form" id="ContactFooter">
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="newsletter-form__field-wrapper">
+            <div class="gigi-newsletter-form__field--submit gigi-field--email">
+                <div class="field gigi-field gigi-field-flex-email">
+                    <input
+                            id="NewsletterForm--{{ section.id }}"
+                            type="email"
+                            name="contact[email]"
+                            class="field__input gigi-field__input gigi-field__input--email gigi-field__input--flex "
+                            value="{{ form.email }}"
+                            aria-required="true"
+                            autocorrect="off"
+                            autocapitalize="off"
+                            autocomplete="email"
+                    >
+
+                    <label class="field__label gigi-field__label gigi-field__label--email" for="NewsletterForm--{{ section.id }}">
+                        {{ 'newsletter.label.email' | t }}
+                    </label>
+                    <span class="error-format hidden-field">Input is required and accpept email format</span>
+                </div>
+                <button
+                        type="button"
+                        class="newsletter-form__button field__button field__button--subcribe btn-default"
+                        name="commit"
+                        id="Subscribe"
+                        aria-label="{{ 'newsletter.button_label.subcribe' | t }}"
+                >
+                    {{ 'newsletter.button_label.subcribe' | t }}
+                </button>
+            </div>
+            <div class="gigi-newsletter-form__field--submit gigi-field--birthday hidden-field">
+                <div class="gigi-description--birthday">
+                    <span class="rocket-font-fgrotesk">{{ 'newsletter.description.description_birthday' | t }}</span>
+                </div>
+                <div class="gigi-newsletter--birthday__wrapper">
+                    <div class="field gigi-field ">
+                        <input
+                                id="NewsletterBirthdayForm--{{ section.id }}"
+                                type="date"
+                                name="contact[birthday]"
+                                class="field__input gigi-field__input gigi-field__input--birthday gigi-field__input--flex"
+                                aria-required="true"
+                                autocapitalize="off"
+                        >
+                    </div>
+                    <button
+                            type="submit"
+                            class="newsletter-form__button field__button field__button--submit"
+                            name="commit"
+                            id="Send"
+                            aria-label="{{ 'newsletter.button_label.send' | t }}"
+                    >
+                        {{ 'newsletter.button_label.send' | t }}
+                        {%- render 'loading-spinner' -%}
+                    </button>
+                </div>
+                <span class="error-date hidden-field"></span>
+            </div>
+            {%- if form.errors -%}
+                <small class="newsletter-form__message form__message" id="ContactFooter-error">
+                    {%- render 'icon-error' -%}
+                    {{- form.errors.translated_fields.email | capitalize }}
+                    {{ form.errors.messages.email -}}
+                </small>
+            {%- endif -%}
+        </div>
+        {% if block.settings.enable_select_options %}
+            <div class="newsletter-form__select-wrapper">
+                <div class="newsletter-form__select-items">
+                    <input
+                            class="newsletter-form__select-radio"
+                            id="NewsletterForm--{{ block.id }}-input-women"
+                            type="radio"
+                            name="{{ 'newsletter.option_field' | t }}"
+                            value="{{ 'newsletter.select_options.women' | t }}"
+                    >
+                    <label class="newsletter-form__select-label" for="NewsletterForm--{{ block.id }}-input-women">{{ 'newsletter.select_options.women' | t }}</label>
+                </div>
+                <div class="newsletter-form__select-items">
+                    <input
+                            class="newsletter-form__select-radio"
+                            id="NewsletterForm--{{ block.id }}-input-unisex"
+                            type="radio"
+                            name="{{ 'newsletter.option_field' | t }}"
+                            value="{{ 'newsletter.select_options.unisex' | t }}"
+                    >
+                    <label class="newsletter-form__select-label" for="NewsletterForm--{{ block.id }}-input-unisex">{{ 'newsletter.select_options.unisex' | t }}</label>
+                </div>
+                <div class="newsletter-form__select-items">
+                    <input
+                            class="newsletter-form__select-radio"
+                            id="NewsletterForm--{{ block.id }}-input-men"
+                            type="radio"
+                            name="{{ 'newsletter.option_field'  | t }}"
+                            value="{{ 'newsletter.select_options.men' | t }}"
+                    >
+                    <label class="newsletter-form__select-label" for="NewsletterForm--{{ block.id }}-input-men">{{ 'newsletter.select_options.men' | t }}</label>
+                </div>
+            </div>
+            <span class="error-gender hidden-field"></span>
+            <span class="notification-success hidden-field">{{ 'newsletter.success' | t }}</span>
+        {% endif %}
+    </div>
+</form-newsletter-klaviyo>
+<script>
+    class sendNewsletter extends HTMLElement {
+        constructor() {
+            super();
+            let self = this;
+            this.elError = this.querySelector('.error-date');
+            this.querySelector('.field__button--submit').addEventListener('click', function () {
+                self.sendNewsLetter();
+            });
+        }
+
+        resetFormNewsletter() {
+            let formNewsletter = document.getElementById('ContactFooter');
+            formNewsletter.querySelector('input[name="contact[email]"]').value = '';
+            formNewsletter.querySelector('input[name="gender"]:checked').checked = false;
+            formNewsletter.querySelector('input[name="contact[birthday]"]').value = '';
+            formNewsletter.querySelector('.newsletter-form__select-wrapper').classList.remove('hidden-field');
+            formNewsletter.querySelector('.newsletter-form__field-wrapper').querySelector('.gigi-field--email').classList.remove('hidden-field')
+            formNewsletter.querySelector('.newsletter-form__field-wrapper').querySelector('.gigi-field--birthday').classList.add('hidden-field')
+        }
+
+        sendNewsLetter() {
+            let self = this;
+            let inputDate = this.querySelector('input[name="contact[birthday]"]');
+            if(!inputDate.value) {
+                self.elError.innerHTML = `{{ 'newsletter.validate_field' | t }}`;
+                self.elError.classList.remove('hidden-field');
+                setTimeout(function () {
+                    self.elError.innerHTML = '';
+                    self.elError.classList.add('hidden-field');
+                },5000);
+                return
+            }
+
+            let email = document.getElementById('ContactFooter').querySelector('input[name="contact[email]"]').value;
+            let gender = document.getElementById('ContactFooter').querySelector('input[name="gender"]:checked').value;
+            let date = document.getElementById('ContactFooter').querySelector('input[name="contact[birthday]"]').value;
+
+            const options = {
+                method: 'POST',
+                headers: {revision: '2024-02-15', 'content-type': 'application/json'},
+                body: JSON.stringify({
+                    data: {
+                        type: 'subscription',
+                        attributes: {
+                            profile: {
+                                data: {
+                                    type: 'profile',
+                                    attributes: {email: email, properties: {Sex: gender, Date: date}}
+                                }
+                            }
+                        },
+                        relationships: {list: {data: {type: 'list', id: 'TfDHVx'}}}
+                    }
+                })
+            };
+
+            self.querySelector('.field__button--submit').classList.add('loading');
+            self.querySelector('.field__button--submit').querySelector('.loading__spinner').classList.remove('hidden');
+            fetch('https://a.klaviyo.com/client/subscriptions/?company_id=UrC24U', options)
+                .then(response => {
+                    if (response.status == 202) {
+                        self.resetFormNewsletter();
+                        self.querySelector('.notification-success').classList.remove('hidden-field')
+                    }
+                })
+                .catch(err => {
+                    console.error(err)
+                }).finally(function () {
+                self.querySelector('.field__button--submit').classList.remove('loading');
+                self.querySelector('.field__button--submit').querySelector('.loading__spinner').classList.add('hidden');
+            });
+        }
+    }
+    customElements.define('form-newsletter-klaviyo', sendNewsletter)
+</script>

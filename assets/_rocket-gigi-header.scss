@@ -1,0 +1,451 @@
+.announcement-bar-section {
+  border-radius: 3px;
+  overflow: hidden;
+  height: 32px;
+  transition: height 0.1s ease-in;
+  margin-bottom: 2px;
+
+  .utility-bar.gradient {
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    padding: 0 16px;
+
+    .utility-bar-content {
+      padding-right: 24px;
+      display: flex;
+      text-align: center;
+      width: 100%
+    }
+  }
+
+  .announcement-bar,
+  .announcement-bar__announcement {
+    display: block;
+    width: auto;
+    color: inherit;
+
+    .slider-button--next,
+    .slider-button--prev {
+      display: none;
+    }
+  }
+
+  .announcement-bar__message {
+    font-family: "F Grotesk";
+    padding: 9px 0;
+    font-size: 10px;
+    line-height: 14px;
+    letter-spacing: 0;
+    color: inherit;
+    font-weight: 400;
+
+    span {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+    }
+  }
+
+  .announcement-bar__link {
+    color: inherit;
+    display: block;
+    padding: 0;
+    width: auto;    
+  }
+
+  .announcement-bar.slideshow,
+  .announcement-bar-slider {
+    width: 100%;
+  }
+
+  .announcement-bar .slideshow__autoplay {
+    justify-content: unset
+  }
+
+  .utility-bar-icon__close {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      flex-shink: 0;
+      width: 10px;
+      height: 9px;
+    }
+  }
+}
+
+.gigi-header-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  padding: 8px;
+  width: 100%;
+  .header__icon.link.submit-text {
+    display: none;
+    @media (min-width: 768px) {
+      display: flex;
+    }
+  }
+  .header {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .header-wrapper {
+    border-radius: 3px;
+  }
+
+  .header__heading-link {
+    position: relative;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .header__heading-logo-wrapper {
+    transition: all;
+    transition-duration: 100ms;
+  }
+
+  .header__heading-sub-logo-wrapper {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: all;
+    transition-duration: 150ms;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .header__heading-sub-logo {
+    color: #000000;
+    width: max-content;
+  }
+}
+
+body.is-sticky .announcement-bar-section,
+.announcement-bar-section.closed-announcement-bar {
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  margin-bottom: 0;
+  transition: height 0.15s ease-out;
+}
+
+.shopify-section-header-sticky {
+  .header__heading-logo-wrapper.true {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .header__heading-sub-logo-wrapper {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.menu-drawer-container {
+  display: flex;
+}
+
+.header--middle-center .header__heading {
+  margin-right: 12px;
+}
+
+.header__inline-menu {
+  margin-left: 0;
+  display: none;
+
+  .header__menu-item:hover .header__active-menu-item {
+    text-decoration-thickness: 1px;
+  }
+
+  .list-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .list-menu--inline {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 17px;
+  }
+
+  summary.list-menu__item {
+    padding: 0;
+  }
+
+  .list-menu__item {
+    color: #000000;
+    display: flex;
+    align-items: center;
+    font-family: "F Grotesk";
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 15px;
+    padding: 0;
+  }
+
+  .header__active-menu-item {
+    color: #000000;
+    text-decoration: none;
+  }
+}
+
+.header__heading-logo {
+  color: #000000;
+  max-width: 122px;
+  max-height: 14px;
+}
+
+.header__icons {
+  align-items: center;
+  gap: 12px;
+  width: max-content;
+}
+
+.header__search .header__icon--search {
+  width: 16px;
+  height: 16px;
+}
+
+.header__icon {
+  width: auto;
+  height: auto;
+  text-decoration: none;
+  &.header__icon--cart {
+    margin-right: 0;
+  }
+
+  &:hover {
+    .header-list-text {
+      text-decoration: underline;
+    }
+
+    .icon.icon-search {
+      transform: scale(1);
+    }
+  }
+
+  &.header__icon--menu {
+    margin: 0 12px 0 8px;
+
+    .icon-hamburger {
+      color: #000000;
+      width: 18px;
+      height: 9px;
+    }
+
+    .icon-close  {
+      color: #000000;
+      width: 16px;
+      height: 10px;
+    }
+
+    .modal__close-button:hover .icon {
+      transform: scale(1);
+    }
+  }
+
+  .icon-search {
+    color: #000000;
+    width: 16px;
+    height: 16px;
+  }
+
+  .icon-wishlist {
+    color: #000000;
+    width: 16px;
+    height: 16px;
+  }
+
+  &.empresas-content,
+  &.header__icon--account {
+    display: none;
+  }
+
+  .icon-cart {
+    margin-right: 4px;
+    width: 16px;
+    height: 16px;
+    color: #000000;
+  }
+
+  .header__icon--cart-content {
+    width: 18px;
+    height: 16px;
+    border-radius: 2px;
+    background: #F0F0F0;
+  }
+
+  .header__icon--cart-content-count {
+    color: #000000;
+    font-family: "F Grotesk";
+    font-size: 9px;
+    font-weight: 400;
+    line-height: 13px;
+    letter-spacing: 0;
+  }
+}
+
+.header__icon .header-list-text {
+  display: none;
+}
+
+.header-list-text {
+  color: #000000;
+  font-family: "F Grotesk";
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 15px;
+  text-transform: uppercase;
+
+  &.text-search {
+    display: none;
+    padding-left: 4px;
+  }
+
+  &.text-cart {
+    display: none;
+    padding-right: 4px;
+  }
+}
+
+@media (min-width: 990px) {
+  .announcement-bar-section {
+    .announcement-bar__message {
+      padding: 8px 0;
+      font-size: 12px;
+      line-height: 15px;
+    }
+
+    .utility-bar.gradient {
+      padding: 0 14px;
+    }
+  }
+
+  .gigi-header-container {
+    .header__heading-link {
+      margin-right: 18px;
+    }
+
+    .header__heading-sub-logo-wrapper {
+      display: flex;
+    }
+  }
+
+  .shopify-section-header-sticky {
+    .header__heading-logo-wrapper.true {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  .header__search .header__icon--search {
+    width: 14px;
+    height: 14px;
+  }
+
+  .header__inline-menu {
+    display: flex;
+  }
+}
+
+@media (min-width: 768px) {
+  .header__heading-logo {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .gigi-header-container {
+    padding: 16px;
+
+    .header {
+      padding-left: 14px;
+      padding-right: 0;
+    }
+  }
+
+  .header__inline-menu {
+    .list-menu__item--link {
+      padding-bottom: 0.5rem;
+      padding-top: 0.5rem;
+    }
+  }
+
+  .header-list-text {
+    &.text-search {
+      display: block;
+    }
+
+    &.text-cart {
+      display: block;
+    }
+  }
+
+  .header__icons {
+    gap: 17px;
+    &.header__swichers {
+      width: 100%;
+      justify-content: flex-end;
+      padding-right: 14px; 
+      width: auto;
+      max-width: unset;
+      .header__swichers {
+        padding-right: 0;
+        max-width: unset;
+        .header-list-text {
+          width: max-content;
+        }
+      }
+    }
+  }
+
+  .header__icon {
+    .header-list-text {
+      display: flex;
+    }
+
+    &.header__icon--menu {
+      margin: 0 14px;
+    }
+
+    .icon-search {
+      width: 14px;
+      height: 14px;
+    }
+
+    .icon-wishlist {
+      display: none;
+    }
+
+    &.empresas-content,
+    &.header__icon--account {
+      display: flex;
+    }
+
+    .icon-cart {
+      display: none;
+    }
+
+    .header__icon--cart-content {
+      width: 20px;
+      height: 18px;
+    }
+
+    .header__icon--cart-content-count {
+      font-size: 10px;
+      line-height: 14px;
+    }
+  }
+}

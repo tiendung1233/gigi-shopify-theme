@@ -1,0 +1,61 @@
+#insta-feed {
+  margin-left: 16px !important;
+
+  h2 {
+    font-family: "F Grotesk";
+    font-weight: 400;
+    letter-spacing: 0;
+    margin: 0 0 16px !important;
+    line-height: 19.71px;
+
+    &::after {
+      content: "@gigistudios";
+      display: block;
+      font-family: "F Grotesk";
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 17px;
+      color: #B8B8B8;
+      margin-top: 8px;
+    }
+  }
+
+  .instafeed-new-carousel-container {
+    .instafeed-new-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 24px;
+      width: 24px;
+      font-size: 12px;
+      line-height: 24px;
+      color: #000000;
+    }
+  }
+
+  .instafeed-new-carousel-wrapper {
+    gap: 3px !important;
+  }
+}
+
+@media ( max-width: 767px ) {
+  .shopify-app-block {
+    #insta-feed {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+
+      h2 {
+        font-size: 16px !important;
+      }
+    }
+  }
+}
+
+@media ( min-width: 768px ) {
+  #insta-feed {
+    h2 {
+      margin: 0 0 24px !important;
+      line-height: 22px;
+    }
+  }
+}

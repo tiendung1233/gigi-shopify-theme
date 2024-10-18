@@ -1,0 +1,103 @@
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement-bar-0": {
+          "type": "announcement",
+          "settings": {
+            "text": "Free shipping from 60 € - Free returns within 60 days",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement-bar-0"
+      ],
+      "settings": {
+        "color_background": "#242833",
+        "color_text": "#ffffff",
+        "text_position": "start",
+        "show_line_separator": false,
+        "auto_rotate": true,
+        "change_slides_speed": 1
+      }
+    },
+    "header": {
+      "type": "header",
+      "blocks": {
+        "mega_menu_image_E737gL": {
+          "type": "mega_menu_image",
+          "settings": {
+            "featured_image_position": 1,
+            "featured_image": "shopify:\/\/shop_images\/hero_banner.png",
+            "featured_image_text": "Lorem ipsum",
+            "featured_image_link": "shopify:\/\/collections",
+            "featured_image_text_color": "#ffffff",
+            "featured_image_text_position": "bottom_left"
+          }
+        },
+        "mega_menu_image_AwT4yx": {
+          "type": "mega_menu_image",
+          "settings": {
+            "featured_image_position": 2,
+            "featured_image": "shopify:\/\/shop_images\/Collection_Banner_-_Sol_-_mobile.png",
+            "featured_image_text": "Lorem ipsum 2",
+            "featured_image_link": "",
+            "featured_image_text_color": "#f1b8b8",
+            "featured_image_text_position": "top_left"
+          }
+        },
+        "mobile_menu_EEBEmy": {
+          "type": "mobile_menu",
+          "settings": {
+            "mobile_menu_bottom": "mobile-bottom-menu"
+          }
+        },
+        "mega_menu_image_bH8krP": {
+          "type": "mega_menu_image",
+          "settings": {
+            "featured_image_position": 0,
+            "featured_image_text": "Lorem ipsum",
+            "featured_image_link": "",
+            "featured_image_text_color": "#ffffff",
+            "featured_image_text_position": "top_left"
+          }
+        }
+      },
+      "block_order": [
+        "mega_menu_image_E737gL",
+        "mega_menu_image_AwT4yx",
+        "mobile_menu_EEBEmy",
+        "mega_menu_image_bH8krP"
+      ],
+      "settings": {
+        "logo_position": "middle-center",
+        "menu": "main-menu",
+        "sticky_header_type": "on-scroll-up",
+        "show_line_separator": false,
+        "enable_sub_logo": true,
+        "sub_logo": "shopify:\/\/shop_images\/Vector.svg",
+        "enable_favourites": true,
+        "favourites_text": "FAVORITOS",
+        "favourites_link": "#swym-wishlist",
+        "enable_empresas": true,
+        "empresas_text": "EMPRESAS",
+        "empresas_link": "https:\/\/gigi-studios-store.myshopify.com\/pages\/appi-privacy-polic",
+        "enable_submit": true,
+        "submit_text": "Submit",
+        "submit_link": "\/pages\/popup-login",
+        "mobile_logo_position": "left",
+        "margin_bottom": 0,
+        "padding_top": 16,
+        "padding_bottom": 10
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "header"
+  ]
+}

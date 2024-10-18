@@ -1,0 +1,561 @@
+{{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  .section-{{ section.id }} .gigis-rich-text__heading,
+  .section-{{ section.id }} .gigis-rich-text__content p {
+    color: {{ section.settings.color_text }};
+  }
+  .section-{{ section.id }}-bg-color .section-{{ section.id }} {
+    background-color:{{ section.settings.color_bg }};
+  }
+  .section-{{ section.id }} .gigis-hero-banner__button-wrapper .gigi-button--color {
+    color: {{ section.settings.color_text_button }};
+  }
+  .section-{{ section.id }} .gigis-hero-banner__button-wrapper .gigi-button--color::after{
+    background-color: {{ section.settings.color_text_button }};
+  }
+  .section-{{ section.id }}.gigis-rich-text-container {
+    padding-left: {{ section.settings.horizontal_padding_mb }}px;
+    padding-right: {{ section.settings.horizontal_padding_mb }}px;
+  }
+  .section-{{ section.id }} .gigis-rich-text__wrapper {
+    max-width: {{ section.settings.max_width_mb }}%;
+  }
+  .section-{{ section.id }} .gigi-button--color::before {
+    background-color: {{ section.settings.color_text_button }}
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    .section-{{ section.id }} .gigis-rich-text__wrapper {
+      max-width: {{ section.settings.max_width }}%;
+      margin: 0;
+    }
+    .section-{{ section.id }}.gigis-rich-text-container {
+      padding-left: {{ section.settings.horizontal_padding }}px;
+      padding-right: {{ section.settings.horizontal_padding }}px;
+    }
+    
+  }
+{%- endstyle -%}
+
+<div class="isolate section-{{ section.id }}-bg-color">
+  <div class="section-{{ section.id }} gigis-rich-text-container rich-text__container--{{ section.settings.desktop_content_position }} rich-text content-container  gradient{% if section.settings.full_width %} rich-text--full-width content-container--full-width{% endif %} section-{{ section.id }}-padding">
+    <div class="gigis-rich-text__wrapper {% if section.settings.full_width %} page-width{% endif %}">
+      <div class="rich-text__blocks {{ section.settings.content_alignment }}">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'title' -%}
+              {%- style -%}
+                .section-{{ section.id }} .gigis-rich-text__heading {
+                  font-size: {{ block.settings.font_size_title_mb }}px;
+                  font-weight: {{ block.settings.font_weight_title }};
+                  margin-top: {{ block.settings.margin_top_title_mb }}px;
+                }
+                @media screen and (min-width: 768px) {
+                  .section-{{ section.id }} .gigis-rich-text__heading {
+                    font-size: {{ block.settings.font_size_title }}px;
+                    margin-top: {{ block.settings.margin_top_title }}px;
+                  }
+                }
+              {%- endstyle -%}
+              <h2
+                class="rich-text__heading gigis-rich-text__heading rte inline-richtext rocket-font-fgrotesk {{ block.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                {{ block.shopify_attributes }}
+                {% if settings.animations_reveal_on_scroll %}
+                  data-cascade
+                  style="--animation-order: {{ forloop.index }};"
+                {% endif %}
+              >
+                {{ block.settings.heading }}
+              </h2>
+            {%- when 'content' -%}
+              {%- style -%}
+                .section-{{ section.id }} .gigis-rich-text__content {
+                  font-size: {{ block.settings.font_size_content_mb }}px;
+                  font-weight: {{ block.settings.font_weight_content }};
+                  margin-top: {{ block.settings.margin_top_content_mb }}px;
+                }
+                @media screen and (min-width: 768px) {
+                  .section-{{ section.id }} .gigis-rich-text__content {
+                    font-size: {{ block.settings.font_size_content }}px;
+                    margin-top: {{ block.settings.margin_top_content }}px;
+                  }
+                }
+              {%- endstyle -%}
+              <div
+                class="rich-text__text gigis-rich-text__content rocket-font-fgrotesk rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                {{ block.shopify_attributes }}
+                {% if settings.animations_reveal_on_scroll %}
+                  data-cascade
+                  style="--animation-order: {{ forloop.index }};"
+                {% endif %}
+              >
+                {{ block.settings.text }}
+              </div>
+            {%- when 'button' -%}
+              {%- style -%}
+                .section-{{ section.id }} .gigis-hero-banner__button-wrapper .rocket-button-gigi {
+                  font-size: {{ block.settings.font_size_button_mb }}px;
+                }
+                .section-{{ section.id }} .gigis-hero-banner__button-wrapper  {
+                    margin-top:  {{ block.settings.margin_top_button_mb }}px;
+                  }
+                @media screen and (min-width: 768px) {
+                  .section-{{ section.id }} .gigis-hero-banner__button-wrapper .rocket-button-gigi {
+                    font-size: {{ block.settings.font_size_button}}px;
+                  }
+                  .section-{{ section.id }} .gigis-hero-banner__button-wrapper  {
+                    margin-top: {{ block.settings.margin_top_button }}px;
+                  }
+                }
+              {%- endstyle -%}
+              <div
+                class="gigis-hero-banner__button-wrapper rich-text__buttons{% if block.settings.button_label != blank and block.settings.button_label_2 != blank %} rich-text__buttons--multiple{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                {{ block.shopify_attributes }}
+                {% if settings.animations_reveal_on_scroll %}
+                  data-cascade
+                  style="--animation-order: {{ forloop.index }};"
+                {% endif %}
+              >
+                  {% if block.settings.rocket_button_label_1 != blank %}
+                      {% render 'rocket-gigi-buttons',
+                          type: block.settings.rocket_button_type, 
+                          url: block.settings.rocket_button_url_1,
+                          label: block.settings.rocket_button_label_1,
+                          color: section.settings.color_text_button,
+                          class: 'gigi-button--color gigi-button_rich-text'
+                      %}
+                  {% endif %}
+                  {% if block.settings.rocket_button_label_2 != blank %}
+                      {% render 'rocket-gigi-buttons',
+                          type: block.settings.rocket_button_type, 
+                          url: block.settings.rocket_button_url_2,
+                          label: block.settings.rocket_button_label_2,
+                          color: section.settings.color_text_button,
+                          class: 'gigi-button--color gigi-button_rich-text'
+                      %}
+                  {% endif %}
+                  {% if block.settings.rocket_button_label_3 != blank %}
+                      {% render 'rocket-gigi-buttons',
+                          type: block.settings.rocket_button_type, 
+                          url: block.settings.rocket_button_url_3,
+                          label: block.settings.rocket_button_label_3,
+                          color: section.settings.color_text_button,
+                          class: 'gigi-button--color gigi-button_rich-text'
+                      %}
+                  {% endif %}
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "GIGIS - Rich Text",
+  "tag": "section",
+  "class": "section rocket-gigis-rich-text-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "desktop_content_position",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.rich-text.settings.desktop_content_position.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.rich-text.settings.desktop_content_position.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.rich-text.settings.desktop_content_position.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.rich-text.settings.desktop_content_position.label",
+      "info": "t:sections.rich-text.settings.desktop_content_position.info"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.rich-text.settings.content_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.rich-text.settings.content_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.rich-text.settings.content_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.rich-text.settings.content_alignment.label"
+    },
+    {
+        "type": "color",
+        "id": "color_bg",
+        "label": "Custom Color Background",
+        "default": "#FFFFFF"
+    },
+    {
+        "type": "color",
+        "id": "color_text",
+        "label": "Custom Color Text",
+        "default": "#ffffff"
+    },   
+    {
+        "type": "color",
+        "id": "color_text_button",
+        "label": "Custom Color Text Button",
+        "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Max Width Content"
+    },
+      {
+        "type": "range",
+        "id": "max_width",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "label": "Max Width Content on Desktop",
+        "default": 100
+      },
+      {
+        "type": "range",
+        "id": "max_width_mb",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "label": "Max Width Content on Mobile",
+        "default": 100
+      },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+        {
+          "type": "range",
+          "id": "padding_top",
+          "min": 0,
+          "max": 100,
+          "step": 4,
+          "unit": "px",
+          "label": "t:sections.all.padding.padding_top",
+          "default": 40
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom",
+          "min": 0,
+          "max": 100,
+          "step": 4,
+          "unit": "px",
+          "label": "t:sections.all.padding.padding_bottom",
+          "default": 52
+        },
+        {
+          "type": "range",
+          "id": "horizontal_padding",
+          "min": 0,
+          "max": 100,
+          "step": 4,
+          "unit": "px",
+          "label": "Horizontal Padding on Desktop",
+          "default": 16
+        },
+        {
+          "type": "range",
+          "id": "horizontal_padding_mb",
+          "min": 0,
+          "max": 100,
+          "step": 4,
+          "unit": "px",
+          "label": "Horizontal Padding on Mobile",
+          "default": 0
+        }
+  ],
+  "blocks": [
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Talk about your brand",
+          "label": "t:sections.rich-text.blocks.heading.settings.heading.label"
+        },
+        {
+            "type": "select",
+            "id": "font_weight_title",
+            "options": [
+                {
+                    "value": "250",
+                    "label": "250"
+                },
+                {
+                    "value": "400",
+                    "label": "400"  
+                },
+                {
+                    "value": "600",
+                    "label": "600"
+                }
+            ],
+            "default": "400",
+            "label": "Font Weight Title"
+        },
+        {
+            "type": "range",
+            "id": "font_size_title",
+            "label": "Font Size Title",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "default": 32 
+        },
+        {
+            "type": "range",
+            "id": "font_size_title_mb",
+            "label": "Font Size Title on Mobile",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "default": 27
+        },
+        {
+            "type": "range",
+            "id": "margin_top_title",
+            "label": "Margin Top Title on Desktop",
+            "min": 0,
+            "max": 50,
+            "step": 1,
+            "default": 0
+        },
+        {
+            "type": "range",
+            "id": "margin_top_title_mb",
+            "label": "Margin Top Title on Mobile",
+            "min": 0,
+            "max": 50,
+            "step": 1,
+            "default": 0
+        }
+        
+      ]
+    },
+    {
+      "type": "content",
+      "name": "Content",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
+          "label": "t:sections.rich-text.blocks.text.settings.text.label"
+        },
+        {
+            "type": "select",
+            "id": "font_weight_content",
+            "options": [
+                {
+                    "value": "250",
+                    "label": "250"
+                },
+                {
+                    "value": "400",
+                    "label": "400"  
+                },
+                {
+                    "value": "600",
+                    "label": "600"
+                }
+            ],
+            "default": "400",
+            "label": "Font Weight Content"
+        },
+        {
+            "type": "range",
+            "id": "font_size_content",
+            "label": "Font Size Content",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "default": 14
+        },
+        {
+            "type": "range",
+            "id": "font_size_content_mb",
+            "label": "Font Size Content on Mobile",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "default": 14
+        },
+        {
+          "type": "range",
+          "id": "margin_top_content",
+          "label": "Margin Top Content on Desktop",
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "margin_top_content_mb",
+          "label": "Margin Top Content on Mobile",
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "t:sections.rich-text.blocks.buttons.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "rocket_button_type",
+          "options": [
+            {
+              "value": "primary",
+              "label": "t:sections.blocks-banner.settings.button.settings.type.default"
+            },
+            {
+              "value": "secondary",
+              "label": "t:sections.blocks-banner.settings.button.settings.type.secondary"
+            },
+            {
+              "value": "filled",
+              "label": "t:sections.blocks-banner.settings.button.settings.type.filled"
+            },
+            {
+              "value": "link_l",
+              "label": "t:sections.blocks-banner.settings.button.settings.type.link_l"
+            },
+            {
+              "value": "link_s",
+              "label": "t:sections.blocks-banner.settings.button.settings.type.link_s"
+            }
+          ],
+          "default": "filled",
+          "label": "t:sections.blocks-banner.settings.button.settings.type.label"
+        },
+        {
+            "type": "text",
+            "id": "rocket_button_label_1",
+            "label": "Button Label 1",
+            "default": "Text Button"
+        },
+        {
+            "type": "url",
+            "id": "rocket_button_url_1",
+            "label": "Button URL 1"
+        },
+        {
+            "type": "text",
+            "id": "rocket_button_label_2",
+            "label": "Button Label 2",
+            "default": "Text Button"
+        },
+        {
+            "type": "url",
+            "id": "rocket_button_url_2",
+            "label": "Button URL 2"
+        },
+        {
+            "type": "text",
+            "id": "rocket_button_label_3",
+            "label": "Button Label 3",
+            "default": "Text Button"
+        },
+        {
+            "type": "url",
+            "id": "rocket_button_url_3",
+            "label": "Button URL 3"
+        },
+        {
+            "type": "range",
+            "id": "font_size_button",
+            "label": "Font Size Button",
+            "min": 0,
+            "max": 30,
+            "step": 1,
+            "default": 12
+        },
+        {
+            "type": "range",
+            "id": "font_size_button_mb",
+            "label": "Font Size Button on Mobile",
+            "min": 0,
+            "max": 30,
+            "step": 1,
+            "default": 12
+        },
+        {
+          "type": "range",
+          "id": "margin_top_button",
+          "label": "Margin Top Button on Desktop",
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "margin_top_button_mb",
+          "label": "Margin Top Button on Mobile",
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "default": 16
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "GIGIS - Rich Text",
+      "blocks": [
+        {
+          "type": "title"
+        },
+        {
+          "type": "content"
+        },
+        {
+          "type": "button"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

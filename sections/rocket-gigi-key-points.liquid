@@ -1,0 +1,244 @@
+{{ '_rocket-gigi-key-points.scss' | asset_url | stylesheet_tag }}
+{% liquid
+    if template contains 'product' 
+        assign product_object = product.metafields.custom
+        assign technologies = product_object.artesania_y_tecnologia | metafield_tag | default: section.blocks[0].settings.description_technology | newline_to_br
+        assign lentes = product_object.lentes | metafield_tag | default: section.blocks[1].settings.description_lentes | newline_to_br
+        assign components = product_object.componentes | metafield_tag | default: section.blocks[2].settings.description_components | newline_to_br
+        assign materials = product_object.materiales | metafield_tag | default: section.blocks[3].settings.description_material | newline_to_br
+    else
+        assign materials = ''
+        assign components = ''
+        assign lentes = ''
+        assign technologies = ''
+    endif
+%}
+{%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top_mb }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mb }}px;
+    }
+
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+{%- endstyle -%}
+<div class="section-{{ section.id }} section-{{ section.id }}-padding gigi-key-points__container">
+    <div class="gigi-key-points__wrapper">
+        {%- for block in section.blocks -%}
+            {%- case block.type -%}
+                {%- when 'material' -%}
+                  {%- assign materials = materials | default: block.settings.description_material -%}
+                  {% if materials != blank %}
+                    {%- assign key_point_title_4 = product.metafields.product.key_point_title_4 | default: block.settings.title_material -%}
+                    <div class="gigi-key-points__item gigi-key-points__item-material">
+                        {% if key_point_title_4 != blank %}
+                            <div class="gigi-key-poins__item--title">
+                                <span class="rocket-font-fgrotesk">
+                                    {{ key_point_title_4 }}
+                                </span>
+                            </div>
+                        {% endif %}
+                        <div class="gigi-key-poins__item--des rocket-font-fgrotesk">
+                            {{ materials }}
+                        </div>
+                    </div>
+                  {% endif %}
+                {%- when 'components' -%}
+                    {%- assign components = components | default: block.settings.description_components -%}
+                    {% if components != blank %}
+                      {%- assign key_point_title_3 = product.metafields.product.key_point_title_3 | default: block.settings.title_components -%}
+                      <div class="gigi-key-points__item gigi-key-points__item-components">
+                          {% if key_point_title_3 != blank %}
+                              <div class="gigi-key-poins__item--title">
+                                  <span class="rocket-font-fgrotesk">
+                                      {{ key_point_title_3 }}
+                                  </span>
+                              </div>
+                          {% endif %}
+                          <div class="gigi-key-poins__item--des rocket-font-fgrotesk">
+                              {{ components }}
+                          </div>
+                      </div>
+                    {% endif %}
+                {%- when 'lentes' -%}
+                    {%- assign lentes = lentes | default: block.settings.description_lentes -%}
+                    {% if lentes!= blank %}
+                      {%- assign key_point_title_2 = product.metafields.product.key_point_title_2 | default: block.settings.title_lentes -%}
+                      <div class="gigi-key-points__item gigi-key-points__item-lentes">
+                          {% if key_point_title_2 != blank %}
+                              <div class="gigi-key-poins__item--title">
+                                  <span class="rocket-font-fgrotesk">
+                                      {{ key_point_title_2 }}
+                                  </span>
+                              </div>
+                          {% endif %}
+                          <div class="gigi-key-poins__item--des rocket-font-fgrotesk">
+                              {{ lentes }}
+                          </div>
+                      </div>
+                    {% endif %}
+                {%- when 'technologies' -%}
+                    {%- assign technologies = technologies | default: block.settings.description_technology -%}
+                    {% if technologies != blank %}
+                      {%- assign key_point_title_1 = product.metafields.product.key_point_title_1 | default: block.settings.title_technology -%}
+                      <div class="gigi-key-points__item gigi-key-points__item-technologies">
+                        {% if key_point_title_1 != blank %}
+                            <div class="gigi-key-poins__item--title">
+                                <span class="rocket-font-fgrotesk">
+                                    {{ key_point_title_1 }}
+                                </span>
+                            </div>
+                        {% endif %}
+                        <div class="gigi-key-poins__item--des rocket-font-fgrotesk">
+                            {{ technologies }}
+                        </div>
+                      </div>
+                    {% endif %}
+            {%- endcase -%}
+        {%- endfor -%}
+    </div>
+</div>
+
+{% schema %}
+  {
+    "name": "t:sections.key-points.name",
+    "tag": "section",
+    "class": "gigi-key-points",
+    "max_blocks": 4,
+    "settings": [
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 64
+      },
+      {
+        "type": "range",
+        "id": "padding_top_mb",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top_mb",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom_mb",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom_mb",
+        "default": 48
+      }
+    ],
+    "blocks": [
+      {
+        "type": "technologies",
+        "name": "t:sections.key-points.blocks.technologies.name",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title_technology",
+            "default": "ARTESANÍA Y TECNOLOGÍA",
+            "label": "t:sections.key-points.blocks.technologies.settings.text.label"
+          },
+          {
+            "type": "richtext",
+            "id": "description_technology",
+            "label": "t:sections.key-points.blocks.technologies.settings.richtext.label"
+          }
+        ]
+      },
+      {
+        "type": "lentes",
+        "name": "t:sections.key-points.blocks.lentes.name",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title_lentes",
+            "default": "ARTESANÍA Y TECNOLOGÍA",
+            "label": "t:sections.key-points.blocks.lentes.settings.text.label"
+          },
+          {
+            "type": "richtext",
+            "id": "description_lentes",
+            "label": "t:sections.key-points.blocks.lentes.settings.richtext.label"
+          }
+        ]
+      },
+      {
+        "type": "components",
+        "name": "t:sections.key-points.blocks.components.name",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title_components",
+            "default": "ARTESANÍA Y TECNOLOGÍA",
+            "label": "t:sections.key-points.blocks.components.settings.text.label"
+          },
+          {
+            "type": "richtext",
+            "id": "description_components",
+            "label": "t:sections.key-points.blocks.components.settings.richtext.label"
+          }
+        ]
+      },
+       {
+        "type": "material",
+        "name": "t:sections.key-points.blocks.material.name",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title_material",
+            "default": "ARTESANÍA Y TECNOLOGÍA",
+            "label": "t:sections.key-points.blocks.material.settings.text.label"
+          },
+          {
+            "type": "richtext",
+            "id": "description_material",
+            "label": "t:sections.key-points.blocks.material.settings.richtext.label"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "t:sections.key-points.name",
+        "blocks": [
+          {
+            "type": "technologies"
+          },
+          {
+            "type": "lentes"
+          },
+          {
+            "type": "components"
+          },
+          {
+            "type": "material"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

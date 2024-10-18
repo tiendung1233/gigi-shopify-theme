@@ -1,0 +1,495 @@
+{{ 'section-contact-form.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+<div class="gigi-fake-spacing"></div>
+<div class="section-{{ section.id }} gigi-contact-section section-{{ section.id }}-padding">
+{%- if section.settings.heading != blank -%}
+    <div class="gigi-contact__heading gigi-contact__heading-mb">
+        <p class="rocket-font-fgrotesk">
+            {{ section.settings.heading }}
+        </p>
+    </div>
+    
+{%- endif -%}
+{%- if section.settings.heading != blank -%}
+    <div class="gigi-contact__heading gigi-contact__heading-desktop">
+        <p class="rocket-font-fgrotesk">
+            {{ section.settings.heading }}
+        </p>
+    </div>
+{%- endif -%}
+<div class="gigi-contact__container" id="gigi-contact__container">
+    <div class="gigi-contact__tab-list" id="gigi-contact__tab-list">
+        {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'contact_form' -%}
+                {% if block.settings.tab_contact_form != blank %}
+                    <div class="gigi-contact__tab-item active rocket-font-fgrotesk">
+                        <a href="#contact-form-tab"><span>{{ block.settings.tab_contact_form }}</span></a>
+                    </div>
+                {% endif %}
+              {%- when 'customer_service' -%}
+                {% if block.settings.tab_service != blank %}
+                    <div class="gigi-contact__tab-item gigi-contact__tab-service rocket-font-fgrotesk">
+                        <a href="#customer-service-tab"><span>{{ block.settings.tab_service }}</span></a>
+                    </div>
+                {% endif %}
+              {%- when 'help' -%}
+                {% if block.settings.tab_help != blank %}
+                    <div class="gigi-contact__tab-item rocket-font-fgrotesk">
+                        <a href="#help-tab"><span>{{ block.settings.tab_help }}</span></a>
+                    </div>
+                {% endif %}
+              {%- when 'headquarter' -%}
+                {% if block.settings.tab_headquarter != blank %}
+                    <div class="gigi-contact__tab-item rocket-font-fgrotesk">
+                        <a href="#headquarter-tab"><span>{{ block.settings.tab_headquarter }}</span></a>
+                    </div>
+                {% endif %}
+            {%- endcase -%}
+        {%- endfor -%}
+    </div>
+    
+    <div class="gigi-contact__content-wrapper">
+        {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'contact_form' -%}
+                <div  id="contact-form-tab"  class="gigi-contact__contact-form gigi-contact__content-item active">
+                    {%- form 'contact', id: 'ContactForm', class: contact_form_class -%}
+                        {%- if form.posted_successfully? -%}
+                        <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
+                            {% render 'icon-success' %}
+                            {{ 'templates.contact.form.post_success' | t }}
+                        </h2>
+                        {%- elsif form.errors -%}
+                        <div class="form__message">
+                            <h2 class="form-status caption-large text-body" role="alert" tabindex="-1" autofocus>
+                            {% render 'icon-error' %}
+                            {{ 'templates.contact.form.error_heading' | t }}
+                            </h2>
+                        </div>
+                        <ul class="form-status-list caption-large" role="list">
+                            <li>
+                            <a href="#ContactForm-email" class="link">
+                                {{ form.errors.translated_fields.email | capitalize }}
+                                {{ form.errors.messages.email }}
+                            </a>
+                            </li>
+                        </ul>
+                        {%- endif -%}
+                        <div class="contact__fields gigi-contact__field-fullname">
+                            <div class="field">
+                                <input
+                                class="field__input rocket-font-fgrotesk"
+                                autocomplete="name"
+                                type="text"
+                                id="ContactForm-name"
+                                name="contact[{{ 'templates.contact.form.name' | t }}]"
+                                value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+                                placeholder="{{ 'templates.contact.form.name' | t }}"
+                                >
+                                <label class="field__label" for="ContactForm-name">{{ 'templates.contact.form.name' | t }}</label>
+                            </div>
+                            <div class="field">
+                                <input
+                                class="field__input rocket-font-fgrotesk"
+                                autocomplete="surname"
+                                type="text"
+                                id="ContactForm-surname"
+                                name="contact[{{ 'templates.contact.form.surname' | t }}]"
+                                value="{% if form.last_name %}{{ form.last_name }}{% elsif customer %}{{ customer.last_name }}{% endif %}"
+                                placeholder="{{ 'templates.contact.form.surname' | t }}"
+                                >
+                                <label class="field__label" for="ContactForm-surname">{{ 'templates.contact.form.surname' | t }}</label>
+                            </div>       
+                        </div>
+                        <div class="field field--with-error">
+                            <input
+                            autocomplete="email"
+                            type="email"
+                            id="ContactForm-email"
+                            class="field__input rocket-font-fgrotesk"
+                            name="contact[email]"
+                            spellcheck="false"
+                            autocapitalize="off"
+                            value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                            aria-required="true"
+                            {% if form.errors contains 'email' %}
+                                aria-invalid="true"
+                                aria-describedby="ContactForm-email-error"
+                            {% endif %}
+                            placeholder="{{ 'templates.contact.form.email' | t }}"
+                            >
+                            <label class="field__label" for="ContactForm-email">
+                            {{- 'templates.contact.form.email' | t }}</label
+                            >
+                            {%- if form.errors contains 'email' -%}
+                            <small class="contact__field-error" id="ContactForm-email-error">
+                                <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+                                <span class="form__message">
+                                {%- render 'icon-error' -%}
+                                {{- form.errors.translated_fields.email | capitalize }}
+                                {{ form.errors.messages.email -}}
+                                </span>
+                            </small>
+                            {%- endif -%}
+                        </div>
+                        <div class="field dropdown-concept-field">
+                            <select id="request-type" name="contact[concept]" class="drop-down-concept field__input rocket-font-fgrotesk" required>
+                                <option value="" disabled selected>Seleccionar concepto</option>
+                                <option value="project">Un proyecto</option>
+                                <option value="order">Un pedido</option>
+                                <option value="return">Devolución</option>
+                                <option value="payment-invoice">Un pago/factura</option>
+                                <option value="guarantee">La garantía</option>
+                                <option value="join-team">Únete al equipo</option>
+                                <option value="other-issues">Otros asuntos</option>
+                            </select>
+                            {%- render 'dropdown-selectbox' -%}
+                        </div>
+                        <div class="field">
+                            <textarea
+                                rows="10"
+                                id="ContactForm-body"
+                                class="text-area field__input"
+                                name="contact[{{ 'templates.contact.form.comment' | t }}]"
+                                placeholder="{{ 'templates.contact.form.comment' | t }}"
+                            >
+                                {{- form.body -}}
+                            </textarea>
+                            <label class="form__label field__label field__label-text-area rocket-font-fgrotesk" for="ContactForm-body">
+                                {{- 'templates.contact.form.comment' | t -}}
+                            </label>
+                        </div>
+                        <div class="contact__button">
+                        <button type="submit" class="button rocket-font-fgrotesk btn-default">
+                            {{ 'templates.contact.form.send' | t }}
+                        </button>
+                        </div>
+                    {%- endform -%}
+                </div>
+              {%- when 'customer_service' -%}
+                <div id="customer-service-tab" class="gigi-contact__customer-service gigi-contact__content-item">
+                    <div class="gigi-contact__customer-service_schedule rocket-font-fgrotesk">
+                        {% if block.settings.title_schedule != blank %}
+                            <span class="gigi-contact__title-service">{{ block.settings.title_schedule }}</span>
+                        {% endif %}
+                        {% if block.settings.content_schedule != blank %}
+                            <div class="gigi-contact__des-service">{{ block.settings.content_schedule }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="gigi-contact__customer-service_telephone rocket-font-fgrotesk">
+                        {% if block.settings.title_telephone != blank %}
+                            <span class="gigi-contact__title-service">{{ block.settings.title_telephone }}</span>
+                        {% endif %}
+                        {% if block.settings.content_telephone != blank %}
+                            <div class="gigi-contact__des-service">{{ block.settings.content_telephone }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+              {%- when 'help' -%}
+                <div id="help-tab" class="gigi-contact__help gigi-contact__content-item rocket-font-fgrotesk">
+                    {% if block.settings.content_help != blank %}
+                        <div>{{ block.settings.content_help }}</div>
+                    {% endif %}
+                </div>
+              {%- when 'headquarter' -%}
+                <div id="headquarter-tab" class="gigi-contact__headquarter gigi-contact__content-item rocket-font-fgrotesk">
+                    {% if block.settings.content_headquarter != blank %}
+                        <span>{{ block.settings.content_headquarter }}</span>
+                    {% endif %}
+                </div>
+            {%- endcase -%}
+        {%- endfor -%}
+    </div>
+</div>
+
+</div>
+
+<script>
+    window.addEventListener('scroll', function() {
+        var tabList = document.querySelector('.gigi-contact__tab-list');
+        var container = document.querySelector('.gigi-contact__container');
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        var containerTopOffset = container.getBoundingClientRect().top;
+
+        var stickyThreshold = containerTopOffset;
+
+        if (scrollTop >= stickyThreshold) {
+            tabList.classList.add('sticky');
+        } else {
+            tabList.classList.remove('sticky');
+        }
+    });
+    
+    var inputFields = document.querySelectorAll(".field__input.rocket-font-fgrotesk");
+
+    inputFields.forEach(function(input) {
+        input.addEventListener("input", function() {
+            if (this.value.trim() !== "") {
+                this.classList.add("not-empty");
+            } else {
+                this.classList.remove("not-empty");
+            }
+        });
+    });
+
+    document.getElementById("ContactForm-body").addEventListener("input", function() {
+        if (this.value.trim() !== "") {
+            this.classList.add("not-empty");
+        } else {
+            this.classList.remove("not-empty");
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        let tabItems = document.querySelectorAll('.gigi-contact__tab-item');
+
+        tabItems.forEach(function(tabItem) {
+            tabItem.addEventListener('click', function(event) {
+                event.preventDefault();
+
+                let tabId = tabItem.querySelector('a').getAttribute('href').substr(1);
+
+                activateTab(tabItem);
+
+                activateContent(tabId);
+                
+                if (window.innerWidth >= 768) {
+                    document.getElementById(tabId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        function activateTab(activeTab) {
+            tabItems.forEach(function(item) {
+                item.classList.remove('active');
+            });
+
+            activeTab.classList.add('active');
+        }
+        
+        function activateContent(activeContentId) {
+            let tabContents = document.querySelectorAll('.gigi-contact__content-wrapper .gigi-contact__content-item');
+            tabContents.forEach(function(content) {
+                if (content.id === activeContentId) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+        }
+    });
+
+
+    // {% comment %} document.addEventListener("DOMContentLoaded", function() {
+    //     let tabItems = document.querySelectorAll('.gigi-contact__tab-item');
+    
+    //     tabItems.forEach(function(tabItem) {
+    //         tabItem.addEventListener('click', function(event) {
+    //             event.preventDefault();
+    
+    //             let tabId = tabItem.querySelector('a').getAttribute('href').substr(1);
+    
+    //             let content = document.getElementById(tabId);
+    //             let contentTop = content.offsetTop;
+    
+    //             window.scrollTo({
+    //                 top: contentTop,
+    //                 behavior: 'smooth'
+    //             });
+    //         });
+    //     });
+    // });  {% endcomment %}
+    // {% comment %} document.addEventListener("DOMContentLoaded", function() {
+    //     let tabItems = document.querySelectorAll('.gigi-contact__tab-item');
+    
+    //     tabItems.forEach(function(tabItem) {
+    //         tabItem.addEventListener('click', function(event) {
+    //             event.preventDefault();
+    
+    //             let tabId = tabItem.querySelector('a').getAttribute('href').substr(1);
+    
+    //             let tabContents = document.querySelectorAll('.gigi-contact__content-item');
+    //             tabContents.forEach(function(content) {
+    //                 content.classList.remove('active');
+    //             });
+    //             let content = document.getElementById(tabId);
+    //             if (content) {
+    //                 content.classList.add('active');
+    //             }
+    
+    //             tabItems.forEach(function(item) {
+    //                 item.classList.remove('active');
+    //             });
+    //             tabItem.classList.add('active');
+    
+    //             let contentTop = content.offsetTop;
+    //             window.scrollTo({
+    //                 top: contentTop,
+    //                 behavior: 'smooth'
+    //             });
+    //         });
+    //     });
+    // }); {% endcomment %}
+</script>
+{% schema %}
+{
+  "name": "GIGI - Contact",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Contact form",
+      "label": "Heading"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+    "blocks": [
+    {
+        "type": "contact_form",
+        "name": "Contact Form",
+        "limit": 1,
+        "settings": [
+            {
+                "type": "text",
+                "id": "tab_contact_form",
+                "default": "Contactar",
+                "label": "Title"
+            }
+        ]
+    },
+    {
+        "type": "customer_service",
+        "name": "Customer Service",
+        "limit": 1,
+        "settings": [
+            {
+                "type": "text",
+                "id": "tab_service",
+                "default": "Customer Service",
+                "label": "Title"
+            },
+            {
+                "type": "header",
+                "content": "Horario"
+            },
+                {
+                    "type": "text",
+                    "id": "title_schedule",
+                    "default": "Horario",
+                    "label": "Title"
+                },
+                {
+                    "type": "text",
+                    "id": "content_schedule",
+                    "default": "Lunes a jueves",
+                    "label": "Title"
+                },
+            {
+                "type": "header",
+                "content": "Teléfonos de contacto"
+            },
+                {
+                    "type": "text",
+                    "id": "title_telephone",
+                    "default": "Teléfonos de contacto",
+                    "label": "Title"
+                },
+                {
+                    "type": "richtext",
+                    "id": "content_telephone",
+                    "default": "<p>España: 93 xxx xx xx</p>",
+                    "label": "Title"
+                }
+        ]
+    },
+    {
+        "type": "help",
+        "name": "Help",
+        "limit": 1,
+        "settings": [
+            {
+                "type": "text",
+                "id": "tab_help",
+                "default": "Help",
+                "label": "Title"
+            },
+            {
+                "type": "richtext",
+                "id": "content_help",
+                "default": "<p>Tenemos un gran equipo de profesionales...</p>",
+                "label": "Title"
+            }
+        ]
+    },
+    {
+        "type": "headquarter",
+        "name": "Headquarters",
+        "limit": 1,
+        "settings": [
+            {
+                "type": "text",
+                "id": "tab_headquarter",
+                "default": "Oficinas centrales",
+                "label": "Title"
+            },
+            {
+                "type": "richtext",
+                "id": "content_headquarter",
+                "default": "<p>C/Bosc Tancat Nave...</p>",
+                "label": "Title"
+            }
+        ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "GIGI - Contact"
+    }
+  ]
+}
+{% endschema %}

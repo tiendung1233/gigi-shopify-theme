@@ -1,0 +1,36 @@
+<div class="gigi-product__info-modal-added hidden" data-modal="#ProductInfo-{{ card_product.id }}">
+    <div class="gigi-product__info-modal-overlay"></div>
+    <div class="gigi-product__info-modal-container">
+        <div class="gigi-product__info-header">
+            <div class="modal-title">{{ 'Añadido al carrito' }}</div>
+            <div class="modal__close-button">{% render 'icon-close' %}</div>
+        </div>
+        <div class="gigi-product__info-content">
+            <div class="product-image">
+                {% if card_product.featured_media %}
+                    {{ card_product.featured_media
+                    | image_url: width: card_product.featured_media.width
+                    | image_tag:
+                    loading: 'lazy',
+                    alt: card_product.title,
+                    width: card_product.featured_media.width,
+                    height: card_product.featured_media.height,
+                    class: 'gigi-product-card__image'
+                    }}
+                {% endif %}
+            </div>
+            <div class="product-info">
+                <div class="product-name">{{ 'VITTORIA' }}</div>
+                <div class="product-price">{{ '250€' }}</div>
+                <div class="product-metadata">
+                    <span>{{ '6895/0' }}</span>
+                    <span>{{ 'Marrón (53)' }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="gigi-product__info-action">
+            <a href="#" class="gigi-modal__button buy-more">{{ "Seguir comprando" }}</a>
+            <a href="#" class="gigi-modal__button view-cart">{{ "Ver cesta" }}</a>
+        </div>
+    </div>
+</div>

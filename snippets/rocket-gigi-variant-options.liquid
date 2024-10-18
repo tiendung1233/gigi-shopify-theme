@@ -1,0 +1,25 @@
+{% comment %}
+  Renders product variant options
+
+  Accepts:
+  - product: {Object} product object.
+  - option: {Object} current product_option object.
+
+  Usage:
+  {% render 'product-variant-options',
+    product: product,
+    option: option,
+  %}
+{% endcomment %}
+
+{%- for value in option.values -%}
+    <div class="product-option__item">
+        <input type="radio" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" name="{{ option.name }}"
+               value="{{ value | escape }}"
+               form="{{ product_form_id }}"{% if option.selected_value == value %} checked{% endif %} class="hidden {% if option_disabled %}disabled{% endif %}" />
+        <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
+            <div class="product-option__item-label">{{ value }}</div>
+            <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
+        </label>
+    </div>
+{% endfor %}

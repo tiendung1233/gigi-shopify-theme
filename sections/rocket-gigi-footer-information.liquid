@@ -1,0 +1,275 @@
+{{ '_rocket-gigi-footer-information.scss' | asset_url | stylesheet_tag }}
+{%- style -%}
+    .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top_mb }}px;
+        padding-bottom: {{ section.settings.padding_bottom_mb }}px;
+    }
+    @media screen and (min-width: 750px) {
+
+    .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+<div class="section-{{ section.id }} footer-block__icon-information section-{{ section.id }}-padding">
+    <div class="footer-block__icon-information-list">
+        {% if section.settings.item_label_1 != blank %}
+        <div class="footer-block__icon-information-item footer-block__icon-information-item-1">
+            <div class="footer-block__icon-information-item__icon">
+            {% if section.settings.icon_1 == 'return' %}
+                {%- render 'icon-return' -%}
+                {% elsif section.settings.icon_1 == 'secure' %}
+                {%- render 'icon-secure' -%}
+                {% elsif section.settings.icon_1 == 'shipping' %}
+                {%- render 'icon-shipping' -%}
+                {% else %}
+                {%- render 'icon-warranty' -%}
+                {% endif %}
+            </div>
+            <span class="footer-block__icon-information-item__label rocket-font-fgrotesk ">{{ section.settings.item_label_1 }}</span>
+        </div>
+        {% endif %}
+        {% if section.settings.item_label_2 != blank %}
+        <div class="footer-block__icon-information-item footer-block__icon-information-item-2">
+            <div class="footer-block__icon-information-item__icon">
+            {% if section.settings.icon_2 == 'return' %}
+                {%- render 'icon-return' -%}
+                {% elsif section.settings.icon_2 == 'secure' %}
+                {%- render 'icon-secure' -%}
+                {% elsif section.settings.icon_2 == 'shipping' %}
+                {%- render 'icon-shipping' -%}
+                {% else %}
+                {%- render 'icon-warranty' -%}
+                {% endif %}
+            </div>
+            <span class="footer-block__icon-information-item__label rocket-font-fgrotesk ">{{ section.settings.item_label_2 }}</span>
+        </div>
+        {% endif %}
+        {% if section.settings.item_label_3 != blank %}
+        <div class="footer-block__icon-information-item footer-block__icon-information-item-3">
+            <div class="footer-block__icon-information-item__icon">
+            {% if section.settings.icon_3 == 'return' %}
+                {%- render 'icon-return' -%}
+                {% elsif section.settings.icon_3 == 'secure' %}
+                {%- render 'icon-secure' -%}
+                {% elsif section.settings.icon_3 == 'shipping' %}
+                {%- render 'icon-shipping' -%}
+                {% else %}
+                {%- render 'icon-warranty' -%}
+                {% endif %}
+            </div>
+            <span class="footer-block__icon-information-item__label rocket-font-fgrotesk ">{{ section.settings.item_label_3 }}</span>
+        </div>
+        {% endif %}
+        {% if section.settings.item_label_4 != blank %}
+        <div class="footer-block__icon-information-item footer-block__icon-information-item-4">
+            <div class="footer-block__icon-information-item__icon">
+            {% if section.settings.icon_4 == 'return' %}
+                {%- render 'icon-return' -%}
+                {% elsif section.settings.icon_4 == 'secure' %}
+                {%- render 'icon-secure' -%}
+                {% elsif section.settings.icon_4 == 'shipping' %}
+                {%- render 'icon-shipping' -%}
+                {% else %}
+                {%- render 'icon-warranty' -%}
+                {% endif %}
+            </div>
+            <span class="footer-block__icon-information-item__label rocket-font-fgrotesk ">{{ section.settings.item_label_4 }}</span>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% schema %}
+{
+    "name": "GIGI - List Icon",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Block 1"
+      },
+      {
+        "type": "select",
+        "id": "icon_1",
+        "label": "Icon",
+        "options": [
+          {
+            "value": "return",
+            "label": "Return"
+          },
+          {
+            "value": "secure",
+            "label": "Secure"
+          },
+          {
+            "value": "shipping",
+            "label": "Shipping"
+          },
+          {
+            "value": "warranty",
+            "label": "WARRANTY"
+          }
+        ],
+        "default": "return"
+      },
+      {
+        "type": "text",
+        "id": "item_label_1",
+        "label": "Label",
+        "default": "ENVÍOS Y DEVOLUCIONES GRATUITAS"
+      },
+      {
+        "type": "header",
+        "content": "Block 2"
+      },
+      {
+        "type": "select",
+        "id": "icon_2",
+        "label": "Icon",
+        "options": [
+          {
+            "value": "return",
+            "label": "Return"
+          },
+          {
+            "value": "secure",
+            "label": "Secure"
+          },
+          {
+            "value": "shipping",
+            "label": "Shipping"
+          },
+          {
+            "value": "warranty",
+            "label": "WARRANTY"
+          }
+        ],
+        "default": "secure"
+      },
+      {
+        "type": "text",
+        "id": "item_label_2",
+        "label": "Label",
+        "default": "PAGO 100% SEGURO"
+      },
+      {
+        "type": "header",
+        "content": "Block 3"
+      },
+      {
+        "type": "select",
+        "id": "icon_3",
+        "label": "Icon",
+        "options": [
+          {
+            "value": "return",
+            "label": "Return"
+          },
+          {
+            "value": "secure",
+            "label": "Secure"
+          },
+          {
+            "value": "shipping",
+            "label": "Shipping"
+          },
+          {
+            "value": "warranty",
+            "label": "WARRANTY"
+          }
+        ],
+        "default": "shipping"
+      },
+      {
+        "type": "text",
+        "id": "item_label_3",
+        "label": "Label",
+        "default": "ENVÍO EN 2 O 3 LABORABLES"
+      },
+      {
+        "type": "header",
+        "content": "Block 4"
+      },
+      {
+        "type": "select",
+        "id": "icon_4",
+        "label": "Icon",
+        "options": [
+          {
+            "value": "return",
+            "label": "Return"
+          },
+          {
+            "value": "secure",
+            "label": "Secure"
+          },
+          {
+            "value": "shipping",
+            "label": "Shipping"
+          },
+          {
+            "value": "warranty",
+            "label": "WARRANTY"
+          }
+        ],
+        "default": "warranty"
+      },
+      {
+        "type": "text",
+        "id": "item_label_4",
+        "label": "Label",
+        "default": "3 AÑOS DE GARANTÍA"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.all.padding.section_padding_heading"
+      },
+        {
+            "type": "range",
+            "id": "padding_top",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "px",
+            "label": "Padding Top on Desktop",
+            "default": 36
+        },
+        {
+            "type": "range",
+            "id": "padding_bottom",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "px",
+            "label": "Padding Bottom on Desktop",
+            "default": 36
+        },
+        {
+            "type": "range",
+            "id": "padding_top_mb",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "px",
+            "label": "Padding Top on Mobile",
+            "default": 36
+        },
+        {
+            "type": "range",
+            "id": "padding_bottom_mb",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "px",
+            "label": "Padding Bottom on Mobile",
+            "default": 36
+        }
+    ],
+    "presets": [
+        {
+          "name": "GIGI - List Icon"
+        }
+    ]
+}
+{% endschema %}

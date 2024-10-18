@@ -1,0 +1,118 @@
+.rocket-stl {
+  padding: 0 16px;
+  overflow: hidden;
+  .rocket-stl__heading {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    margin: 0 0 16px;
+    color: #000;
+    @media (min-width: 1024px) {
+      font-size: 18px;
+      line-height: 22px;
+      margin: 0 0 24px;
+    }
+  }
+  .rocket-stl__wrapper {
+    position: relative;
+    img {
+      max-width: 100%;
+      object-fit: cover;
+      width: 100%;
+      height: auto;
+    }
+    .rocket-stl__wrapper__dot {
+      position: absolute;
+      z-index: 1;
+      display: flex;
+      gap: 6px;
+      .rocket-stl__wrapper__dot__summary {
+        background-color: #FFF;
+        width: 12px;
+        height: 12px;
+        border-radius: 100%;
+        flex: none;
+        cursor: pointer;
+        @media (min-width: 1024px) {
+          width: 18px;
+          height: 18px;
+        }
+      }
+      .rocket-stl__wrapper__dot__details {
+        background-color: #FFF;
+        color: #000;
+        border-radius: 3px;
+        padding: 10px;
+        min-width: 136px;
+        max-width: 136px;
+        width: 100%;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease;
+        position: absolute;
+        top: 0;
+        left: 18px;
+        &.overx {
+          left: -6px;
+          transform: translateX(-100%);
+        }
+        &.overy {
+          transform: translateY(-100%);
+          &.overx {
+            transform: translate(-100%, -100%);
+          }
+        }
+        @media (min-width: 1024px) {
+          min-width: 184px;
+          max-width: 184px;
+          left: 24px;
+        } 
+        .rocket-stl__wrapper__dot__details__title,
+        .rocket-stl__wrapper__dot__details__price {
+          font-size: 10px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 14px;
+          margin: 0;
+          @media (min-width: 1024px) {
+            font-size: 12px;
+            line-height: 15px;
+          }
+        }
+        .rocket-stl__wrapper__dot__details__title {
+          display: flex;
+          gap: 6px;
+          align-items: start;
+          justify-content: space-between;
+          text-decoration: none;
+          &:hover {
+            opacity: 0.85;
+          }
+          span {
+            display: -webkit-inline-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+            word-break: break-all;
+          }
+          svg {
+            width: 9px;
+            height: 9px;
+            @media (min-width: 1024px) {
+              width: 12px;
+              height: 12px;
+            }
+          }
+        }
+      }
+
+      &.active {
+        .rocket-stl__wrapper__dot__details {
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,85 @@
+.footer-block__icon-information {
+    padding: 0 19px;
+    @media ( min-width: 768px ){
+        padding: 0 35px;
+    }
+    .footer-block__icon-information-list {
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: space-between;
+        gap: 13px;
+        @media ( min-width: 768px ) {
+            flex-direction: row;
+        }
+        .footer-block__icon-information-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .footer-block__icon-information-item-1 {
+            .footer-block__icon-information-item__icon {
+                & > svg {
+                    width: 16.3px;
+                    height: 16.3px;
+                    @media ( min-width: 768px )  {
+                        width: 22px;
+                        height: 22px;
+                    }
+                }
+            }
+            .footer-block__icon-information-item__label {
+                color: #000000;
+                padding-left: 3px;
+            }
+        }
+        .footer-block__icon-information-item-2 {
+            .footer-block__icon-information-item__icon {
+                & > svg {
+                    width: 13.33px;
+                    height: 17.78px;
+                    @media ( min-width: 768px )  {
+                        width: 20px;
+                        height: 27px;
+                    }
+                }
+            }
+            .footer-block__icon-information-item__label {
+                padding-left: 6px;
+            }
+        }
+        .footer-block__icon-information-item-3 {
+            .footer-block__icon-information-item__icon {
+                & > svg {
+                    width: 19.26px;
+                    height: 11.9px;
+                    @media ( min-width: 768px )  {
+                        width: 26px;
+                        height: 16.06px;
+                    }
+                }
+            }
+        }
+        .footer-block__icon-information-item-4 {
+            .footer-block__icon-information-item__icon {
+                & > svg {
+                    width: 17.78px;
+                    height: 19.26px;
+                    @media ( min-width: 768px )  {
+                        width: 24px;
+                        height: 26px;
+                    }
+                }
+            }
+            .footer-block__icon-information-item__label {
+                padding-left: 1px;
+                color: #000000;
+            }
+        }
+        .footer-block__icon-information-item__label {
+            font-size: 10px;
+            font-weight: 400;
+            color: #000000;
+        }
+    }
+}

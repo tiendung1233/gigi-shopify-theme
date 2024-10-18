@@ -1,0 +1,123 @@
+.gigi-product__info-modal-added {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 11;
+
+    .gigi-product__info-modal-overlay {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(245, 245, 244, 0.4);
+        backdrop-filter: blur(2px);
+    }
+    .gigi-product__info-modal-container {
+        position: absolute;
+        bottom: 42px;
+        width: 343px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 12px;
+        margin: 0 auto;
+        padding: 12px;
+        background-color: #FFFFFF;
+        border: 1px solid #F0F0F0;
+        border-radius: 3px;
+
+        @media screen and (min-width: 768px) {
+            top: 118px;
+            right: 32px;
+            bottom: unset;
+        }
+        .gigi-product__info-header {
+            display: flex;
+            justify-content: space-between;
+
+            .modal-title {
+                font-weight: 600;
+                color: #000;
+            }
+
+            .modal__close-button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .icon-close {
+                    width: 8px;
+                    height: 8px;
+                }
+            }
+        }
+        .gigi-product__info-content {
+            display: flex;
+            column-gap: 12px;
+
+            .product-image {
+                width: 80px;
+                height: 85px;
+                background-color: #F0F0F0;
+
+                img {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                }
+            }
+            .product-info {
+                display: flex;
+                flex-direction: column;
+
+                .product-name,
+                .product-price {
+                    color: #000000;
+                }
+                .product-metadata {
+                    display: flex;
+                    flex-direction: column;
+                    margin-top: auto;
+                    color: #B8B8B8;
+                }
+            }
+        }
+        .gigi-product__info-action {
+            display: flex;
+            column-gap: 3px;
+
+            .gigi-modal__button {
+                display: flex;
+                width: 100%;
+                max-width: 158px;
+                justify-content: center;
+                padding: 11px;
+                margin-top: 3px;
+                color: #000;
+                text-decoration: none;
+                border: 1px solid #000000;
+                border-radius: 4px;
+                font-weight: 400;
+
+                &.buy-more {
+                    background-color: #F0F0F0;
+                    border-color: #F0F0F0;
+                }
+            }
+        }
+    }
+    .product-name,
+    .product-price,
+    .product-metadata * {
+        font-family: "F Grotesk";
+        font-size: 10px;
+        line-height: 14px;
+    }
+    .modal-title,
+    .gigi-modal__button {
+        font-family: "F Grotesk";
+        font-size: 12px;
+        line-height: 15px;
+    }
+}

@@ -1,0 +1,22 @@
+.section-breadcrumb {
+    .gigi-breadcrumbs {
+        a, span, [aria-hidden="true"] {
+            font-family: "F Grotesk";
+            font-size: 12px;
+            line-height: 15px;
+            font-weight: 400;
+            color: #B8B8B8;
+            text-decoration: none;
+        }
+
+        [aria-hidden="true"] {
+          padding: 0 3px;
+        }
+     &.filter-active{
+        @media(min-width: 768px){
+            padding-left: 32px;
+            padding-right: 32px;
+        }
+     }
+    }
+}

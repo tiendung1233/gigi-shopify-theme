@@ -1,0 +1,30 @@
+{
+    "sections": {
+      "main": {
+        "type": "main-page",
+        "disabled": true,
+        "settings": {
+          "padding_top": 28,
+          "padding_bottom": 28
+        }
+      },
+      "map_Kg6df7": {
+        "type": "map",
+        "settings": {
+          "section_description": "<p>Encuentra las gafas que deseas de nuestra colección en un punto de venta óptica autorizada disponible en más de 45 países.</p>",
+          "map_api": "AIzaSyAyQ1m_Ie6JLuiga3QxHsT7NZk0ad2GetI",
+          "lat_center": "26.58929",
+          "lng_center": "-80.15894",
+          "default_zoom_map": 14,
+          "padding_top": 0,
+          "padding_bottom": 0,
+          "padding_top_mb": 0,
+          "padding_bottom_mb": 0
+        }
+      }
+    },
+    "order": [
+      "main",
+      "map_Kg6df7"
+    ]
+  }

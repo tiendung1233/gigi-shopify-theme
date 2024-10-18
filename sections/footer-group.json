@@ -1,0 +1,100 @@
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "rocket_gigi_footer_information_WWtfVD": {
+      "type": "rocket-gigi-footer-information",
+      "settings": {
+        "icon_1": "return",
+        "item_label_1": "ENVÍOS Y DEVOLUCIONES GRATUITAS",
+        "icon_2": "secure",
+        "item_label_2": "PAGO 100% SEGURO",
+        "icon_3": "shipping",
+        "item_label_3": "ENVÍO EN 2 O 3 LABORABLES",
+        "icon_4": "warranty",
+        "item_label_4": "3 AÑOS DE GARANTÍA",
+        "padding_top": 36,
+        "padding_bottom": 4,
+        "padding_top_mb": 36,
+        "padding_bottom_mb": 0
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "link_list_xz3hbW": {
+          "type": "link_list",
+          "settings": {
+            "heading": "About",
+            "menu": "footer"
+          }
+        },
+        "link_list_xCp4CC": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Contacto",
+            "menu": ""
+          }
+        },
+        "link_list_UGiLQz": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Colecciones",
+            "menu": "footer-colecciones"
+          }
+        },
+        "link_list_jjE8nz": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Follow",
+            "menu": "footer-follow"
+          }
+        },
+        "link_list_WxRtxi": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Información",
+            "menu": "footer-informaci-n"
+          }
+        },
+        "newsletters_7hkFkk": {
+          "type": "newsletters",
+          "settings": {
+            "enable_select_options": true,
+            "newsletter_heading": "<p>Newsletter<\/p>",
+            "newsletter_description": "<p>Suscribiéndome acepto haber podido leer y entiendo la Política de <\/p><p>Privacidad y Cookies y acepto recibir comunicaciones comerciales <\/p><p>personalizadas de GIGI Studios a través de email.<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "link_list_xz3hbW",
+        "link_list_xCp4CC",
+        "link_list_UGiLQz",
+        "link_list_jjE8nz",
+        "link_list_WxRtxi",
+        "newsletters_7hkFkk"
+      ],
+      "settings": {
+        "color_scheme": "background-1",
+        "newsletter_enable": true,
+        "type_newsletter": "klaviyo",
+        "enable_follow_on_shop": false,
+        "logo_footer_enable": true,
+        "logo_footer": "shopify:\/\/shop_images\/Vector.svg",
+        "show_social": false,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "payment_enable": true,
+        "show_policy": false,
+        "margin_top": 18,
+        "margin_top_mb": 0,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "rocket_gigi_footer_information_WWtfVD",
+    "footer"
+  ]
+}

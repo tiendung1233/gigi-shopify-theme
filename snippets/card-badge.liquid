@@ -1,0 +1,44 @@
+<div class="card__badge {{ settings.badge_position }}">
+
+  {%- liquid
+    assign badge = ''
+    assign badge_color_scheme = ''
+    assign badge_translation_key = ''
+
+    if badge_product.available
+      if badge_product.compare_at_price > badge_product.price and badge_product.compare_at_price != empty and badge_product.compare_at_price != 0 and settings.sale_badge
+        assign badge = 'on_sale'
+        assign badge_color_scheme = settings.sale_badge_color_scheme
+        assign badge_translation_key = 'products.product.on_sale'
+      elsif settings.new_badge
+        assign published = badge_product.published_at | date: '%s' | plus: 0
+        assign days_can_have_passed = settings.new_card_days_passed | times: 86400
+        assign compare_to_date = 'now' | date: '%s' | minus: days_can_have_passed
+        if published > compare_to_date
+          assign badge = 'new'
+          assign badge_color_scheme = settings.new_badge_color_scheme
+          assign badge_translation_key = 'products.product.new'
+        endif
+      endif
+    elsif badge_product.tags contains 'Próximamente'
+        assign badge = 'coming_soon'
+        assign badge_color_scheme = settings.coming_soon_badge_color_scheme
+        assign badge_translation_key = 'products.product.coming_soon'
+    elsif settings.out_of_stock_badge
+        assign badge = 'out_of_stock'
+        assign badge_color_scheme = settings.out_of_stock_badge_color_scheme
+        assign badge_translation_key = 'products.product.out_of_stock'
+    endif    
+
+    assign colortheme = settings.color_schemes | where: 'id', badge_color_scheme | first
+  -%}
+
+  {%- if badge != empty -%}
+    <span
+      id="NoMediaStandardBadge-{{ section_id }}-{{ badge_product.id }}"
+      class="badge badge--bottom-left color-{{ colortheme }} {{badge }}"
+    >
+      {{- badge_translation_key | t -}}
+    </span>
+  {%- endif -%}
+</div>

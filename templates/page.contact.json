@@ -1,0 +1,85 @@
+{
+  "sections": {
+    "rocket_gigi_breadcrumb_MpmiYR": {
+      "type": "rocket-gigi-breadcrumb",
+      "settings": {
+        "layout": "full_width",
+        "container": 1440,
+        "padding_top": 14,
+        "padding_bottom": 0,
+        "padding_top_mb": 14,
+        "padding_bottom_mb": 0
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "form": {
+      "type": "contact-form",
+      "disabled": true,
+      "settings": {
+        "heading": "",
+        "heading_size": "h1",
+        "color_scheme": "background-1",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "rocket_gigi_contact_mhbiHL": {
+      "type": "rocket-gigi-contact",
+      "blocks": {
+        "contact_form_QqEiJd": {
+          "type": "contact_form",
+          "settings": {
+            "tab_contact_form": "Contactar"
+          }
+        },
+        "customer_service_Xj46aG": {
+          "type": "customer_service",
+          "settings": {
+            "tab_service": "Customer Service",
+            "title_schedule": "Horario",
+            "content_schedule": "Horario Lunes a jueves: 8.00 – 17.30 h | Viernes: 8.00 – 16.00 h",
+            "title_telephone": "Teléfonos de contacto",
+            "content_telephone": "<p>España: 93 691 54 50\u2028\u2028<\/p><p>Francia: 0176547961\u2028\u2028<\/p><p>Italia: 0697633827\u2028\u2028<\/p><p>Portugal: 215557438\u2028\u2028<\/p><p>Alemania: 0 8005515518\u2028<\/p><p>Inglaterra: 01614110138\u2028\u2028<\/p><p>USA: 9292070376\u2028\u2028<\/p><p>Bélgica: 022730129\u2028\u2028<\/p><p>Netherlands: 0204990154\u2028\u2028<\/p><p>Canadá: 5817028212\u2028\u2028<\/p><p>Desde otros países: +34 93 691 54 50<\/p>"
+          }
+        },
+        "help_aUDCiJ": {
+          "type": "help",
+          "settings": {
+            "tab_help": "Help",
+            "content_help": "<p>Tenemos un gran equipo de profesionales que están a tu disposición para responder a todas tus preguntas. <\/p><p>En nuestra página de Preguntas Frecuentes encontrarás muchas de las respuestas que puede que estés buscando. Si no encuentras lo que buscas, puedes enviarnos un e-mail a hello@gigistudios.com o rellenar el formulario. Nuestro Customer Service se pondrá en contacto contigo en el plazo máximo de 24 horas. <\/p><p>Si eres una óptica y ya eres cliente de GIGI Studios, accede a tu área privada dónde podrás gestionar tus pedidos y solicitar garantías, entre otras muchas ventajas. <\/p><p>Si eres una óptica y todavía no eres cliente, puedes solicitar una visita para ver la colección rellenando este formulario.<\/p>"
+          }
+        },
+        "headquarter_4Ey3Uq": {
+          "type": "headquarter",
+          "settings": {
+            "tab_headquarter": "Oficinas centrales",
+            "content_headquarter": "<p>C\/Bosc Tancat Nave 4\u202808290 Cerdanyola del Vallès (Barcelona, España)\u2028Tel: +34 93 6915450<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "contact_form_QqEiJd",
+        "customer_service_Xj46aG",
+        "help_aUDCiJ",
+        "headquarter_4Ey3Uq"
+      ],
+      "settings": {
+        "heading": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "rocket_gigi_breadcrumb_MpmiYR",
+    "main",
+    "form",
+    "rocket_gigi_contact_mhbiHL"
+  ]
+}

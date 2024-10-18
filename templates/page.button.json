@@ -1,0 +1,68 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "blocks_banner_wCTkUg": {
+      "type": "blocks-banner",
+      "blocks": {
+        "block_HH8M4E": {
+          "type": "block",
+          "settings": {
+            "type_of_media": "image",
+            "image": "shopify:\/\/shop_images\/04_DESKTOP_MEN_SUN_01_04_24.jpg",
+            "image_mobile": "shopify:\/\/shop_images\/Frame_7552_d3aaa356-0d1d-4b72-9372-30a3b75a6084.png",
+            "heading": "",
+            "font_weight_title": "400",
+            "font_size_title": 28,
+            "font_size_title_mb": 22,
+            "button_type": "link_l",
+            "button_label": "Discover more",
+            "button_link": "",
+            "font_size_button": 27,
+            "font_size_button_mb": 11,
+            "horizontal_alignment": "center",
+            "vertical_alignment": "bottom",
+            "padding_top": 40,
+            "padding_bottom": 52,
+            "padding_top_mb": 40,
+            "padding_bottom_mb": 52,
+            "padding_left": 40,
+            "padding_right": 52,
+            "padding_left_mb": 40,
+            "padding_right_mb": 52,
+            "color_text": "#000000",
+            "color_button": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "block_HH8M4E"
+      ],
+      "settings": {
+        "enable_swiper": false,
+        "heading": "Title",
+        "font_weight_title": "400",
+        "font_size_title": 24,
+        "font_size_title_mb": 16,
+        "layout_mobile": "row",
+        "padding_top": 40,
+        "padding_bottom": 52,
+        "padding_top_mb": 40,
+        "padding_bottom_mb": 52,
+        "color_background": "#FFFFFF",
+        "color_text": "#000000",
+        "color_button": "#000000"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "blocks_banner_wCTkUg"
+  ]
+}

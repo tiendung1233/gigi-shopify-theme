@@ -1,0 +1,385 @@
+{
+  "sections": {
+    "rocket_gigi_breadcrumb_UBi7BL": {
+      "type": "rocket-gigi-breadcrumb",
+      "settings": {
+        "layout": "full_width",
+        "container": 1440,
+        "padding_top": 14,
+        "padding_bottom": 0,
+        "padding_top_mb": 14,
+        "padding_bottom_mb": 0
+      }
+    },
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "mobile_breadcrumbs_Hm9yti": {
+          "type": "mobile_breadcrumbs",
+          "settings": {
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+          }
+        },
+        "product_recommendations_VyEFri": {
+          "type": "product_recommendations",
+          "settings": {
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_gift_card_recipient": false
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+          }
+        },
+        "collapsible-row-0": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Detalles",
+            "content": "<p><strong>MATERIAL<\/strong><br\/>{{ product.metafields.product.material.value }}<br\/><br\/><strong>COLOR<\/strong><br\/>{{ product.metafields.product[\"descripcion-color\"].value }}<br\/><br\/><strong>LENTE<\/strong><br\/>{{ product.metafields.product[\"color-de-la-lente\"].value }}<br\/><br\/><strong>CATEGORÍA DE FILTRO<\/strong><br\/>{{ product.metafields.product[\"filter-category\"] | metafield_tag }}<br\/><br\/><strong>lentes_graduables_icon<\/strong><br\/>{{ product.metafields.product[\"adjusable-lenses\"].value }}<\/p>",
+            "show_image_measurements": false
+          }
+        },
+        "collapsible-row-1": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Medidas",
+            "content": "<ul><li><strong>A<\/strong><br\/>{{ product.metafields.product.calibre.value }}<\/li><li><strong>B<\/strong><br\/>{{ product.metafields.product.puente.value }}<\/li><li><strong>C<\/strong><br\/>{{ product.metafields.product[\"medida-lente\"].value }}<\/li><li><strong>D<\/strong><br\/>{{ product.metafields.product.montura.value }}<\/li><li><strong>E<\/strong><br\/>{{ product.metafields.product.varilla.value }}<\/li><\/ul>",
+            "show_image_measurements": true
+          }
+        },
+        "collapsible-row-2": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Envíos y devoluciones",
+            "content": "<p>Envíos y devoluciones gratuitas.<br\/>Entrega en 2 o 3 días laborables.<\/p>",
+            "show_image_measurements": false
+          }
+        },
+        "collapsible-row-3": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Garantía",
+            "content": "<p>Te ofrecemos una garantía de 36 meses desde la recepción \u2028de tu pedido cubriendo cualquier defecto de fabricación que\u2028pueda haber escapado de nuestro control.<\/p>",
+            "show_image_measurements": false
+          }
+        }
+      },
+      "block_order": [
+        "mobile_breadcrumbs_Hm9yti",
+        "title",
+        "price",
+        "product_recommendations_VyEFri",
+        "variant_picker",
+        "buy_buttons",
+        "description",
+        "collapsible-row-0",
+        "collapsible-row-1",
+        "collapsible-row-2",
+        "collapsible-row-3"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "enable_contact": true,
+        "contact_text": "Encuentra un tienda",
+        "contact_link": "shopify:\/\/collections\/all",
+        "enable_find_store": true,
+        "find_store_description": "¿Tienes alguna pregunta?",
+        "find_store_text": "Contáctanos",
+        "find_store_link": "shopify:\/\/collections\/all",
+        "media_size": "large",
+        "constrain_to_viewport": true,
+        "media_fit": "cover",
+        "gallery_layout": "thumbnail_slider",
+        "media_position": "left",
+        "image_zoom": "none",
+        "mobile_thumbnails": "hide",
+        "enable_video_looping": true,
+        "padding_top": 16,
+        "padding_bottom": 64
+      }
+    },
+    "rocket_gigi_key_points_bVkVER": {
+      "type": "rocket-gigi-key-points",
+      "blocks": {
+        "technologies_nHbqxM": {
+          "type": "technologies",
+          "settings": {
+            "title_technology": "ARTESANÍA Y TECNOLOGÍA",
+            "description_technology": "<p>test abecrf<\/p>"
+          }
+        },
+        "lentes_dizRpi": {
+          "type": "lentes",
+          "settings": {
+            "title_lentes": "LENTES",
+            "description_lentes": ""
+          }
+        },
+        "components_E6MJJG": {
+          "type": "components",
+          "settings": {
+            "title_components": "COMPONENTES",
+            "description_components": ""
+          }
+        },
+        "material_edDgEq": {
+          "type": "material",
+          "settings": {
+            "title_material": "MATERIALES",
+            "description_material": ""
+          }
+        }
+      },
+      "block_order": [
+        "technologies_nHbqxM",
+        "lentes_dizRpi",
+        "components_E6MJJG",
+        "material_edDgEq"
+      ],
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 64
+      }
+    },
+    "image-with-text": {
+      "type": "image-with-text",
+      "blocks": {
+        "image-with-text-0": {
+          "type": "heading",
+          "settings": {
+            "heading": "Image with text",
+            "heading_size": "h1"
+          }
+        },
+        "image-with-text-1": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "image-with-text-0",
+        "image-with-text-1"
+      ],
+      "settings": {
+        "height": "small",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "color_scheme": "background-2",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "multicolumn": {
+      "type": "multicolumn",
+      "blocks": {
+        "column-0": {
+          "type": "column",
+          "settings": {
+            "title": "Free Shipping",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column-1": {
+          "type": "column",
+          "settings": {
+            "title": "Hassle-Free Exchanges",
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column-0",
+        "column-1"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "columns_desktop": 2,
+        "column_alignment": "left",
+        "background_style": "none",
+        "button_label": "",
+        "button_link": "",
+        "color_scheme": "background-1",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "blocks_banner_6AM8HK": {
+      "type": "blocks-banner",
+      "blocks": {
+        "block_GkMqiG": {
+          "type": "block",
+          "settings": {
+            "type_of_media": "image",
+            "image": "shopify:\/\/shop_images\/Frame_7221.gif",
+            "image_mobile": "shopify:\/\/shop_images\/banner_mb.gif",
+            "video": "shopify:\/\/files\/videos\/gigi_main_master_4k (1080p).mp4",
+            "video_mobile": "shopify:\/\/files\/videos\/gigi_main_master_4k (1080p).mp4",
+            "heading": "",
+            "font_weight_title": "400",
+            "font_size_title": 28,
+            "font_size_title_mb": 22,
+            "button_type": "link_l",
+            "button_label": "",
+            "button_link": "",
+            "font_size_button": 27,
+            "font_size_button_mb": 11,
+            "horizontal_alignment": "left",
+            "vertical_alignment": "top",
+            "padding_top": 64,
+            "padding_bottom": 64,
+            "padding_top_mb": 48,
+            "padding_bottom_mb": 48,
+            "padding_left": 16,
+            "padding_right": 16,
+            "padding_left_mb": 16,
+            "padding_right_mb": 16,
+            "color_text": "#000000",
+            "color_button": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "block_GkMqiG"
+      ],
+      "settings": {
+        "enable_swiper": false,
+        "heading": "",
+        "font_weight_title": "400",
+        "font_size_title": 24,
+        "font_size_title_mb": 16,
+        "layout_mobile": "row",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mb": 0,
+        "padding_bottom_mb": 0,
+        "color_background": "#ffffff",
+        "color_text": "#000000",
+        "color_button": "#000000"
+      }
+    },
+    "rocket_gigi_shop_the_look_YcfgCQ": {
+      "type": "rocket-gigi-shop-the-look",
+      "blocks": {
+        "product_AeWJ7d": {
+          "type": "product",
+          "settings": {
+            "product": "product-name-2",
+            "position_x": 38,
+            "position_y": 19,
+            "position_x_mobile": 21,
+            "position_y_mobile": 47
+          }
+        },
+        "product_LGQkHJ": {
+          "type": "product",
+          "settings": {
+            "product": "product-test-3",
+            "position_x": 82,
+            "position_y": 40,
+            "position_x_mobile": 90,
+            "position_y_mobile": 35
+          }
+        }
+      },
+      "block_order": [
+        "product_AeWJ7d",
+        "product_LGQkHJ"
+      ],
+      "settings": {
+        "heading": "Shop the look",
+        "image_desktop": "shopify:\/\/shop_images\/dt.png",
+        "image_mobile": "shopify:\/\/shop_images\/mb.png",
+        "dot_background": "#ffffff",
+        "dot_text_color": "#000000"
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "disabled": true,
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 10,
+        "columns_desktop": 5,
+        "color_scheme": "background-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "columns_mobile": "1",
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    },
+    "rocket_gigi_product_carousels_fekxK6": {
+      "type": "rocket-gigi-product-carousels",
+      "settings": {
+        "heading_size": "h3",
+        "heading": "Productos relacionados",
+        "collection": "sol",
+        "products_to_show": 6,
+        "columns_desktop": 4,
+        "desktop_content_position": "center",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "enable_quick_add": true,
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "padding_top_mobile": 48,
+        "padding_bottom_mobile": 48
+      }
+    }
+  },
+  "order": [
+    "rocket_gigi_breadcrumb_UBi7BL",
+    "main",
+    "rocket_gigi_key_points_bVkVER",
+    "image-with-text",
+    "multicolumn",
+    "blocks_banner_6AM8HK",
+    "rocket_gigi_shop_the_look_YcfgCQ",
+    "related-products",
+    "rocket_gigi_product_carousels_fekxK6"
+  ]
+}

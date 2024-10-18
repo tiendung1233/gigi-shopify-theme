@@ -1,0 +1,257 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "rocket_gigis_rich_text_3AwQEp": {
+      "type": "rocket-gigis-rich-text",
+      "blocks": {
+        "title_PNKGXH": {
+          "type": "title",
+          "settings": {
+            "heading": "TIME TO SHINE",
+            "font_weight_title": "400",
+            "font_size_title": 32,
+            "font_size_title_mb": 27,
+            "margin_top_title": 0,
+            "margin_top_title_mb": 0
+          }
+        }
+      },
+      "block_order": [
+        "title_PNKGXH"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_bg": "#ffffff",
+        "color_text": "#ffffff",
+        "color_text_button": "#000000",
+        "max_width": 100,
+        "max_width_mb": 100,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "horizontal_padding": 0,
+        "horizontal_padding_mb": 0
+      }
+    },
+    "rocket_gigi_hero_banner_kJ79QE": {
+      "type": "rocket-gigi-hero-banner",
+      "blocks": {
+        "banner_84G8a4": {
+          "type": "banner",
+          "settings": {
+            "type_media": "image",
+            "image_banner_des": "shopify:\/\/shop_images\/time-to-shine-1.png",
+            "content_position": "center",
+            "content_alignment": "center",
+            "color_bg": "#242833",
+            "color_text": "#ffffff",
+            "color_text_button": "#000000",
+            "title": "",
+            "font_weight_title": "400",
+            "font_size_title": 28,
+            "font_size_title_mb": 22,
+            "m_width_title": 100,
+            "m_width_title_mb": 100,
+            "content": "",
+            "font_weight_content": "400",
+            "font_size_content": 28,
+            "font_size_content_mb": 12,
+            "rocket_button_type": "filled",
+            "rocket_button_label_1": "Text Button",
+            "rocket_button_url_1": "",
+            "rocket_button_label_2": "Text Button",
+            "rocket_button_url_2": "",
+            "rocket_button_label_3": "Text Button",
+            "rocket_button_url_3": "",
+            "font_size_button": 27,
+            "font_size_button_mb": 11,
+            "mt_des": 23,
+            "mt_des_mb": 8,
+            "mt_btn": 8,
+            "mt_btn_mb": 12,
+            "col_gap_btn": 12,
+            "col_gap_btn_mb": 12,
+            "padding_top": 40,
+            "padding_bottom": 52,
+            "padding_top_mb": 40,
+            "padding_bottom_mb": 42,
+            "padding_left": 40,
+            "padding_right": 52,
+            "padding_left_mb": 16,
+            "padding_right_mb": 52
+          }
+        }
+      },
+      "block_order": [
+        "banner_84G8a4"
+      ],
+      "settings": {
+        "autoplay": false
+      }
+    },
+    "rocket_gigi_content_block_eLzM73": {
+      "type": "rocket-gigi-content-block",
+      "blocks": {
+        "content_aQywhc": {
+          "type": "content",
+          "settings": {
+            "type_of_media": "image",
+            "content_position": "top",
+            "image": "shopify:\/\/shop_images\/image_35_ffe60fe6-fd2a-4cd2-aded-5ffbdfd98878.png",
+            "heading_1": "Disfruta de lo que eres, sin reservas",
+            "heading_2": "",
+            "font_weight_title": "600",
+            "font_size_title": 14,
+            "font_size_title_mb": 14,
+            "description_1": "<p>Las interacciones cotidianas, da igual lo pequeñas que sean, dejan entrever quiénes somos. Los momentos triviales, las pausas, los rituales privados, las miradas desapercibidas. Nuestra personalidad interior sale a relucir de camino al trabajo, en una conversación con un desconocido, en una risa espontánea. También lo hace cuando bailamos como si no hubiera un mañana, disfrutamos de nuestros amigos, besamos con los ojos cerrados o encontramos belleza en lugares insospechados.<\/p>",
+            "description_2": "",
+            "font_weight_desc": "400",
+            "font_size_desc": 12,
+            "font_size_desc_mb": 12,
+            "padding_top": 0,
+            "padding_bottom": 0,
+            "padding_top_mb": 0,
+            "padding_bottom_mb": 0,
+            "padding_left": 0,
+            "padding_right": 0,
+            "padding_left_mb": 0,
+            "padding_right_mb": 0,
+            "color_title": "#000000",
+            "color_desc": "#000000"
+          }
+        },
+        "content_HdzFJy": {
+          "type": "content",
+          "settings": {
+            "type_of_media": "image",
+            "content_position": "top",
+            "image": "shopify:\/\/shop_images\/Frame_7554.png",
+            "heading_1": "",
+            "heading_2": "",
+            "font_weight_title": "600",
+            "font_size_title": 14,
+            "font_size_title_mb": 14,
+            "description_1": "",
+            "description_2": "",
+            "font_weight_desc": "400",
+            "font_size_desc": 12,
+            "font_size_desc_mb": 12,
+            "padding_top": 0,
+            "padding_bottom": 0,
+            "padding_top_mb": 0,
+            "padding_bottom_mb": 0,
+            "padding_left": 0,
+            "padding_right": 0,
+            "padding_left_mb": 0,
+            "padding_right_mb": 0,
+            "color_title": "#000000",
+            "color_desc": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "content_aQywhc",
+        "content_HdzFJy"
+      ],
+      "settings": {
+        "desktop_content_alignment": "left",
+        "padding_top": 40,
+        "padding_bottom": 52,
+        "padding_top_mb": 40,
+        "padding_bottom_mb": 52,
+        "color_background": "#FFFFFF"
+      }
+    },
+    "rocket_gigi_image_and_text_3dGfQb": {
+      "type": "rocket-gigi-image-and-text",
+      "blocks": {
+        "media_APmWxD": {
+          "type": "media",
+          "settings": {
+            "type_media": "image",
+            "width_media": "large",
+            "image_banner_des": "shopify:\/\/shop_images\/image_21.png",
+            "padding_top": 0,
+            "padding_bottom": 0,
+            "padding_top_mb": 0,
+            "padding_bottom_mb": 0,
+            "padding_left": 0,
+            "padding_right": 0,
+            "padding_left_mb": 0,
+            "padding_right_mb": 0
+          }
+        }
+      },
+      "block_order": [
+        "media_APmWxD"
+      ],
+      "settings": {
+        "content_position_horizontal": "center",
+        "content_position_vertical": "top",
+        "image_position": "right",
+        "image_position_mb": "top",
+        "content_alignment": "left",
+        "color_bg": "#242833",
+        "color_text": "#000000",
+        "color_text_button": "#000000",
+        "title": "<p>La campaña SS23 de GIGI Studios habla sobre la libertad de compartir nuestras múltiples caras con el mundo<\/p>",
+        "font_weight_title": "400",
+        "font_size_title": 18,
+        "font_size_title_mb": 18,
+        "margin_top_title": 0,
+        "margin_top_title_mb": 0,
+        "m_width_title": 100,
+        "m_width_title_mb": 100,
+        "content": "<p>Si el invierno nos llama al recogimiento, a la introspección y a conectar con nuestro interior, el verano nos invita a exteriorizar, a encontrarnos con el otro, a disfrutar de los momentos con más intensidad y a conectar con el mundo. Time to Shine, la campaña SS23 de GIGI Studios, nos invita a disfrutar de lo que somos, sin reservas.<\/p>",
+        "font_weight_content": "400",
+        "font_size_content": 12,
+        "font_size_content_mb": 12,
+        "margin_top_content": 16,
+        "margin_top_content_mb": 14,
+        "rocket_button_type": "filled",
+        "rocket_button_label_1": "Text Button",
+        "rocket_button_url_1": "",
+        "rocket_button_label_2": "Text Button",
+        "rocket_button_url_2": "",
+        "rocket_button_label_3": "Text Button",
+        "rocket_button_url_3": "",
+        "font_size_button": 12,
+        "font_size_button_mb": 11,
+        "gap_btn": 11,
+        "gap_btn_mb": 17,
+        "margin_top_button": 16,
+        "margin_top_button_mb": 18,
+        "padding_top_content": 0,
+        "padding_bottom_content": 25,
+        "padding_top_mb_content": 0,
+        "padding_bottom_mb_content": 20,
+        "padding_left_content": 33,
+        "padding_right_content": 33,
+        "padding_left_mb_content": 0,
+        "padding_right_mb_content": 0,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mb": 0,
+        "padding_bottom_mb": 0,
+        "padding_left": 0,
+        "padding_right": 0,
+        "padding_left_mb": 0,
+        "padding_right_mb": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "rocket_gigis_rich_text_3AwQEp",
+    "rocket_gigi_hero_banner_kJ79QE",
+    "rocket_gigi_content_block_eLzM73",
+    "rocket_gigi_image_and_text_3dGfQb"
+  ]
+}

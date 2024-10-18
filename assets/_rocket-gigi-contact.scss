@@ -1,0 +1,439 @@
+.contact-page,
+.contacto-page {
+    main.content-for-layout {
+        padding-top: 78px;
+        @media (min-width: 768px) {
+            padding-top: 94px;
+        }
+    }
+    .gigi-breadcrumbs {
+        position: relative;
+        z-index: 10;
+    }
+    .footer-block__icon-information {
+        .footer-block__icon-information-list {
+            gap: 13px;
+        }
+    }
+    .form-status.form__message:focus-visible {
+        outline: none;
+        box-shadow: none;
+    }
+}
+
+main {
+    .page-width.page-width--narrow {
+        padding: 0 16px;
+        margin-top: 33px;
+        font-family: "F Grotesk";
+        @media (min-width: 768px) {
+            max-width: 26.2%;
+            margin-left: 0;
+            text-align: right;
+            padding-right: 0;
+            margin-top: 25px;
+        }
+    }
+    .main-page-title {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 17px;
+        color: #000000;
+        font-family: "F Grotesk";
+        margin-bottom: 4px;
+        @media (min-width: 768px) {
+            font-size: 16px;
+            line-height: 20px;
+            margin-bottom: 0;
+        }
+    }
+}
+.shopify-section-group-footer-group {
+    .footer-block__icon-information {
+        padding-left: 16px;
+        padding-right: 16px;
+        @media (min-width: 1024px) {
+            padding-left: 32px;
+            padding-right: 32px;
+        }
+        .footer-block__icon-information-list {
+            .footer-block__icon-information-item {
+                .footer-block__icon-information-item__icon {
+                    svg {
+                        width: 20px;
+                        height: 20px;
+                        @media (min-width: 1024px) {
+                            width: 28px;
+                            height: 28px;
+                        }
+                    }
+                }
+                .footer-block__icon-information-item__label {
+                    line-height: 14px;
+                    padding-left: 1px;
+                }
+            }
+        }
+    }
+}
+.gigi-contact-section {
+    padding-left: 15px;
+    padding-right: 15px;
+    @media ( min-width: 768px ) {
+        padding-left: 2.1%;
+        padding-right: 2.1%;
+    }
+    .gigi-contact__heading {
+        p {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 17px;
+            color: #000000;
+            @media ( min-width: 768px ) {
+                font-size: 16px;
+                line-height: 20px;
+                padding-top: 92px;
+                width: 79.3%;
+                margin: 0 0 0 auto;
+            
+            }
+        }
+        padding-bottom: 32px;
+    }
+    .gigi-contact__heading-mb {
+        @media ( min-width: 768px ) {
+            display: none;
+        }
+    }
+    .gigi-contact__heading-desktop {
+        display: none;
+        @media ( min-width: 768px ) {
+            display: block;
+            position: sticky;
+            top: 86px;
+            background-color: #FFFFFF;
+            z-index: 9;
+        }
+    }
+	#ContactForm {
+        display: flex;
+        flex-direction: column;
+		.field {
+			select {
+				position: initial;
+				width: 100%;
+                padding: 11px 17px;
+				line-height: calc(1.5 / var(--font-body-scale));
+				letter-spacing: .04rem;
+				background-color: rgb(var(--color-background));
+				color: rgb(var(--color-foreground));
+				font-size: 1.6rem;
+				font-family: var(--font-body-family);
+				font-style: var(--font-body-style);
+				font-weight: var(--font-body-weight);
+			}
+            .field__input {
+                background-color: #F0F0F0;
+                border-radius: 3px;
+                min-height: unset;
+                height: 38px;
+                padding: 8px;
+                font-size: 12px;
+                line-height: 15px;
+                color: #B8B8B8;
+                @media ( min-width: 768px ) {
+                    height: 30px;
+                }
+                &:focus + label {
+                    display: none;
+                }
+                &.not-empty + label {
+                    display: none;
+                }
+                &:focus {
+                    box-shadow: none;
+                }
+                &:focus-visible {
+                    box-shadow: none;
+                }
+            }
+            &:after {
+                box-shadow: unset;
+            }
+            .field__label {
+                font-size: 12px;
+                font-weight: 400;
+                line-height: 15px;
+                color: #B8B8B8;
+                top: 13px;
+                left: 16px;
+                letter-spacing: 0;
+                @media ( min-width: 768px ) {
+                    top: 8px;
+                }
+                &.field__label-text-area {
+                    @media ( min-width: 768px ) {
+                        top: 19px;
+                    }
+                }
+            }
+            .text-area {
+                height: 80px;
+                @media ( min-width: 768px ) {
+                    height: 83px;
+                }
+                &.not-empty + label {
+                    display: none;
+                }
+                + label {
+                    top: 19px;
+                }
+            }
+		}
+        .contact__button {
+            margin-top: 20px;
+            padding-left: 2px;
+            @media ( min-width: 768px ) {
+                margin-top: 16px;
+            }       
+            .button { 
+                padding: 13px;
+                min-height: auto;
+                font-family: "F Grotesk";
+                letter-spacing: 0;
+                @media ( min-width: 768px ) {
+                    padding: 9px;
+                }
+                &::after {
+                    border-radius: 3px;
+                }
+                &:hover {
+                    &:after {
+                        box-shadow: 0 0 0 calc(var(--buttons-border-width) + var(--border-offset))
+                        rgba(var(--color-button-text), var(--border-opacity)),
+                        0 0 0 var(--buttons-border-width) rgba(var(--color-button), var(--alpha-button-background));
+                    }
+                }
+            }
+        }
+        .gigi-contact__field-fullname {
+            display: flex;
+            gap: 1px;
+        }
+        .contact__button {
+            .button {
+                width: 100%;
+                font-size: 12px;
+                line-height: 12px;
+                background-color: #FFFFFF;
+                color: #000000;
+            }
+        }
+        .dropdown-concept-field{
+            position: relative;
+            z-index: 1;
+            & > svg {
+                position: absolute;    
+                right: 12px;
+                top: 16px;
+                color: #B8B8B8;
+                @media ( min-width: 768px ) {
+                    top: 13px;
+                    right: 10px;
+                }
+            }
+            .drop-down-concept {
+                font-size: 12px;
+                line-height: 15px;
+                color: #B8B8B8;
+                padding: 0 16px;
+                @media ( min-width: 768px ) {
+                    padding: 7px 15px;
+                }
+            }
+            option[value=""][disabled]{
+                display: none
+            }
+            
+            span {
+                position: absolute;
+                top: 50%;
+                left: 0;
+                z-index: 2;
+            }
+        }
+        
+	}
+    .gigi-contact__container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        @media ( min-width: 768px ){
+            margin-top: 11px;
+            flex-direction: row;
+            gap: 102px;
+            position: relative;
+        }
+        .gigi-contact__tab-list.sticky {
+            @media ( min-width: 768px) {
+                top: 90px;
+            }
+        }
+        .gigi-contact__tab-list {
+            display: flex;
+            gap: 12px;
+            justify-content: space-between;
+            padding: 0 2px;
+            padding-right: 24px;
+            @media ( min-width: 768px) {
+                position: sticky;
+                height: fit-content;
+                top: 0;
+                width: 20%;
+                flex-direction: column;
+                justify-content: flex-start;
+                padding-top: 8px;
+                gap: 8px;
+                padding-right: 0;
+            }
+            .gigi-contact__tab-item {
+                font-size: 12px;
+                font-weight: 400;
+                line-height: 15px;
+            }
+        }
+        .gigi-contact__title-service {
+            font-size: 14px;
+            line-height: 17px;
+            font-weight: 600;
+            color: #000000;
+        }
+        .gigi-contact__des-service {
+            font-size: 12px;
+            line-height: 15px;
+            font-weight: 400;
+            margin-top: 11px;
+            color: #000000;
+            & p {
+                margin: 12px 0 15px;
+            }
+        }
+        .gigi-contact__customer-service_schedule {
+            margin-bottom: 23px;
+        }
+        .gigi-contact__help {
+            padding-top: 3px;
+            margin-bottom: -10px;
+            @media ( min-width: 768px ) {
+                padding-top: 26px;
+                padding-bottom: 26px;
+                margin-bottom: 0;
+                max-width: 47%;
+            }
+            p {
+                margin: 10px 0;
+                @media ( min-width: 768px ) {
+                    margin: 12px 0;
+                }
+            }
+            & div {
+                font-size: 10px;
+                font-weight: 400;
+                line-height: 14px;
+                padding-right: 1px;
+                color: #000000;
+                @media ( min-width: 768px ) {
+                    font-size: 12px;
+                    line-height: 15px;
+                }
+            }
+        }
+        .gigi-contact__headquarter {
+            padding-top: 13px;
+            @media ( min-width: 768px ) {
+                padding-top: 24px;
+            }
+            & span {
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000000;
+                @media ( min-width: 768px ) {
+                    font-size: 12px;
+                    line-height: 15px;
+                }
+                p {
+                    margin: 0;
+                }
+            }
+        }
+        .gigi-contact__contact-form {
+            margin-top: 11px;
+            @media ( min-width: 768px ) {
+                //max-width: 37%;
+                padding-bottom: 30px;
+                margin-top: 8px;
+                max-width: 404px;
+            }
+        }
+        .gigi-contact__customer-service {
+            padding-top: 9px;
+            margin-bottom: -12px;
+            @media ( min-width: 768px ) {
+                padding-top: 31px;
+                padding-bottom: 24px;
+            }
+        }
+    }
+}
+
+.gigi-contact-section {
+    .gigi-contact__tab-list  {
+        .gigi-contact__tab-item {
+            & > a {
+                text-decoration: none;
+                transition: color 0.3s ease;
+                color: #000000;
+            }
+            &.active {
+                text-decoration: underline;
+            }
+        }
+    }
+    .gigi-contact__content-item {
+        display: none;
+        &.active {
+            display: block;
+        }
+        @media ( min-width: 768px ) {   
+            display: block; 
+        }
+        
+    }
+}
+.gigi-contact-section { 
+    .gigi-contact__content-wrapper {
+        @media ( min-width: 768px ){
+            position: relative;
+            margin: 0 0 0 auto;
+            overflow-y: scroll;      
+            &::-webkit-scrollbar {
+                display: none;
+            }
+        }
+        .gigi-contact__content__tab-wrapper {
+            
+        }
+        margin: 0 !important;
+    }
+}
+.gigi-fake-spacing {
+    display: block !important;
+    height: 100px;
+    z-index: 9;
+    width: 100%;
+    background-color: #FFFFFF;
+    position: fixed;
+    top: 0;
+    left: 0;
+}

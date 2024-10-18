@@ -1,0 +1,155 @@
+{{ '_rocket-gigi-out-of-stock-popup.scss' | asset_url | stylesheet_tag }}
+<style>
+    #rocketOutOfStockJsModal .loading__spinner svg{
+        width: 15px;
+        height: 15px;
+    }
+    #rocketOutOfStockJsModal .submit-form-out-stock {
+        position: relative;
+    }
+    #rocketOutOfStockJsModal .submit-form-out-stock.loading:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 99;
+        background: white;
+    }
+    #rocketOutOfStockJsModal .notification {
+        font-size: 12px;
+        line-height: 15px;
+    }
+    #rocketOutOfStockJsModal .notification.success {
+        color: green;
+    }
+    #rocketOutOfStockJsModal .notification.error {
+        color: red;
+    }
+    #rocketOutOfStockJsModal .loading__spinner {
+        position: absolute;
+        z-index: 99;
+        top: 57%;
+        right: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+<popup-out-of-stock>
+    <div id="rocketOutOfStockJsModal" class="rocket-out-of-stock-modal">
+      <div class="rocket-out-of-stock-modal__overlay rocketJsOverlay"></div>
+      <div class="rocket-out-of-stock-modal__container">
+        <span class="rocket-out-of-stock-modal__container-title">
+          {{ 'products.modal.out_of_stock.title' | t }}
+        </span>
+        <p class="rocket-out-of-stock-modal__container-subtitle text-book__small">
+          {{ 'products.modal.out_of_stock.subtitle' | t }}
+        </p>
+        <div>
+            <div class="field">
+              <input
+                type="text"
+                class="field__input"
+                name="email"
+                id="StockNotifyEmail"
+                autocorrect="off"
+                autocapitalize="off"
+                autocomplete="email"
+                placeholder="{{ 'customer.login_page.email' | t }}"
+              >
+            </div>
+            <button class="text-book__small submit-form-out-stock">
+              {{ 'products.modal.out_of_stock.submit' | t }}
+               {%- render 'loading-spinner' -%}
+            </button>
+          <p class="rocket-out-of-stock-modal__container-note text-book__small">
+            {{ 'products.modal.out_of_stock.note' | t }}
+          </p>
+          <p class="notification hidden"></p>
+        </div>
+
+        <span class="rocket-out-of-stock-modal__close rocketJsModalClose">{% render 'icon-close' %}</span>
+      </div>
+    </div>
+</popup-out-of-stock>
+
+<script>
+    class popupOutOfStock extends HTMLElement {
+        constructor() {
+            super();
+            let self = this;
+            this.btnSubmit = this.querySelector('.submit-form-out-stock');
+            this.btnSubmit.addEventListener('click', function () {
+                self.sendOutOfStock();
+            });
+        }
+
+        async sendOutOfStock() {
+            let self = this;
+            let statusCheck = self.validateForm();
+            if (statusCheck) {
+                let requestData = {
+                    "a": '{{ settings.id_account }}',
+                    "email": this.querySelector('input[name="email"]').value,
+                    "platform": "shopify",
+                    "variant": document.querySelector('product-info').querySelector('[name="id"]').value,
+                    "product": document.querySelector('product-info').querySelector('[name="product-id"]').value,
+                    "subscribe_for_newsletter": false
+                };
+                self.btnSubmit.classList.add('loading');
+                self.btnSubmit.querySelector('.loading__spinner').classList.remove('hidden')
+                await fetch("https://a.klaviyo.com/onsite/components/back-in-stock/subscribe", {
+                    "headers": {
+                        "accept": "application/json, text/plain, */*",
+                        "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
+                    },
+                    "body": new URLSearchParams(requestData),
+                    "method": "POST"
+                })
+                .then((response) => response.json())
+                .then(response => {
+                    if(response.success) {
+                        self.showNotification(`{{ 'products.product.submit_out_stock_success' | t }}`, 'success')
+                    }
+                }).catch(function (err) {
+                        self.showNotification(`{{ 'products.product.error_submit' | t }}`, 'success')
+                }).finally(async () => {
+                    self.btnSubmit.classList.remove('loading');
+                    self.btnSubmit.querySelector('.loading__spinner').classList.add('hidden')
+                });
+
+            } else {
+                self.showNotification(`{{ 'products.product.error_validate_email' | t }}`, 'error')
+            }
+        }
+
+        validateForm() {
+            let inputEmail = this.querySelector('input[name="email"]');
+            let status = false
+            if(inputEmail.value) {
+                status = this.validateEmail(inputEmail.value);
+            }
+            return status
+        }
+
+        validateEmail(email) {
+            return String(email)
+                .toLowerCase()
+                .match(
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                );
+        }
+
+        showNotification(mess, type) {
+            let notification = this.querySelector('.notification');
+            notification.innerHTML = mess;
+            notification.classList.add(type);
+            notification.classList.remove('hidden');
+            setTimeout(function () {
+                notification.classList.remove(type);
+                notification.classList.add('hidden');
+            },5000)
+        }
+    }
+    customElements.define('popup-out-of-stock', popupOutOfStock)
+</script>

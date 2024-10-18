@@ -1,0 +1,67 @@
+{% comment %}
+    Renders Rocket Gigi Button.
+
+    Accepts:
+
+    If it's a Section settings: 
+        - section: {Object} passes in the section information.
+        - type: {String} type of button will be change from each type of button when user choosen.
+        - url: {String} url to be added to the input the user will get/copy.
+        - label: {String} is button content. 
+        - Usage:
+            {% render 'rocket-button-gigi',
+                type: section.settings.rocket_button_type, 
+                url: section.settings.rocket_button_url,
+                label: section.settings.rocket_button_label
+            %}
+
+    else it's a Block settings: 
+        - block: {Object} passes in the block information.
+        - type: {String} type of button will be change from each type of button when user choosen.
+        - url: {String} url to be added to the input the user will get/copy.
+        - label: {String} is button content. 
+        - Usage:
+            {% render 'rocket-button-gigi',
+                type: block.settings.rocket_button_type, 
+                url: block.settings.rocket_button_url,
+                label: block.settings.rocket_button_label
+            %}
+
+    Schema must be apply for using this button: 
+        {
+            "type": "header",
+            "content": "Button"
+        },
+        {
+            "type": "select",
+            "id": "rocket_button_type",
+            "options": [
+                {
+                    "value": "filled",
+                    "label": "Filled"
+                },
+                {
+                    "value": "link_l",
+                    "label": "Link/L"
+                }
+            ],
+            "default": "filled",
+            "label": "Button Type"
+        },
+        {
+            "type": "url", 
+            "id": "rocket_button_url",
+            "label": "Button URL"
+        },
+        {
+            "type": "text",
+            "id": "rocket_button_label",
+            "label": "Button Label",
+            "default": "Comprar ahora"
+        }
+
+{% endcomment %}
+
+<{% if url != blank %}a href="{{ url }}"{% else %}div disable="disable"{% endif %} class="{{ class }} rocket-button-gigi rocket-font-fgrotesk rocket-button-gigi__type-{{ type }}">
+    {{ label }}
+</{% if url != blank %}a{% else %}div{% endif %}>

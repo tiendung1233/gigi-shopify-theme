@@ -1,0 +1,121 @@
+<div class="quick-add no-js-hidden">
+    {%- liquid
+        assign product_form_id = 'quick-add-' | append: section_id | append: card_product.id
+        assign qty_rules = false
+        if card_product.selected_or_first_available_variant.quantity_rule.min > 1 or card_product.selected_or_first_available_variant.quantity_rule.max != null or card_product.selected_or_first_available_variant.quantity_rule.increment > 1
+            assign qty_rules = true
+        endif
+    -%}
+    {%- if card_product.variants.size > 1 or qty_rules -%}
+        <variant-picker data-product-id="{{ card_product.id }}">
+            <div data-modal="#QuickAdd-{{ card_product.id }}" class="gigi-quick-add__button toggle-modal">
+                <button id="{{ product_form_id }}-submit" type="button" name="add"
+                        class="quick-add__submit button button--full-width button--secondary{% if horizontal_quick_add %} card--horizontal__quick-add animate-arrow{% endif %}"
+                        aria-haspopup="dialog"
+                        aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ card_product.id }}"
+                        data-product-url="{{ card_product.url }}"
+                >
+                    {% render 'icon-quick-add-to-cart' %}
+                    {%- if horizontal_quick_add -%}
+                        <span class="icon-wrap">{% render 'icon-arrow' %}</span>
+                    {%- endif -%}
+                    <div class="loading-overlay__spinner hidden">
+                        {% render 'icon-spinner' %}
+                    </div>
+                </button>
+            </div>
+            <div id="QuickAdd-{{ card_product.id }}" class="gigi-quick-add__modal hidden">
+                <div class="gigi-quick-add__modal-overlay"></div>
+                <div class="gigi-quick-add__modal-container">
+                    <div class="gigi-quick-add__modal-header">
+                        <div class="modal-title fw-400 hidden-mobile">{{ 'Quick shop' }}</div>
+
+                        {% if color %}
+                            <div class="modal-title fw-600 hidden-desktop">{{ 'Seleccionar producto' }}</div>
+                        {% elsif calibre and fitting %}
+                            <div class="modal-title fw-600 hidden-desktop">{{ 'Ajustar gafas' }}</div>
+                        {% else %}
+                            <div class="modal-title fw-600 hidden-desktop">{{ 'Ajustar Calibre' }}</div>
+                        {% endif %}
+
+                        <div class="modal__close-button hidden-desktop">{% render 'icon-close' %}</div>
+                    </div>
+                    <div id="QuickAddInfo-{{ card_product.id }}" class="gigi-quick-add__modal-content">
+                        {% render 'rocket-gigi-variant-select', product: card_product %}
+                    </div>
+                    <div class="gigi-quick-add__modal-action">
+                        <a href="#" class="gigi-modal__button select-another hidden-desktop">{{ "Seleccionar otra" }}</a>
+                        <a href="#" class="gigi-modal__button add-to-cart" id="addToCart-{{ product_form_id }}">{{ "Añadir al carrito" }}</a>
+                        <product-form>
+                            {%- form 'product',
+                                    card_product,
+                                    id: product_form_id,
+                                    class: 'form',
+                                    novalidate: 'novalidate',
+                                    data-type: 'add-to-cart-form'
+                            -%}
+                                <input type="hidden" name="id"
+                                       value="{{ card_product.selected_or_first_available_variant.id }}"
+                                       disabled>
+                                <button id="{{ product_form_id }}-submit"
+                                        type="submit"
+                                        name="add"
+                                        class="quick-add__submit button button--full-width button--secondary{% if horizontal_quick_add %} card--horizontal__quick-add{% endif %} hidden"
+                                        aria-haspopup="dialog"
+                                        aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ card_product.id }}"
+                                        aria-live="polite"
+                                        data-sold-out-message="true">
+                                    <span class="sold-out-message hidden">
+                                        {{ 'products.product.sold_out' | t }}
+                                    </span>
+                                    {%- if horizontal_quick_add -%}
+                                        <span class="icon-wrap">{% render 'icon-plus' %}</span>
+                                    {%- endif -%}
+                                    <div class="loading-overlay__spinner hidden">
+                                        {% render 'icon-spinner' %}
+                                    </div>
+                                </button>
+                            {%- endform -%}
+                        </product-form>
+                    </div>
+                </div>
+            </div>
+        </variant-picker>
+    {%- else -%}
+        <product-form>
+            {%- form 'product',
+                    card_product,
+                    id: product_form_id,
+                    class: 'form',
+                    novalidate: 'novalidate',
+                    data-type: 'add-to-cart-form'
+            -%}
+                <input type="hidden" name="id"
+                       value="{{ card_product.selected_or_first_available_variant.id }}"
+                       disabled>
+                <button id="{{ product_form_id }}-submit"
+                        type="submit"
+                        name="add"
+                        class="quick-add__submit button button--full-width button--secondary{% if horizontal_quick_add %} card--horizontal__quick-add{% endif %}"
+                        aria-haspopup="dialog"
+                        aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ card_product.id }}"
+                        aria-live="polite"
+                        data-sold-out-message="true">
+                                            <span>
+                                                {% render 'icon-quick-add-to-cart' %}
+                                            </span>
+                    <span class="sold-out-message hidden">
+                                              {{ 'products.product.sold_out' | t }}
+                                            </span>
+                    {%- if horizontal_quick_add -%}
+                        <span class="icon-wrap">{% render 'icon-plus' %}</span>
+                    {%- endif -%}
+                    <div class="loading-overlay__spinner hidden">
+                        {% render 'icon-spinner' %}
+                    </div>
+                </button>
+            {%- endform -%}
+        </product-form>
+    {%- endif -%}
+    {% render 'rocket-gigi-product-added-info', card_product: card_product %}
+</div>

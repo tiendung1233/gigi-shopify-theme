@@ -1,0 +1,47 @@
+{% if existImageVartion %}
+    {% assign imgFirst = true %}
+    {% assign relatedProducts = card_product.metafields.product.related_products.value %}
+    {% for product in relatedProducts %}
+        {% comment %}{% assign imgDefault = product.media[1] %}{% endcomment %}
+        {% liquid
+            for variant in product.variants
+                assign variant_img = product.featured_media
+                assign variableID = variant.id
+                if variant.image
+                    assign variant_img = variant.image
+                endif
+            endfor
+        %}
+        {% if variant_img != blank %}
+            {% unless isThumbal %}
+                <div {% if existImageVartion %} class="swiper-slide"> {% endif %}
+                    {% if product.url != blank %}
+                        <a href="{{ product.url }}">
+                    {% endif %}
+                    <img  {% unless imgFirst %} loading="lazy" {% endunless %} src="{{ variant_img | img_url: "master" }}" alt="">
+                    {% if product.url != blank %}
+                        </a>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div data-variant-id="{{ variableID }}" class="{% if existImageVartion %}swiper-slide{% endif %} change-id-variant-color">
+                    <input type="radio" class="option-varian-1" data-product-utl="{{ product.url }}" data-product-id="{{ product.id }}" value="{{ variableID }}" id="{{ section_id }}-{{ card_product.id }}-{{ variableID }}" name="color-{{ card_product.id }}">
+                    <label for="{{ section_id }}-{{ card_product.id }}-{{ variableID }}">
+                        <img loading="lazy" src="{{ variant_img | img_url: "150x150" }}" alt="img-thumbal">
+                    </label>
+                </div>
+            {% endunless %}
+            {% assign imgFirst = false %}
+        {% endif %}
+    {% endfor %}
+{% else %}
+    <div class="pdp-normal">
+        {% if product.url != blank %}
+            <a href="{{ product.url }}">
+        {% endif %}
+        <img loading="lazy" src="{{ card_product.featured_media | img_url: "master" }}" alt="">
+        {% if product.url != blank %}
+            </a>
+        {% endif %}
+    </div>
+{% endif %}

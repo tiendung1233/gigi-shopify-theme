@@ -1,0 +1,177 @@
+.gigi-content-block {
+    .text-align--left {
+        text-align: left;
+    }
+    .text-align--center {
+        text-align: center;
+    }
+    .text-align--right {
+        text-align: right;
+    }
+
+    padding-left: 16px;
+    padding-right: 16px;
+
+    .gigi-content-block__container {
+        &.swiper-initialized {
+            overflow: hidden;
+            .gigi-content-block__items {
+                flex-direction: row;
+            }
+        }
+        .gigi-content-block__items {
+            --gap-block: 2px;
+            display: flex;
+            flex-direction: column;
+            row-gap: var(--gap-block);
+
+            @media screen and (min-width: 768px){
+                flex-direction: row;
+                column-gap: var(--gap-block);
+
+                &.h-align--left {
+                    justify-content: flex-start;
+                }
+                &.h-align--center {
+                    justify-content: center;
+                }
+                &.h-align--right {
+                    justify-content: flex-end;
+                }
+            }
+
+            .gigi-content-block__item {
+                --gap-content: 32px;
+                width: 100%;
+                &.swiper-slide {
+                    height: auto;
+                }
+
+                @media screen and (min-width: 768px){
+                    width: calc((100% - var(--gap-block)) / var(--number-item));
+                    max-width: 50%;
+                }
+
+                .gigi-content-block__wrapper {
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+
+                    &.content-bottom {
+                        flex-direction: column-reverse;
+                        justify-content: flex-end;
+
+                        .gigi-content-block__content {
+                            margin-top: 32px;
+                            @media screen and (min-width: 768px){
+                                margin-bottom: 0;
+                            }
+                        }
+                        .gigi-content-block__media {
+                            margin-top: 0;
+                        }
+                    }
+
+                    .gigi-content-block__content {
+                        margin-bottom: 32px;
+
+                        .gigi-content-block__content-wrapper {
+                            display: flex;
+                            flex-direction: column;
+                            width: 100%;
+
+                            @media screen and (min-width: 768px) {
+                                flex-direction: row;
+                            }
+
+                            &.content-two-column {
+                                column-gap: var(--gap-content);
+
+                                @media screen and (min-width: 768px) {
+                                    .gigi-content-block__content-item {
+                                        width: calc((100% - var(--gap-content)) / 2);
+                                    }
+                                }
+                            }
+
+                            .gigi-content-block__content-item {
+                                display: flex;
+                                flex-direction: column;
+                                width: 100%;
+
+                                &:not(:first-child) {
+                                    margin-top: 32px;
+
+                                    @media screen and (min-width: 768px){
+                                        margin-top: 0;
+                                    }
+                                }
+
+                                .gigi-content-block__title {
+                                    font-family: "F Grotesk";
+                                    margin-top: 0;
+                                    margin-bottom: 15px;
+                                }
+                                .gigi-content-block__desc {
+                                    font-family: "F Grotesk";
+                                    display: block;
+                                    * {
+                                        margin: 0;
+                                    }
+                                    br {
+                                        display: block;
+                                        margin-top: 14px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    @media screen and (min-width: 768px) {
+                        .gigi-content-block__media.media-center {
+                            margin: auto;
+                        }
+                        .gigi-content-block__media.media-left {
+                            margin-left: 0;
+                            margin-right: auto;
+                        }
+                        .gigi-content-block__media.media-right {
+                            margin-left: auto;
+                            margin-right: 0;
+                        }
+                    }
+                    .gigi-content-block__media {
+                        width:100%;
+                        margin-top: auto;
+                        justify-content: center;
+                        display: flex;
+                        .media-full {
+                            width: fit-content;
+                            height: 100%;
+                            object-fit: contain;
+
+                            &.media-des {
+                                display: none;
+                                max-height: 900px;
+                                width: 100%;
+                                object-fit: cover;
+                                @media screen and (min-width: 768px) {
+                                    display: block;
+                                }
+                            }
+
+                            &.media-mb {
+                                display: block;
+                                max-height: 468.75px;
+                                @media screen and (min-width: 768px) {
+                                    display: none;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

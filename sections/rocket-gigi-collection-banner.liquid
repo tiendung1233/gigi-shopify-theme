@@ -1,0 +1,195 @@
+{% liquid 
+    assign layout_class = ''
+	if section.settings.layout == 'boxed'
+		assign layout_class = 'section--boxed'
+	endif
+
+    assign height_of_image = ''
+    if section.settings.height_of_image == 'small'
+        assign height_of_image = 'image-h-small'
+    endif
+
+    assign section_settings = section.settings
+%}
+{% assign has_image = false %}
+
+{%- capture banner -%}
+    {%- liquid
+        if collection.metafields.custom.collection_banner_mobile != blank
+            assign collection_banner_mb = collection.metafields.custom.collection_banner_mobile
+            assign has_image = true
+            assign des_class_name = 'gigi-collection_image gigi-collection_image-des'
+            assign mb_class_name = 'gigi-collection_image gigi-collection_image-mb'
+        else
+            assign collection_banner_mb = ''
+            assign des_class_name = 'gigi-collection_image'
+        endif
+    -%}
+    {% if collection.image != blank %}
+        
+        {{ collection.image 
+            | image_url: width: collection.image.width
+            | image_tag:
+                loading: 'lazy',
+                width: collection.image.width,
+                height: collection.image.height,
+                alt: collection.title,
+                class: des_class_name
+        }}
+        {% assign has_image = true %}
+    {% endif %}
+    {% if collection_banner_mb != blank %}
+         
+        {{ collection_banner_mb
+            | image_url: width: collection_banner_mb.width
+            | image_tag:
+                loading: 'lazy',
+                width: collection_banner_mb.width,
+                height: collection_banner_mb.height,
+                alt: collection.title,
+                class: mb_class_name
+        }}
+    {% endif %}
+    
+{%- endcapture -%}
+
+{%- style -%}
+{% if has_image %}
+    .section-{{ section.id }}-padding {
+        padding-top: {{ section_settings.padding_top_mb }}px;
+        padding-bottom: {{ section_settings.padding_bottom_mb }}px;
+    }
+
+    @media screen and (min-width: 1024px) {
+        .section-{{ section.id }}-padding {
+            padding-top: {{ section_settings.padding_top }}px;
+            padding-bottom: {{ section_settings.padding_bottom }}px;
+        }
+       
+    }
+    {% endif %}
+    .gigi-collection__empty-image {
+             margin-top: 83px
+        }
+    @media (min-width: 768px){
+        .gigi-collection__empty-image {
+             margin-top: 85px
+        }
+    }
+  
+{%- endstyle -%}
+
+<div class="gigi-collection_media section-{{ section.id }}-padding {{ layout_class }}">
+    <div class="gigi-collection_media--inner {{ height_of_image }} 
+        {% unless has_image %}
+            {% if section.index == 1 %} 
+                gigi-collection__empty-image 
+        {% endif %}
+        {% endunless %}"  >
+        {{  banner }}
+    </div>
+</div>
+
+{% schema %}
+    {
+        "name": "Collection Banner",
+        "tag": "section",
+        "class": "section section-collection-banner",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Container"
+            },
+                {
+                    "type": "select",
+                    "id": "layout",
+                    "label": "Section layout",
+                    "info": "Adjusting container sizes",
+                    "options": [
+                        {
+                            "value": "full_width",
+                            "label": "Full width"
+                        },
+                        {
+                            "value": "boxed",
+                            "label": "Boxed"
+                        }
+                    ],
+                    "default": "boxed"
+                },
+                {
+                    "type": "number",
+                    "id": "container",
+                    "label": "Section Width",
+                    "default": 1440
+                },
+            {
+                "type": "header",
+                "content": "Media"
+            },
+                {
+                    "type": "select",
+                    "id": "type_of_image",
+                    "options": [
+                        {
+                            "value": "collection_image",
+                            "label": "Use Collection"
+                        }
+                    ],
+                    "label": "Type of Image",
+                    "default": "collection_image",
+                    "info": "For mobile view, please upload a separate image in the 'Collection Banner for mobile' field in the collection's metafields. For desktop view, the image will be taken from the collection's image."
+                },
+                {
+                    "type": "select",
+                    "id": "height_of_image",
+                    "options": [
+                        {
+                            "value": "small",
+                            "label": "Small"
+                        },
+                        {
+                            "value": "full",
+                            "label": "Full Image"
+                        }
+                    ],
+                    "label": "Height of Image",
+                    "default": "small"
+                },
+               
+            {
+                "type": "header",
+                "content": "Padding"
+            },
+                {
+                    "type": "number",
+                    "id": "padding_top",
+                    "label": "Padding Top",
+                    "default": 0
+                },
+                {
+                    "type": "number",
+                    "id": "padding_bottom",
+                    "label": "Padding Bottom",
+                    "default": 0
+                },
+                {
+                    "type": "number",
+                    "id": "padding_top_mb",
+                    "label": "Padding Top on mobile",
+                    "default": 0
+                },
+                {
+                    "type": "number",
+                    "id": "padding_bottom_mb",
+                    "label": "Padding Bottom on mobile",
+                    "default": 0
+                }
+        ],
+        "presets": [
+            {
+                "name": "Collection Banner"
+            }
+        ]
+    }
+{% endschema %}

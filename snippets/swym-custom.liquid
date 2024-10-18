@@ -1,0 +1,63 @@
+
+<script defer>
+    document.dispatchEvent(new
+    CustomEvent("swym:collections-loaded"));
+    function swymCallbackFn(swat){
+        // your API calls go here
+        document.addEventListener("swym:collections-loaded", function(){
+            swat.initializeActionButtons("<<Collections Grid PARENT Selector >>");
+        })
+
+    }
+    if(!window.SwymCallbacks){
+        window.SwymCallbacks = [];
+    }
+    window.SwymCallbacks.push(swymCallbackFn);
+    document.addEventListener('DOMContentLoaded', () => {
+        const observer = new MutationObserver(function(mutationsList, observer) {
+        for(let mutation of mutationsList) {
+            if (mutation.type === 'childList') {
+                if (window._swat) {
+                    window._swat.evtLayer.addEventListener("sw:addedtocart", function(e){
+                        let config = fetchConfig("javascript");
+                        config.headers["X-Requested-With"] = "XMLHttpRequest";
+                        delete config.headers["Content-Type"];
+                        let formData = new FormData();
+                        formData.append('id', e.detail.d.productData.id);
+                        formData.append('quantity', 0);
+                        formData.append("sections", document.querySelector('cart-drawer').getSectionsToRender().map((section) => section.id))
+                        formData.append("sections_url", window.location.pathname);
+                        config.body = formData;
+                        fetch(`${routes.cart_add_url}`, config)
+                        .then((response) => response.json())
+                        .then((response) => {
+                            document.querySelector('cart-drawer').renderContents(response);
+                        })
+                    });
+                    window._swat.evtLayer.addEventListener("sw:addedalltocart", function(e){
+                        console.log(e.detail.d.productData)
+                        let config = fetchConfig("javascript");
+                        config.headers["X-Requested-With"] = "XMLHttpRequest";
+                        delete config.headers["Content-Type"];
+                        let formData = new FormData();
+                        formData.append('id', e.detail.d.productData.items[0].id);
+                        formData.append('quantity', 0);
+                        formData.append("sections", document.querySelector('cart-drawer').getSectionsToRender().map((section) => section.id))
+                        formData.append("sections_url", window.location.pathname);
+                        config.body = formData;
+                        fetch(`${routes.cart_add_url}`, config)
+                        .then((response) => response.json())
+                        .then((response) => {
+                            document.querySelector('cart-drawer').renderContents(response);
+                        })
+                    });
+                    observer.disconnect();
+                    break;
+                }
+            }
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+    })
+</script>

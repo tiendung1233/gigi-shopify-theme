@@ -1,0 +1,186 @@
+{{ '_rocket-gigi-gallery-with-image.scss' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+    .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top | times: 2 }}px;
+        padding-bottom:  {{ section.settings.padding_bottom | times: 2 }}px;
+    }
+    @media ( min-width: 768px ) {
+        .section-{{ section.id }}-padding {
+            padding-top: {{ section.settings.padding_top }}px;
+            pading-bottom:  {{ section.settings.padding_bottom }}px;
+        }
+    }
+{%- endstyle -%}
+
+{%  assign image_position_mb =  section.settings.image_position_mb %}
+{%  assign image_position =  section.settings.image_position %}
+
+<div class="section-{{ section.id }} gigi-gallery-w-image_container section-{{ section.id }}-padding">
+    <div class="gigi-gallery-w-image_wrapper gigi-gallery-w-image-_wrapper-{{ image_position_mb }} gigi-gallery-w-image-_wrapper-{{ image_position }}">
+        {% assign image_ratio = 1 | divided_by: section.settings.image_signal.aspect_ratio | times: 100 | append: '%' %}
+        <div class="gigi-gallery-w-image_image">
+            {% liquid 
+                assign image_width = section.settings.image_signal.width
+                assign image_height = section.settings.image_signal.width | divided_by: section.settings.image_height.aspect_ratio 
+                assign image_width_mb = section.settings.image_signal_mb.width
+                assign image_height_mb = section.settings.image_signal_mb.width | divided_by: section.settings.image_height_mb.aspect_ratio 
+            %}
+            {% if section.settings.image_signal != blank %}
+                {{ section.settings.image_signal 
+                    | image_url: width: image_width, height: image_height
+                    | image_tag: preload: true, alt: 'gigi-signal-image', class: 'gigi-signal-image image-full'
+                }}
+            {% endif %}
+            {% if section.settings.image_signal_mb != blank %}
+                {{ section.settings.image_signal_mb 
+                    | image_url: width: image_width_mb, height: image_height_mb
+                    | image_tag: preload: true, alt: 'gigi-signal-image_mb', class: 'gigi-signal-image_mb image-full'
+                }}
+            {% endif %}
+        </div>
+        <div class="gigi-gallery-w-image_products">
+            {% for block in section.blocks %}
+                {% case block.type %}
+                    {% when 'product' %}
+                        <div class="gigi-gallery-w-image__product-card-wrapper">
+                            {% liquid
+                                assign product_card = block.settings.product 
+                                assign image_width = product_card.featured_media.width
+                                assign image_height = product_card.featured_media.width | divided_by: block.settings.image_width.aspect_ratio 
+                            %}                                                          
+                            {% if product_card != blank %}
+                                <a class="gigi-gallery-w-image__product-card" href="{% if product_card %}{{ product_card.url }}{% endif %}">
+                                    <div class="gigi-gallery-w-image_media">
+                                        {{ product_card.featured_media 
+                                            | image_url: width: image_width , height: image_height
+                                            | image_tag: loading: 'lazy', alt: product_card.featured_media.alt , class: 'gigi-product-cards-gallery-w-image_img'
+                                        }}
+                                    </div>
+                                    <div class="gigi-gallery-w-image_info">
+                                        <div class="gigi-gallery-w-image_title">
+                                            {{ product_card.title }}
+                                        </div>
+                                    </div>
+                                </a>
+                            {% endif %}
+                        </div> 
+                    {% endcase %}
+                {% endfor %}
+        </div>
+    </div>
+</div>
+{% schema %}        
+    {
+        "name": "GIGI - Gallery with Image",
+        "class": "section gigi-gallery-product-card",
+        "tag": "section",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Image"
+            },
+            {
+                "type": "image_picker",
+                "id": "image_signal",
+                "label": "Image Desktop"
+            },
+            {
+                "type": "image_picker",
+                "id": "image_signal_mb",
+                "label": "Image Mobile"
+            },
+            {
+                "type": "select",
+                "id": "image_position",
+                "options": [
+                    {
+                        "value": "left",
+                        "label": "Left"
+                    },
+                    {
+                        "value": "right",
+                        "label": "Right"
+                    }
+                ],
+                "default": "left",
+                "label": "Image Position on Desktop"
+            },
+            {
+                "type": "select",
+                "id": "image_position_mb",
+                "options": [
+                    {
+                        "value": "top",
+                        "label": "Top"
+                    },
+                    {
+                        "value": "bottom",
+                        "label": "Bottom"
+                    }
+                ],
+                "default": "top",
+                "label": "Image Position on Mobile"
+            },
+            {
+                "type": "header",
+                "content": "Layout Padding"
+            },
+                {
+                    "type": "range",
+                    "id": "padding_top",
+                    "label": "Padding Top",
+                    "min": 0,
+                    "max": 100,
+                    "step": 1,
+                    "default": 36
+                },
+                {
+                    "type": "range",
+                    "id": "padding_bototm",
+                    "label": "Padding Bottom",
+                    "min": 0,
+                    "max": 100,
+                    "step": 1,
+                    "default": 36
+                }
+        ],
+        "blocks": [
+            {
+                "name": "Product",
+                "type": "product",
+                "limit": 4,
+                "settings": [
+                    {
+                        "type": "header",
+                        "content": "Product"
+                    },
+                        {
+                            "type": "product",
+                            "id": "product",
+                            "label": "t:sections.collage.blocks.product.settings.product.label"
+                        }
+                ]
+            }
+        ],
+        "presets": [
+            {
+                "name": "GIGI - Gallery with Image",
+                "blocks": [
+                    {
+                      "type": "product"
+                    },
+                    {
+                      "type": "product"
+                    },
+                    {
+                      "type": "product"
+                    },
+                    {
+                      "type": "product"
+                    }
+                ]
+            }
+        ]
+    }
+{% endschema %}

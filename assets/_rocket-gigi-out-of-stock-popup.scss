@@ -1,0 +1,188 @@
+$product-color-black: #000000;
+$product-color-low-black: #191919;
+$product-color-gray-1: #D9D9D9;
+$product-color_gray-2: #B8B8B8;
+$product-color_gray-3 : #F0F0F0;
+$product-color_gray-4 : #ACACAC;
+$product-color_white : #FFFFFF;
+
+.font-base {
+    font-family: 'F Grotesk', sans-serif;
+}
+
+body.open-popup {
+    overflow: hidden;
+}
+
+.rocket-out-of-stock-modal {
+    font-family: 'F Grotesk', sans-serif;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 20;
+    padding: 30px;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: visibility 0s linear 0.1s, opacity 0.3s ease;
+
+    &.open {
+        visibility: visible;
+        opacity: 1;
+        transition-delay: 0s;
+        margin-top: 0 !important;
+    }
+
+    &__overlay {
+        display: block !important;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(245, 245, 244, 0.4);
+        padding: 0 16px;
+        backdrop-filter: blur(2px);
+    }
+
+    &__close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        cursor: pointer;
+        color: #000;
+        font-size: 14px;
+        font-weight: 300;
+
+        @media (min-width: 768px) {
+            top: 34px;
+            right: 32px;
+        }
+    }
+
+    &__container {
+        position: relative;
+        z-index: 99999;
+        width: calc(100% - 32px);
+        min-height: 279px;
+        top: 50%;
+        transform: translateY(-50%);
+        margin: 0 auto;
+        padding: 34px 16px 16px;
+        background-color: #fff;
+        text-align: left;
+        overflow-y: auto; 
+
+        button {
+            @extend .font-base;
+            background: #fff;
+            border-radius: 3px;
+            border: 1px solid $product-color-black;
+            color: $product-color-black;
+            font-size: 12px;
+            letter-spacing: 0;
+            line-height: 12px;
+            margin: 16px 0 0;
+            min-height: auto;
+            padding: 10.5px 12px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .field {
+            display: flex;
+
+            &:before,
+            &:after {
+                display: none;
+            }
+
+            input {
+                background: #f0f0f0;
+                border-radius: 3px;
+                font-size: 12px;
+                height: auto;
+                letter-spacing: 0;
+                line-height: 15px;
+                margin: 0;
+                min-height: auto;
+                padding: 11.5px 14px;
+                width: 100%;
+
+                &::placeholder {
+                    opacity: 1;
+                }
+    
+                &:focus {
+                    box-shadow: none;
+                }
+            }
+        }
+
+        .text-book__small {
+            font-size: 12px;
+            line-height: 15px;
+            letter-spacing: -0.2px;
+        }
+
+        .rocket-out-of-stock-modal__container-note {
+            color: #999999;
+        }
+
+        &-title {
+            @extend .font-base;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0;
+            line-height: 17px;
+            color: $product-color-black;
+        }
+
+        &-subtitle {
+            margin-bottom: 32px;
+            color: $product-color-black;
+        }
+
+        &-note {
+            margin: 16px 0 0;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .rocket-out-of-stock-modal {
+        &__close {
+            top: 18px;
+            right: 24px;
+        }
+
+        &__container {
+            width: 458px;
+            min-height: 267px;
+            padding: 42px 24px 24px;
+
+            .field {
+                input {
+                    padding: 7.5px 14px;
+                }
+            }
+
+            button {
+                padding: 7px 12px;
+                margin: 15px 0 0;
+            }
+
+            &-title {
+                font-size: 16px;
+                line-height: 20px;
+            }
+        }
+    }
+}

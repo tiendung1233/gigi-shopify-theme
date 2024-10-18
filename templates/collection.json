@@ -1,0 +1,140 @@
+{
+  "sections": {
+    "rocket_gigi_collection_banner_GmUiaz": {
+      "type": "rocket-gigi-collection-banner",
+      "settings": {
+        "layout": "full_width",
+        "container": 1440,
+        "type_of_image": "json_image",
+        "height_of_image": "small",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mb": 0,
+        "padding_bottom_mb": 0
+      }
+    },
+    "rocket_gigi_breadcrumb_bHgAUP": {
+      "type": "rocket-gigi-breadcrumb",
+      "settings": {
+        "layout": "boxed",
+        "container": 1440,
+        "padding_top": 24,
+        "padding_bottom": 16,
+        "padding_top_mb": 18,
+        "padding_bottom_mb": 18
+      }
+    },
+    "rocket_gigi_collection_grid_mVn3P3": {
+      "type": "rocket-gigi-collection-grid",
+      "settings": {
+        "layout": "boxed",
+        "container": 1440,
+        "products_per_page": 16,
+        "column_layout": "4-column",
+        "image_ratio": "portrait",
+        "show_rating": false,
+        "enable_quick_add": true,
+        "show_vendor": false,
+        "enable_filtering": true,
+        "filter_type": "vertical",
+        "enable_sorting": true,
+        "padding_top": 0,
+        "padding_bottom": 36,
+        "padding_top_mb": 0,
+        "padding_bottom_mb": 36
+      }
+    },
+    "rocket_gigi_products_list_carousel_CUJLAa": {
+      "type": "rocket-gigi-products-list-carousel",
+      "settings": {
+        "heading_size": "h3",
+        "heading": "También te puede gustar",
+        "products": [
+
+        ],
+        "products_to_show": 9,
+        "columns_desktop": 4,
+        "desktop_content_position": "center",
+        "image_ratio": "adapt",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "enable_quick_add": false,
+        "padding_top": 40,
+        "padding_bottom": 52,
+        "padding_top_mobile": 16,
+        "padding_bottom_mobile": 0
+      }
+    },
+    "rocket_gigi_seo_accordion_qDDjcp": {
+      "type": "rocket-gigi-seo-accordion",
+      "blocks": {
+        "content_T3ipAM": {
+          "type": "content",
+          "settings": {
+            "title": "SEO text, nisi sit tortor in convallis suspendisse pellentesque justo cras hendrerit.",
+            "font_weight_title": "400",
+            "font_size_title": 14,
+            "font_size_title_mb": 12,
+            "description": "<p>SEO text, nisi sit tortor in convallis suspendisse pellentesque justo cras hendrerit.<\/p>",
+            "font_weight_desc": "400",
+            "font_size_desc": 12,
+            "font_size_desc_mb": 12,
+            "padding_top": 20,
+            "padding_bottom": 0,
+            "padding_top_mb": 16,
+            "padding_bottom_mb": 0,
+            "color_title": "#000000",
+            "color_desc": "#242833"
+          }
+        },
+        "content_yWG6gj": {
+          "type": "content",
+          "settings": {
+            "title": "SEO text, nisi sit tortor in convallis suspendisse pellentesque justo cras hendrerit.",
+            "font_weight_title": "400",
+            "font_size_title": 14,
+            "font_size_title_mb": 12,
+            "description": "<p>SEO text, nisi sit tortor in convallis suspendisse pellentesque justo cras hendrerit.<\/p>",
+            "font_weight_desc": "400",
+            "font_size_desc": 12,
+            "font_size_desc_mb": 12,
+            "padding_top": 0,
+            "padding_bottom": 0,
+            "padding_top_mb": 0,
+            "padding_bottom_mb": 0,
+            "color_title": "#000000",
+            "color_desc": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "content_T3ipAM",
+        "content_yWG6gj"
+      ],
+      "settings": {
+        "heading": "Gafas de Sol",
+        "font_weight_title": "600",
+        "font_size_title": 16,
+        "font_size_title_mb": 14,
+        "metafield_enabled": false,
+        "metafield_key": "",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "padding_top_mb": 48,
+        "padding_bottom_mb": 48,
+        "spacing_desktop": 20,
+        "spacing_mobile": 16,
+        "color_background": "#ffffff",
+        "color_title": "#000000"
+      }
+    }
+  },
+  "order": [
+    "rocket_gigi_collection_banner_GmUiaz",
+    "rocket_gigi_breadcrumb_bHgAUP",
+    "rocket_gigi_collection_grid_mVn3P3",
+    "rocket_gigi_products_list_carousel_CUJLAa",
+    "rocket_gigi_seo_accordion_qDDjcp"
+  ]
+}

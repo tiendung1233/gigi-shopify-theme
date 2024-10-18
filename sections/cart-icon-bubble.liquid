@@ -1,0 +1,19 @@
+<a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
+  <span class="header-list-text text-cart">
+    {{ 'sections.cart.description' | t }}
+  </span>
+  {% render 'icon-cart' %}
+  <div class="header__icon--cart-content">
+    <span class="header__icon--cart-content-count">
+      {%- capture itemCount -%}
+        {{ cart.item_count }}
+      {%- endcapture -%}
+
+      {%- if itemCount.size > 3 -%}
+        {{ itemCount | slice: 0, 1 }}..
+      {%- else -%}
+        {{ itemCount }}
+      {%- endif -%}
+    </span>
+  </div>
+</a>

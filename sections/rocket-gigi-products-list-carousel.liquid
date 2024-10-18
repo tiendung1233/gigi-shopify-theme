@@ -1,0 +1,355 @@
+{{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
+{{ 'product-card.css' | asset_url | stylesheet_tag }}
+{% liquid
+  assign desktop_content_position = section.settings.desktop_content_position
+  assign section_settings = section.settings
+  assign has_product =  section_settings.products | first 
+%}
+ 
+{%- style -%}
+    .section-{{ section.id }}-padding {
+        padding-top: {{ section_settings.padding_top_mobile }}px;
+        padding-bottom: {{ section_settings.padding_bottom_mobile }}px;
+    }
+ {% unless has_product %}
+      #shopify-section-{{ section.id }} {
+          display: none;
+      }
+    {% endunless %}
+   .section-{{ section.id }}-padding .product-carousels__active-arrow .swiper{
+    padding-left: 0;
+  }
+  @media (min-width: 768px) {
+    .section-{{ section.id }}-padding .product-carousels__active-arrow .swiper{
+    padding-left: 16px;
+  }
+
+  }
+    @media screen and (min-width: 1024px) {
+      .section-{{ section.id }}-padding {
+          padding-top: {{ section_settings.padding_top }}px;
+          padding-bottom: {{ section_settings.padding_bottom }}px;
+      }
+    }
+{%- endstyle -%}
+<div class="section-{{ section.id }}-padding gigi-product_carousels">
+  <div class="gigis-product-carousels-container  product_grid_wrap_class {% if section.settings.products_to_show < section.settings.columns_desktop %}product-carousels__container--{{ section.settings.desktop_content_position }}{% else %}product-carousels__active-arrow{% endif %} product-carousels--{{ section.settings.columns_desktop }}-col-desktop">
+    <div class="gigis-product-carousels--header">
+      {% if section_settings.heading %}
+        <{{ section_settings.heading_size }} class="product-carousels--header_heading rocket-font-fgrotesk">
+          {{- section_settings.heading -}}
+        </{{ section_settings.heading_size }}>
+      {% endif %}
+      <div class="gigi-product_carousels__section-navigation">
+        <div class="swiper-button-prev swiper-button-prev-{{ section.id }}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="8" height="11" viewBox="0 0 8 11" fill="none">
+            <g clip-path="url(#clip0_2389_167526)">
+                <path d="M2.26158 5.71308L7.29585 1.54485L6.5918 0.709961L0.591797 5.69439L6.5918 10.71L7.29585 9.87507L2.42357 5.83769L2.26158 5.71308Z" fill="black"/>
+            </g>
+            <defs>
+                <clipPath id="clip0_2389_167526">
+                    <rect width="6.70405" height="10" fill="white" transform="translate(0.591797 0.709961)"/>
+                </clipPath>
+            </defs>
+          </svg>
+        </div>
+        <div class="swiper-button-next swiper-button-next-{{ section.id }}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+            <g clip-path="url(#clip0_2389_167528)">
+                <path d="M5.33022 5.71308L0.295949 1.54485L1 0.709961L7 5.69439L1 10.71L0.295949 9.87507L5.16822 5.83769L5.33022 5.71308Z" fill="black"/>
+            </g>
+            <defs>
+                <clipPath id="clip0_2389_167528">
+                    <rect width="6.70405" height="10" fill="white" transform="matrix(-1 0 0 1 7 0.709961)"/>
+                </clipPath>
+            </defs>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="swiper gigis-product-carousels-{{ section.id }}  product_grid_class">
+      <div
+        id="swiper-slide-{{ section.id }}"
+        class="swiper-wrapper"
+        role="list"
+        aria-label="{{ 'general.slider.name' | t }}"
+      >
+        {%- for product in section.settings.products limit: section.settings.products_to_show -%}
+          <div
+            id="swiper-slide-{{ section.id }}-{{ forloop.index }}"
+            class="swiper-slide"
+          >
+            {% render 'card-product-section',
+              card_product: product,
+              lazy_load: lazy_load,
+              section_id: section.id,
+              media_aspect_ratio: section.settings.image_ratio,
+              image_shape: section.settings.image_shape,
+              show_secondary_image: section.settings.show_secondary_image,
+              show_vendor: section.settings.show_vendor,
+              show_rating: section.settings.show_rating,
+              show_quick_add: section.settings.enable_quick_add
+      %}
+          </div>
+        {%- else -%}
+          {%- for i in (1..4) -%}
+            <div
+              class="swiper-slide item-product-add-cart"
+            >
+              {%- assign placeholder_image = 'product-apparel-' | append: forloop.rindex -%}
+              {% render 'card-product',
+                show_vendor: section.settings.show_vendor,
+                placeholder_image: placeholder_image
+              %}
+            </div>
+          {%- endfor -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function initProductList() {
+    new Swiper('.gigis-product-carousels-{{ section.id }}', {
+      mousewheel: {
+           enabled: true,
+          forceToAxis: true,
+          invert: false,
+      },
+      freeMode: true,
+      navigation: {
+          nextEl: '.swiper-button-next-{{ section.id }}',
+          prevEl: '.swiper-button-prev-{{ section.id }}',
+      },
+      slidesPerView: {% if section_settings.columns_desktop == 4 %} 1.65 {% else %}{{ section_settings.columns_desktop }}{% endif %},
+      spaceBetween: 3,
+      //centeredSlides :{% if desktop_content_position == 'center' %} true {% else %} false {% endif %},
+      breakpoints: {
+          768: {
+              slidesPerView: {% if section_settings.columns_desktop == 4 %} 2.8 {% else %}{{ section_settings.columns_desktop }}{% endif %},
+          },
+          1024: {
+              slidesPerView: {{ section_settings.columns_desktop | plus: 0.045 }},
+          }
+      }
+  });
+  }
+  document.addEventListener("DOMContentLoaded", function() {
+    initProductList()
+  });
+  document.addEventListener("shopify:section:load", function(event) {
+    if (event.detail.sectionId === '{{ section.id }}') {
+      initProductList()
+    }
+  });
+</script>
+{% schema %}
+{
+  "name": "GIGIS - You may also like",
+  "tag": "section",
+  "class": "section rocket-gigis-product-carousels-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "info": "For optimum SEO, a page should only have one h1 and it should be the first heading on the page.",
+      "options": [
+        {
+          "value": "h1",
+          "label": "h1"
+        },
+        {
+          "value": "h2",
+          "label": "h2"
+        },
+        {
+          "value": "h3",
+          "label": "h3"
+        },
+        {
+          "value": "h4",
+          "label": "h4"
+        },
+        {
+          "value": "h5",
+          "label": "h5"
+        },
+        {
+          "value": "h6",
+          "label": "h6"
+        },
+        {
+          "value": "p",
+          "label": "p"
+        }
+      ],
+      "default": "h3"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "También te puede gustar"
+    },
+    {
+      "type": "header",
+      "content": "Products"
+    },
+    {
+      "type": "product_list",
+      "id": "products",
+      "label": "Products"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 1,
+      "max": 25,
+      "step": 1,
+      "default": 4,
+      "label": "Maximum products to show"
+    },
+    {
+      "type": "header",
+      "content": "Carousels"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 4,
+      "label": "Number of columns on desktop"
+    },
+    {
+      "type": "select",
+      "id": "desktop_content_position",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.rich-text.settings.desktop_content_position.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.rich-text.settings.desktop_content_position.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.rich-text.settings.desktop_content_position.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.rich-text.settings.desktop_content_position.label",
+      "info": "Use when the number of columns on the desktop is less than 4"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.featured-collection.settings.header.content"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.featured-collection.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.featured-collection.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.featured-collection.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "adapt",
+      "label": "t:sections.featured-collection.settings.image_ratio.label"
+    },
+   
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": false,
+      "label": "t:sections.featured-collection.settings.show_secondary_image.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "t:sections.featured-collection.settings.show_vendor.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": false,
+      "label": "t:sections.featured-collection.settings.show_rating.label",
+      "info": "t:sections.featured-collection.settings.show_rating.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_quick_add",
+      "default": false,
+      "label": "t:sections.featured-collection.settings.enable_quick_buy.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding on Mobile",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding on Mobile",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "GIGIS - You may also like"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,132 @@
+.rocket-carousel-rcv {
+    .carousel-rcv {
+        .carousel-rcv--innner {
+            .carousel-rcv--header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding-right: 0;
+                padding-left: 16px;
+
+                @media (min-width: 768px) {
+                    padding-right: 16px;
+                    padding-left: 0;
+                }
+
+                .carousel-rcv--header_heading {
+                    margin: 0;
+                    font-size: 16px;
+                    line-height: 19.71px;
+                    font-weight: 400;
+                    letter-spacing: 0;
+                    color: #191919;
+
+                    @media (min-width: 768px) {
+                        font-size: 18px;
+                        line-height: 22px;
+                    }
+                }
+
+                .carousel-rcv--btn_wrapper {
+                    display: none;
+
+                    @media (min-width: 768px) {
+                        display: flex;
+                        gap: 16px;
+                    }
+
+                    .carousel-rcv-btn {
+                        width: 6.7px;
+                        height: 10px;
+                        position: unset;
+                        margin: 0;
+                        -webkit-tap-highlight-color: transparent;
+    
+                        &::after {
+                            display: none;
+                        }
+                    }
+                }
+            }
+            .carousel-rcv--body {
+                margin-top: 16px;
+
+                @media (min-width: 768px) {
+                    margin-top: 24px;
+                }
+
+                .carousel-rcv--carousel {
+                    .carousel-rcv--carousel_wrapper {
+                        .carousel-rcv--carousel_item {
+    
+                            &:last-child {
+                                @media (min-width: 768px) {
+                                    padding-right: 16px !important;
+                                }
+                            }
+    
+                            .rocket-gigi-product-card__wrapper {
+                                text-decoration: none;
+    
+                                .rocket-gigi-product-card__inner {
+                                    aspect-ratio: 226 / 282.19;
+
+                                    @media (min-width: 768px) {
+                                        aspect-ratio: 349.75 / 436.71;
+                                    }
+    
+                                    .rocket-gigi-product-card__image {
+                                        width: 100%;
+                                        height: 100%;
+                                        object-fit: contain;
+                                    }
+                                }
+                                .rocket-gigi-product-card__content {
+                                    margin-top: 8px;
+                                    padding-left: 12px;
+    
+                                    @media (min-width: 768px) {
+                                        margin-top: 12px;
+                                    }
+    
+                                    .card__heading {
+                                        .full-unstyled-link {
+                                            font-family: "F Grotesk";
+                                            font-size: 10px;
+                                            line-height: 14px;
+                                            font-weight: 400;
+                                            letter-spacing: 0;
+                                            color: black;
+    
+                                            @media (min-width: 768px) {
+                                                font-size: 12px;
+                                                line-height: 15px;
+                                            }
+                                        }
+                                    }
+                                    .price {
+                                        .price-item {
+                                            font-family: "F Grotesk";
+                                            font-size: 10px;
+                                            line-height: 14px;
+                                            font-weight: 400;
+                                            letter-spacing: 0;
+                                            color: black;
+                                            margin-top: 2px;
+    
+                                            @media (min-width: 768px) {
+                                                font-size: 12px;
+                                                line-height: 15px;
+                                                margin-top: 4px;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

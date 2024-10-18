@@ -1,0 +1,100 @@
+{% comment %}
+  Renders product variant options picker
+
+  Accepts:
+  - product: {Object} product object.
+  - product_form_id: {String} Id of the product form to which the variant picker is associated.
+  - update_url: {Boolean} whether or not to update url when changing variants. If false, the url isn't updated. Default: true (optional).
+  Usage:
+  {% render 'rocket-gigi-variant-select', product: product, product_form_id: product_form_id %}
+{% endcomment %}
+
+<variant-options id="variant-options-{{ section.id }}" data-section="{{ section.id }}" data-url="{{ product.url }}" class="gigi-variant-options">
+    <div class="product-options color hidden">
+        {% liquid
+            assign variants_group_by_color = product.variants | uniq: 'option1'
+        %}
+        <div class="product-variants__color" id="variant-picker-{{ product.id }}">
+            <div class="product-variants__color-wrapper swiper-wrapper">
+                {% for variant_color in variants_group_by_color %}
+                    <div class="product-variants__color-item swiper-slide">
+                        {{ variant_color.featured_image
+                        | image_url: width: variant_color.featured_image.width
+                        | image_tag:
+                        loading: 'lazy',
+                        alt: variant_color.title,
+                        width: variant_color.featured_image.width,
+                        height: variant_color.featured_image.height,
+                        class: 'gigi-product-card__variant-image'
+                        }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <script>
+            const swiper_variant_{{ card_product.id }} = new Swiper('#variant-picker-{{ product.id }}', {
+                slidesPerView: 5,
+                spaceBetween: 3,
+            });
+        </script>
+    </div>
+
+    {%- for option in product.options_with_values -%}
+        {% unless option.name == "Color" %}
+            <div class="js product-form__input product-options option__{{ option.name }}"
+                 option-type="{{ option.name }}"
+                 style="--number-items: {{ option.values | size }}"
+            >
+                {% render 'rocket-gigi-variant-options', product: product, option: option, option_size: option_size %}
+            </div>
+        {% endunless %}
+    {%- endfor -%}
+
+    {% if product.metafields.product.fitting != blank %}
+        {% assign fitting = product.metafields.product.fitting %}
+        <div class="js product-form__input product-options option__Fitting"
+             option-type="fitting"
+             style="--number-items: {{ fitting | size }}"
+        >
+            {% for fitting_value in fitting.value %}
+
+                <div class="product-option__item">
+                    <div class="product-option__item-label">{{ fitting_value }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if product.metafields.product.lente != blank %}
+        {% assign lente = product.metafields.product.lente %}
+        <div class="js product-form__input product-options option__Lente"
+             option-type="lente"
+             style="--number-items: {{ fitting | size }}"
+        >
+            {% for lente_value in lente.value %}
+                <div class="product-option__item">
+                    <div class="product-option__item-label">{{ lente_value }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <select
+        id="variants-{{ product.id }}-{{ variant.id }}"
+        class="select__select hidden"
+    >
+        {% for variant in product.variants %}
+            <option
+                value="{{ variant.id }}"
+                data-option-1="{{ variant.option1 }}"
+                data-option-2="{{ variant.option2 }}"
+                data-option-3="{{ variant.option3 }}"
+                {% if product.selected_or_first_available_variant.id == variant.id %}
+                    selected="selected"
+                {% endif %}
+            >
+                {{- variant.title -}}
+            </option>
+        {% endfor %}
+    </select>
+    <script type="application/json">{{ product.variants | json }}</script>
+</variant-options>

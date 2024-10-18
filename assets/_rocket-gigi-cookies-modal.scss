@@ -1,0 +1,78 @@
+#tinycookie-wrapper {
+    @media ( min-width: 768px ) {
+        max-height: 217px;
+    }
+	&.bottom-right {
+		&.box-inline {
+            bottom: 20px;
+            max-width: 343px;
+            @media ( min-width: 768px ) {
+                max-width: 384px;
+                bottom: 16px;
+            }
+            border-radius: 1px;
+			.tinycookie-box {
+                padding: 11px 12px 12px;
+
+				.tinycookie-buttons {
+                    margin-top: 14px;
+                    margin-bottom: 0;
+					flex-direction: column-reverse;
+                    gap: 24px !important;
+                    @media ( min-width: 768px ) {
+                        gap: 23px !important;
+                    }
+                    .tinycookie-main-buttons {
+                        flex-direction: row-reverse;
+                        gap: 8px !important;
+                        .tinycookie-button,
+                        .tinycookie-button:last-child {
+                            padding: 11.5px 34px;
+                            font-family: "F Grotesk";
+                            @media ( min-width: 768px ) {
+                                padding: 8px 48px;
+                            }
+                        }
+                        .tinycookie-accept-all {
+                            border: 1px solid #000;
+                            border-radius: 4px !important;
+                        }
+                    }
+                    & > .tinycookie-button {
+                        display: flex;
+                        align-items: start;
+                        font-size: 10px !important;
+                        text-decoration: underline;
+                        color: #B8B8B8 !important;
+                        padding: 0;
+                        font-family: "F Grotesk";
+                    }
+				}
+			}
+            .tinycookie-box-content {
+                padding: 0 !important;
+                .tinycookie-title,
+                .tinycookie-description {
+                    font-family: "F Grotesk";
+                    font-weight: 250 !important;
+                }
+                .tinycookie-title {
+                    padding-bottom: 17px;
+                    font-size: 14px !important;
+                    @media (min-width: 768px ){
+                        font-size: 16px !important;
+                        padding-bottom: 19px;
+
+                    }
+                }
+                .tinycookie-description  {
+                    margin-top: 6px;
+                }
+            }
+		}
+	}
+}
+
+#tinycookie-big-backdrop {
+    background: #F5F5F466 !important;
+}

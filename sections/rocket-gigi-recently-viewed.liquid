@@ -1,0 +1,472 @@
+{% liquid
+	assign layout_class = ''
+	if section.settings.layout == 'boxed'
+		assign layout_class = 'section--boxed'
+	endif
+
+    assign section_settings = section.settings
+%}
+
+{% style %}
+    #shopify-section-{{ section.id }} .section-{{ section.id }}--padding {
+        padding-top: {{ section_settings.padding_top_mb }}px;
+        padding-bottom: {{ section_settings.padding_bottom_mb }}px;
+    }
+    #shopify-section-{{ section.id }} .carousel-rcv--{{ section_settings.header_position }} .carousel-rcv--header_heading {
+        text-align: {{ section_settings.header_position }};
+    }
+    @media(min-width: 768px) {
+        #shopify-section-{{ section.id }} .section-{{ section.id }}--padding {
+            padding-top: {{ section_settings.padding_top }}px;
+            padding-bottom: {{ section_settings.padding_bottom }}px;
+        }
+        #shopify-section-{{ section.id }} .section--boxed {
+            padding-left: 16px;
+        }
+    }
+    @media(min-width: {{ section_settings.container | plus: 32 }}px) {
+        #shopify-section-{{ section.id }} .section-{{ section.id }}--padding.section--boxed {
+            max-width: {{ section_settings.container }}px;
+            margin: 0 auto;
+            padding-left: 0;
+        }
+    }
+{% endstyle %}
+
+<div 
+    id="gigi-{{ section.id }}" 
+    class="carousel-rcv section-{{ section.id }}--padding carousel-rcv--{{ section_settings.header_position }} {{ layout_class }}" 
+    {% if section_settings.change_header_color %}data-theme-color="light"{% endif %}
+    style="display: none;"
+>
+    <div class="carousel-rcv--innner">
+        <div class="carousel-rcv--header">
+            {% if section_settings.heading %}
+                <{{ section_settings.heading_size }} class="carousel-rcv--header_heading rocket-font-fgrotesk">{{ section_settings.heading }}</{{ section_settings.heading_size }}>
+            {% endif %}
+            <div class="carousel-rcv--btn_wrapper">
+                <div class="carousel-rcv-btn carousel-rcv-btn-left swiper-button-prev">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="11" viewBox="0 0 8 11" fill="none">
+                        <g clip-path="url(#clip0_2389_167526)">
+                            <path d="M2.26158 5.71308L7.29585 1.54485L6.5918 0.709961L0.591797 5.69439L6.5918 10.71L7.29585 9.87507L2.42357 5.83769L2.26158 5.71308Z" fill="black"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_2389_167526">
+                                <rect width="6.70405" height="10" fill="white" transform="translate(0.591797 0.709961)"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="carousel-rcv-btn carousel-rcv-btn-right swiper-button-next">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                        <g clip-path="url(#clip0_2389_167528)">
+                            <path d="M5.33022 5.71308L0.295949 1.54485L1 0.709961L7 5.69439L1 10.71L0.295949 9.87507L5.16822 5.83769L5.33022 5.71308Z" fill="black"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_2389_167528">
+                                <rect width="6.70405" height="10" fill="white" transform="matrix(-1 0 0 1 7 0.709961)"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-rcv--body">
+            <div class="carousel-rcv--carousel swiper" id="Slider-{{ section.id }}">
+                <div class="carousel-rcv--carousel_wrapper swiper-wrapper">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    addEventListener('load', function () {
+        saveProductRecently();
+        renderProductRecently();
+    })
+
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days*24*60*60*1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
+
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0;i < ca.length;i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+        return null;
+    }
+
+    function eraseCookie(name) {
+        document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+
+    function saveProductRecently() {
+        let dataRecently = localStorage.getItem('productRecently');
+        if(dataRecently) {
+            dataRecently = JSON.parse(dataRecently)
+            if(dataRecently.length >= Number('24')) {
+                dataRecently.shift()
+            }
+            for(let i=0; i<dataRecently.length; i++) {
+                if(dataRecently[i].id == '{{ product.id }}') {
+                    return
+                }
+            }
+        } else {
+            dataRecently = []
+        }
+
+        {% assign image_size = product.featured_image.width | append: 'x' %}
+        {% assign money_symbol = cart.currency.symbol %}
+        {% assign isSale = false %}
+        {% assign bc = 0 %}
+        {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
+            {% assign isSale = true %}
+            {% assign bc = product.selected_or_first_available_variant.compare_at_price | minus: product.selected_or_first_available_variant.price | times: 100 | divided_by: product.selected_or_first_available_variant.compare_at_price | remove: ' ' %}
+        {% endif %}
+    
+        dataRecently.push({'id' : '{{ product.id }}', 'url': {{ product.url | json }},
+            'media': {{product.featured_image.src | img_url: image_size | prepend: "https:" | json}},
+            'title': '{{ product.title | json }}',
+            'price': {{ product.selected_or_first_available_variant.price | money_without_currency | append: money_symbol | json }},
+            'compare_at_price': {{ product.selected_or_first_available_variant.compare_at_price | money_without_currency | append: money_symbol | json }},
+            'isSale': {{ isSale }},
+            'bc': '{{ bc }}',
+            'color': '{{ product.metafields.custom.color_price_sale }}',
+            'bg': '{{ product.metafields.custom.background_price_sale }}'
+        })
+        dataRecently = JSON.stringify(dataRecently)
+        // window.productRecently = dataRecently
+        localStorage.setItem('productRecently', dataRecently)
+    }
+
+    function renderProductRecently() {
+        let dataRecently = localStorage.getItem('productRecently'),
+            mainSection = document.getElementById('gigi-{{ section.id }}');
+
+        if (dataRecently) {
+            dataRecently = JSON.parse(dataRecently)
+
+            let divUl = document.getElementById('Slider-{{ section.id }}');
+
+            dataRecently.forEach((product, key) => {
+                let url = product.url;
+                let media = product.media;
+                let price = product.price;
+                let title = product.title;
+
+                let isSale = product.isSale;
+                let compareAtPrice = product.compare_at_price;
+                let bc = product.bc
+
+                let element = document.createElement('div');
+                element.classList.add('carousel-rcv--carousel_item');
+                
+                let element_a = document.createElement('a'),
+                    element_img = document.createElement('img'),
+                    element_a_inner = document.createElement('div'),
+                    element_a_content = document.createElement('div'),
+                    element_h3 = document.createElement('h3'),
+                    element_product_title = document.createElement('div'),
+                    element_price = document.createElement('div'),
+                    element_span = document.createElement('span');
+
+                element.append(element_a);
+
+                element_a.setAttribute("href", url);
+                element_a.classList.add('rocket-gigi-product-card__wrapper');
+                element_a.append(element_a_inner);
+                element_a.append(element_a_content);
+                element_a_inner.classList.add('rocket-gigi-product-card__inner');
+                element_a_content.classList.add('rocket-gigi-product-card__content');
+
+                {% comment %} PRODUCT IMAGE {% endcomment %}
+                element_a_inner.append(element_img);
+                element_img.setAttribute("src", media);
+                element_img.setAttribute("loading", "lazy");
+                element_img.classList.add('rocket-gigi-product-card__image');
+
+                {% comment %} PRODUCT TITLE {% endcomment %}
+                element_a_content.append(element_h3);
+                element_h3.classList.add('card__heading');
+                element_h3.append(element_product_title);
+                element_product_title.classList.add('full-unstyled-link', 'rocket-font-helvetica');
+                element_product_title.textContent += title.replace(/"/g, '');
+
+                {% comment %} PRODUCT PRICE {% endcomment %}
+                element_a_content.append(element_price);
+                element_price.classList.add('price');
+                element_price.append(element_span);
+                element_span.classList.add('price-item', 'rocket-font-helvetica');
+                element_span.textContent += price;
+    
+                document.querySelector('#gigi-{{ section.id }} .carousel-rcv--carousel_wrapper').prepend(element);
+            })  
+            
+            document.querySelectorAll('.carousel-rcv--carousel_item').forEach((el) => {
+                el.classList.add('swiper-slide');
+            })
+            
+            new Swiper('#shopify-section-{{ section.id }} .swiper', {
+                slidesPerView: {{ section_settings.columns_mobile | plus: 0.65 }},
+                spaceBetween: {{ section_settings.gap_mobile }},
+                mousewheel: {
+                    forceToAxis: true
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                breakpoints: {
+                    768: {
+                        slidesPerView: {{ 3 | plus: 0.045 }}
+                    },
+                    1024: {
+                        slidesPerView: {% if section_settings.columns_desktop >= 4 %}{{ section_settings.columns_desktop | plus: 0.045 }}{% else %}{{ section_settings.columns_desktop }}{% endif %},
+                        spaceBetween: {{ section_settings.gap_desktop }}
+                    }
+                }
+            });
+
+            mainSection.style.display = 'block';
+        }
+    }
+  
+</script>
+
+{% schema %}
+    {
+        "name": "Rocket - Recently Viewed",
+        "class": "section rocket-carousel-rcv",
+        "tag": "section",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Container"
+            },
+                {
+                    "type": "select",
+                    "id": "layout",
+                    "label": "Section layout",
+                    "info": "Adjusting container sizes",
+                    "options": [
+                        {
+                            "value": "full_width",
+                            "label": "Full width"
+                        },
+                        {
+                            "value": "boxed",
+                            "label": "Boxed"
+                        }
+                    ],
+                    "default": "boxed"
+                },
+                {
+                    "type": "range",
+                    "id": "container",
+                    "label": "Section Width",
+                    "min": 1000,
+                    "max": 3000,
+                    "step": 20,
+                    "unit": "px",
+                    "default": 1440
+                },
+            {
+                "type": "header",
+                "content": "Layout"
+            },
+                {
+                    "type": "checkbox",
+                    "id": "change_header_color",
+                    "label": "Change header color",
+                    "info": "If checked, the header will have white color when users scroll to this section.",
+                    "default": false
+                },
+            {
+                "type": "header",
+                "content": "Heading"
+            },
+                {
+                    "type": "select",
+                    "id": "header_position",
+                    "label": "Header position",
+                    "options": [
+                        {
+                            "value": "left",
+                            "label": "Left"
+                        },
+                        {
+                            "value": "center",
+                            "label": "Center"
+                        },
+                        {
+                            "value": "right",
+                            "label": "Right"
+                        }
+                    ],
+                    "default": "center"
+                },
+                {
+                    "type": "select",
+                    "id": "heading_size",
+                    "label": "Heading size",
+                    "info": "For optimum SEO, a page should only have one h1 and it should be the first heading on the page.",
+                    "options": [
+                        {
+                            "value": "h1",
+                            "label": "h1"
+                        },
+                        {
+                            "value": "h2",
+                            "label": "h2"
+                        },
+                        {
+                            "value": "h3",
+                            "label": "h3"
+                        },
+                        {
+                            "value": "h4",
+                            "label": "h4"
+                        },
+                        {
+                            "value": "h5",
+                            "label": "h5"
+                        },
+                        {
+                            "value": "h6",
+                            "label": "h6"
+                        },
+                        {
+                            "value": "p",
+                            "label": "p"
+                        }
+                    ],
+                    "default": "h2"
+                },
+                {
+                    "type": "text",
+                    "id": "heading",
+                    "label": "Heading",
+                    "default": "VIDEOPINIONES"
+                },
+                {
+                    "type": "select",
+                    "id": "card_type",
+                    "label": "Product card type",
+                    "options": [
+                        {
+                            "value": "gigi",
+                            "label": "GIGI Card"
+                        }
+                    ],
+                    "default": "gigi"
+                },
+            {
+                "type": "header",
+                "content": "Carousel" 
+            },
+                {
+                    "type": "range",
+                    "id": "columns_desktop",
+                    "min": 2,
+                    "max": 6,
+                    "step": 1,
+                    "default": 4,
+                    "label": "Columns desktop"
+                },
+                {
+                    "type": "range",
+                    "id": "columns_mobile",
+                    "min": 1,
+                    "max": 3,
+                    "step": 1,
+                    "default": 2,
+                    "label": "Columns mobile"
+                },
+                {
+                    "type": "range",
+                    "id": "gap_desktop",
+                    "min": 0,
+                    "max": 32,
+                    "step": 1,
+                    "default": 0,
+                    "label": "Gap desktop"
+                },
+                {
+                    "type": "range",
+                    "id": "gap_mobile",
+                    "min": 0,
+                    "max": 32,
+                    "step": 1,
+                    "default": 0,
+                    "label": "Gap mobile"
+                },
+            {
+                "type": "header",
+                "content": "Padding"
+            },
+                {
+                    "type": "range",
+                    "id": "padding_top",
+                    "label": "Padding Top",
+                    "min": 0,
+                    "max": 100,
+                    "step": 1,
+                    "default": 36,
+                    "unit": "px"
+                },
+                {
+                    "type": "range",
+                    "id": "padding_bottom",
+                    "label": "Padding Bottom",
+                    "min": 0,
+                    "max": 100,
+                    "step": 1,
+                    "default": 36,
+                    "unit": "px"
+                },
+                {
+                    "type": "range",
+                    "id": "padding_top_mb",
+                    "label": "Padding Top on Mobile",
+                    "min": 0,
+                    "max": 100,
+                    "step": 1,
+                    "default": 24,
+                    "unit": "px"
+                },
+                {
+                    "type": "range",
+                    "id": "padding_bottom_mb",
+                    "label": "Padding Bottom on Mobile",
+                    "min": 0,
+                    "max": 100,
+                    "step": 1,
+                    "default": 24,
+                    "unit": "px"
+                }         
+        ],
+        "presets": [
+            {
+                "name": "Rocket - Recently Viewed"
+            }
+        ],
+        "disabled_on": {
+            "groups": [
+                "header", 
+                "footer"
+            ]
+        }
+    }
+{% endschema %}

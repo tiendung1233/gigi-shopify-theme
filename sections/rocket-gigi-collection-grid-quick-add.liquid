@@ -1,0 +1,322 @@
+{{ 'product-card.css' | asset_url | stylesheet_tag }}
+{% liquid
+    assign layout_class = ''
+    if section.settings.layout == 'boxed'
+        assign layout_class = 'section--boxed'
+    endif
+
+    assign section_settings = section.settings
+%}
+
+{%- style -%}
+    .section-{{ section.id }}-padding {
+    padding-top: {{ section_settings.padding_top_mb }}px;
+    padding-bottom: {{ section_settings.padding_bottom_mb }}px;
+    }
+    .section-{{ section.id }}-padding .{{ layout_class }} {
+    padding-left: 16px;
+    padding-right: 16px;
+    }
+
+    @media screen and (min-width: 1024px) {
+    .section-{{ section.id }}-padding {
+    padding-top: {{ section_settings.padding_top }}px;
+    padding-bottom: {{ section_settings.padding_bottom }}px;
+    }
+    }
+
+    @media (min-width: {{ section_settings.container | plus: 32 }}px) {
+    .section-{{ section.id }}-padding .{{ layout_class }} {
+    max-width: {{ section_settings.container }}px;
+    margin: 0 auto;
+    padding-left: 0;
+    padding-right: 0;
+    }
+    }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}-padding">
+    {%- paginate collection.products by section.settings.products_per_page -%}
+        <div class="">
+            {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+                {{ 'component-facets.css' | asset_url | stylesheet_tag }}
+                <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+
+                <aside
+                        aria-labelledby="verticalTitle"
+                        class="facets-wrapper {{ layout_class }}"
+                        id="main-collection-filters"
+                        data-id="{{ section.id }}"
+                >
+                    {% render 'facets',
+                            results: collection,
+                            enable_filtering: section.settings.enable_filtering,
+                            enable_sorting: section.settings.enable_sorting,
+                            filter_type: section.settings.filter_type,
+                            paginate: paginate
+                    %}
+                </aside>
+            {%- endif -%}
+
+            <div
+                    class="product-grid-container{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %} product_grid_wrap_class"
+                    id="ProductGridContainer"
+                    {% if settings.animations_reveal_on_scroll %}
+                        data-cascade
+                    {% endif %}
+            >
+                {%- if collection.products.size == 0 -%}
+                    <div class="collection collection--empty {{ layout_class }}" id="product-grid" data-id="{{ section.id }}">
+                        <div class="loading-overlay gradient"></div>
+                        <div class="title-wrapper center">
+                            <h2 class="title title--primary">
+                                {{ 'sections.collection_template.empty' | t -}}
+                                <br>
+                                {{
+                                'sections.collection_template.use_fewer_filters_html'
+                                | t: link: collection.url, class: 'underlined-link link'
+                                }}
+                            </h2>
+                        </div>
+                    </div>
+                {%- else -%}
+                    <div class="collection {{ layout_class }}">
+                        <div class="loading-overlay gradient"></div>
+
+                        <ul
+                                id="product-grid"
+                                data-id="{{ section.id }}"
+                                class="grid product-grid product_grid_class"
+                        >
+                            {%- for product in collection.products -%}
+                                {% assign lazy_load = false %}
+                                {%- if forloop.index > 2 -%}
+                                    {%- assign lazy_load = true -%}
+                                {%- endif -%}
+                                <li class="item-product-add-cart  {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                                        {% if settings.animations_reveal_on_scroll %}
+                                            data-cascade
+                                            style="--animation-order: {{ forloop.index }};"
+                                        {% endif %}
+                                >
+                                    {% render 'card-product-section',
+                                            card_product: product,
+                                            lazy_load: lazy_load,
+                                            section_id: section.id,
+                                            media_aspect_ratio: section.settings.image_ratio,
+                                            image_shape: section.settings.image_shape,
+                                            show_secondary_image: section.settings.show_secondary_image,
+                                            show_vendor: section.settings.show_vendor,
+                                            show_rating: section.settings.show_rating,
+                                            show_quick_add: section.settings.enable_quick_add
+                                    %}
+                                </li>
+                            {%- endfor -%}
+                        </ul>
+
+                        {%- if paginate.pages > 1 -%}
+                            {% render 'pagination', paginate: paginate, anchor: '' %}
+                        {%- endif -%}
+                    </div>
+                {%- endif -%}
+            </div>
+        </div>
+    {%- endpaginate -%}
+</div>
+
+{% schema %}
+{
+  "name": "Rocket - CG Quick Add",
+  "tag": "section",
+  "class": "section section-collection-grid",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Container"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Section layout",
+      "info": "Adjusting container sizes",
+      "options": [
+        {
+          "value": "full_width",
+          "label": "Full width"
+        },
+        {
+          "value": "boxed",
+          "label": "Boxed"
+        }
+      ],
+      "default": "boxed"
+    },
+    {
+      "type": "number",
+      "id": "container",
+      "label": "Section Width",
+      "default": 1440
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "number",
+      "id": "products_per_page",
+      "label": "Product Per Page",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "portrait",
+      "label": "t:sections.main-collection-product-grid.settings.image_ratio.label"
+    },
+    {
+      "type": "select",
+      "id": "image_shape",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:sections.all.image_shape.options__1.label"
+        },
+        {
+          "value": "arch",
+          "label": "t:sections.all.image_shape.options__2.label"
+        },
+        {
+          "value": "blob",
+          "label": "t:sections.all.image_shape.options__3.label"
+        },
+        {
+          "value": "chevronleft",
+          "label": "t:sections.all.image_shape.options__4.label"
+        },
+        {
+          "value": "chevronright",
+          "label": "t:sections.all.image_shape.options__5.label"
+        },
+        {
+          "value": "diamond",
+          "label": "t:sections.all.image_shape.options__6.label"
+        },
+        {
+          "value": "parallelogram",
+          "label": "t:sections.all.image_shape.options__7.label"
+        },
+        {
+          "value": "round",
+          "label": "t:sections.all.image_shape.options__8.label"
+        }
+      ],
+      "default": "default",
+      "label": "t:sections.all.image_shape.label",
+      "info": "t:sections.all.image_shape.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": false,
+      "label": "t:sections.main-collection-product-grid.settings.show_rating.label",
+      "info": "t:sections.main-collection-product-grid.settings.show_rating.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_quick_add",
+      "default": true,
+      "label": "t:sections.main-collection-product-grid.settings.enable_quick_buy.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "t:sections.main-collection-product-grid.settings.show_vendor.label"
+    },
+    {
+      "type": "header",
+      "content": "Filtering and sorting"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "label": "Enable filtering",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "filter_type",
+      "options": [
+        {
+          "value": "horizontal",
+          "label": "t:sections.main-collection-product-grid.settings.filter_type.options__1.label"
+        },
+        {
+          "value": "vertical",
+          "label": "t:sections.main-collection-product-grid.settings.filter_type.options__2.label"
+        },
+        {
+          "value": "drawer",
+          "label": "t:sections.main-collection-product-grid.settings.filter_type.options__3.label"
+        }
+      ],
+      "default": "horizontal",
+      "label": "t:sections.main-collection-product-grid.settings.filter_type.label",
+      "info": "t:sections.main-collection-product-grid.settings.filter_type.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "label": "Enable sorting",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "default": 36
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "default": 36
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mb",
+      "label": "Padding Top on mobile",
+      "default": 36
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mb",
+      "label": "Padding Bottom on mobile",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Rocket - CG Quick Add"
+    }
+  ]
+}
+{% endschema %}

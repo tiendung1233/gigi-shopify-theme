@@ -1,0 +1,199 @@
+{% liquid 
+    assign layout_class = ''
+	if section.settings.layout == 'boxed'
+		assign layout_class = 'section--boxed'
+	endif
+
+    assign section_settings = section.settings
+%}
+{%- liquid
+    assign has_filter_active = false
+    if collection.filters != empty
+      for filter in collection.filters
+        if filter.type == 'price_range'
+          if filter.min_value.value
+            assign has_filter_active = true
+          endif
+          if filter.max_value.value
+            assign has_filter_active = true
+          endif
+        else
+          if filter.active_values.size > 0
+            assign has_filter_active = true
+          endif
+        endif
+        if has_filter_active > 0
+            break
+        endif
+      endfor
+    endif
+  -%}
+
+{%- style -%}
+    .section-{{ section.id }}-padding {
+        padding: {{ section_settings.padding_top_mb }}px 16px {{ section_settings.padding_bottom_mb }}px 16px;
+    }
+
+    @media screen and (min-width: 1024px) {
+        .section-{{ section.id }}-padding {
+            padding-top: {{ section_settings.padding_top }}px;
+            padding-bottom: {{ section_settings.padding_bottom }}px;
+        }
+    }
+
+    @media (min-width: {{ section_settings.container | plus: 32 }}px) {
+        .section-{{ section.id }}-padding.section--boxed {
+            max-width: {{ section_settings.container }}px;
+            margin: 0 auto;
+            padding: {{ section_settings.padding_top }}px 0 {{ section_settings.padding_bottom }}px 0;
+        }
+    }
+{%- endstyle -%}
+
+{% unless template == 'index' or template == 'cart' or template == 'list-collections' %}
+    <nav class="gigi-breadcrumbs section-{{ section.id }}-padding {{ layout_class }} {% if has_filter_active %} filter-active {% endif %}" role="navigation" aria-label="breadcrumbs">
+        <a href="/" title="{{ 'products.product.home' | t }}">{{ 'products.product.home' | t }}</a>
+        
+        {% if template contains 'page' %}
+            <span aria-hidden="true">/</span>
+            <span>{{ page.title }}</span>
+
+        {% elsif template contains 'product' %}
+            <span aria-hidden="true">/</span>
+            {% assign productCollections = product.collections %}
+            {% if productCollections.size > 0 %}
+                {% assign firstCollection = productCollections[0] %}
+                <a href="{{ firstCollection.url }}" title="{{ firstCollection.title }}">
+                    {{ firstCollection.title }}
+                </a>
+            {% endif %}
+            <span aria-hidden="true">/</span>
+            <span>{{ product.title }}</span>
+
+        {% elsif template contains 'collection' and collection.handle %}
+            <span aria-hidden="true">/</span>
+
+            {% if current_tags %}
+                {% capture url %}/collections/{{ collection.handle }}{% endcapture %}
+                {{ collection.title | link_to: url }}
+                <span aria-hidden="true">/</span>
+                <span>{{ current_tags | join: " + " }}</span>
+            {% else %}
+                <span>{{ collection.title }}</span>
+            {% endif %}
+
+        {% elsif template == 'blog' %}
+            <span aria-hidden="true">/</span>
+            {% if current_tags %}
+                {{ blog.title | link_to: blog.url }}
+                <span aria-hidden="true">/</span>
+                <span>{{ current_tags | join: " + " }}</span>
+            {% else %}
+                <span>{{ blog.title }}</span>
+            {% endif %}
+
+        {% elsif template == 'article' %}
+            <span aria-hidden="true">/</span>
+            {{ blog.title | link_to: blog.url }}
+            <span aria-hidden="true">/</span>
+            <span>{{ article.title }}</span>
+
+        {% else %}
+            <span aria-hidden="true">/</span>
+            <span>{{ page_title }}</span>
+
+        {% endif %}
+        {% if request.page_type ==  'collection' %}
+            <div class="layout-switch-placeholder">
+               
+              </div>
+        {% endif %}
+    </nav>
+{% endunless %}
+
+{% schema %}
+    {
+        "name": "t:sections.breadcrumb.name",
+        "tag": "section",
+        "class": "section section-breadcrumb",
+        "settings": [
+            {
+                "type": "header",
+                "content": "t:sections.breadcrumb.content"
+            },
+                {
+                    "type": "select",
+                    "id": "layout",
+                    "label": "t:sections.breadcrumb.settings.layout.label",
+                    "info": "t:sections.breadcrumb.settings.layout.info",
+                    "options": [
+                        {
+                            "value": "full_width",
+                            "label": "t:sections.breadcrumb.settings.layout.options.full_width"
+                        },
+                        {
+                            "value": "boxed",
+                            "label": "t:sections.breadcrumb.settings.layout.options.boxed"
+                        }
+                    ],
+                    "default": "full_width"
+                },
+                {
+                    "type": "number",
+                    "id": "container",
+                    "label": "t:sections.breadcrumb.settings.container.label",
+                    "default": 1440
+                },
+            {
+                "type": "header",
+                "content": "t:sections.breadcrumb.settings.padding.label"
+            },
+                {
+                  "type": "range",
+                  "id": "padding_top",
+                  "min": 0,
+                  "max": 100,
+                  "step": 2,
+                  "unit": "px",
+                  "label": "t:sections.all.padding.padding_top",
+                  "default": 14
+                },
+                  {
+                  "type": "range",
+                  "id": "padding_bottom",
+                  "min": 0,
+                  "max": 100,
+                  "step": 2,
+                  "unit": "px",
+                  "label": "t:sections.all.padding.padding_bottom",
+                  "default": 0
+                },
+                {
+                  "type": "range",
+                  "id": "padding_top_mb",
+                  "min": 0,
+                  "max": 100,
+                  "step": 2,
+                  "unit": "px",
+                  "label": "t:sections.all.padding.padding_top_mb",
+                  "default": 14
+                },
+                {
+                  "type": "range",
+                  "id": "padding_bottom_mb",
+                  "min": 0,
+                  "max": 100,
+                  "step": 2,
+                  "unit": "px",
+                  "label": "t:sections.all.padding.padding_bottom_mb",
+                  "default": 0
+                }
+
+        ],
+        "presets": [
+            {
+                "name": "t:sections.breadcrumb.name"
+            }
+        ]
+    }
+{% endschema %}

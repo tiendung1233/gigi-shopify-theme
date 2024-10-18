@@ -1,0 +1,341 @@
+.gigi-product-card__wrapper {
+    max-width: 375px;
+
+    @media screen and (min-width: 768px) {
+        max-width: 349.75px;
+    }
+    .gigi-product-card__media {
+        position: relative;
+        display: flex;
+        align-items: center;
+        min-height: 232.25px;
+        background-color: #F0F0F0;
+        padding: 15px;
+
+        @media screen and (min-width: 768px) {
+            min-height: 436.71px;
+        }
+        .gigi-product-card__meta {
+            position: absolute;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            height: auto;
+            top: 0;
+            left: 0;
+            padding: 15px;
+            .gigi-product-card__tags {
+                .card__badge {
+                    font-family: 'F Grotesk';
+                    font-weight: 400;
+                    font-size: 12px;
+                    line-height: 15px;
+                    color: #B8B8B8;
+                }
+            }
+            .gigi-product-card__favorite {
+                cursor: pointer;
+            }
+        }
+        .gigi-product-card__media-wrapper {
+            width: 100%;
+            height: 100%;
+
+            .gigi-product-card__image,
+            .gigi-product-card__image-featured,
+            .gigi-product-card__image-thumbs {
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            .gigi-product-card__media-swiper {
+                .card__media-featured {
+                    .swiper-button {
+                        svg {
+                            width: 6.7px;
+                            height: 10px;
+                        }
+                        &:after {
+                            content: none;
+                            display: none;
+                        }
+                        &.swiper-button-next {
+                            transform: rotate(180deg);
+                        }
+                    }
+                    .swiper-button-next {
+
+                    }
+                }
+                .card__media-thumbnails {
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    display: none;
+                    width: 100%;
+                    padding: 0 15px;
+                    overflow: hidden;
+
+                    @media screen and (min-width: 768px){
+                        display: block;
+                    }
+
+                    .swiper-slide {
+                        &.media-thumbnails__item {
+                            max-width: 65px;
+                            max-height: 44px;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .gigi-product-card__content {
+        .gigi-product-card__information {
+            position: relative;
+            display: flex;
+            flex-wrap: nowrap;
+            padding: 15px;
+            justify-content: space-between;
+
+            .card__information {
+                display: flex;
+                flex-direction: column;
+                padding: 0;
+                row-gap: 5px;
+
+                .card__information__title,
+                .price {
+                    .price-item {
+                        font-family: 'F Grotesk';
+                        font-weight: 400;
+                        font-size: 10px;
+                        line-height: 14px;
+                        color: #000000;
+                        @media screen and (min-width: 768px) {
+                            font-size: 12px;
+                            line-height: 15px;
+                        }
+                    }
+                    &.price--on-sale {
+                        .price-item--regular {
+                            color: #B8B8B8;
+                        }
+                    }
+                }
+                .gigi-product-card__note {
+                    font-family: 'F Grotesk';
+                    font-weight: 400;
+                    font-size: 12px;
+                    line-height: 15px;
+                    color: #B8B8B8;
+                }
+            }
+            .card__action {
+                max-width: 50px;
+                .quick-add {
+                    .quick-add__submit {
+                        min-width: 50px;
+                        padding: 0;
+                        justify-content: flex-end;
+                        align-items: flex-start;
+
+                        &:before,
+                        &:after {
+                            content: none;
+                            display: none;
+                        }
+                    }
+                    .gigi-quick-add__modal {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        z-index: 12;
+
+                        @media screen and (min-width: 768px){
+                            position: absolute;
+                            top: unset;
+                            left: 0;
+                            bottom: 100%;
+                        }
+
+                        .gigi-quick-add__modal-overlay {
+                            display: block;
+                            width: 100%;
+                            height: 100%;
+                            backdrop-filter: blur(2px);
+                            background-color: rgba(245, 245, 244, 0.4);
+
+                            @media screen and (min-width: 768px){
+                                display: none;
+                            }
+                        }
+
+                        .gigi-quick-add__modal-container {
+                            --modal-width: 343px;
+                            position: absolute;
+                            bottom: 34px;
+                            left: calc((100% - var(--modal-width)) / 2);
+                            right: calc((100% - var(--modal-width)) / 2);
+                            display: flex;
+                            flex-direction: column;
+                            row-gap: 12px;
+                            width: var(--modal-width);
+                            background-color: #FFFFFF;
+                            margin: 0 auto;
+                            padding: 12px;
+                            border: 1px solid #F0F0F0;
+                            border-radius: 3px;
+
+                            @media screen and (min-width: 768px){
+                                bottom: 0;
+                                left: 0;
+                                right: 0;
+                                width: 100%;
+                                border: 0;
+                                padding: 0;
+                            }
+
+                            .gigi-quick-add__modal-header {
+                                display: flex;
+                                justify-content: space-between;
+
+                                @media screen and (min-width: 768px){
+                                    height: 44px;
+                                    justify-content: center;
+                                    align-items: center;
+                                }
+
+                                .modal__close-button {
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    cursor: pointer;
+
+                                    .icon-close {
+                                        width: 8px;
+                                        height: 8px;
+                                    }
+                                }
+                            }
+
+                            .gigi-quick-add__modal-content {
+                                .gigi-variant-options {
+                                    --gap-items: 3px;
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: var(--gap-items);
+
+                                    .product-options {
+                                        display: flex;
+                                        gap: var(--gap-items);
+
+                                        &.color {
+                                            .product-variants__color {
+                                                width: 100%;
+                                                .product-variants__color-item {
+                                                    height: 50px;
+                                                    background-color: #F0F0F0;
+
+                                                    .gigi-product-card__variant-image {
+                                                        display: block;
+                                                        width: 100%;
+                                                        height: 100%;
+                                                        object-fit: contain;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        .product-option__item {
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: center;
+                                            width: calc((100% - (var(--gap-items) * (var(--number-items) - 1))) / var(--number-items) );
+                                            height: 30px;
+                                            padding: 7px 15px;
+                                            background-color: #F0F0F0;
+                                            border-radius: 3px;
+                                            font-weight: 400;
+                                            cursor: pointer;
+
+                                            &.selected {
+                                                background-color: #D9D9D9;
+                                            }
+
+                                            .product-option__item-label {
+                                                cursor: pointer;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            .gigi-quick-add__modal-action {
+                                display: flex;
+                                column-gap: 3px;
+
+                                .gigi-modal__button {
+                                    display: flex;
+                                    width: 50%;
+                                    justify-content: center;
+                                    align-items: center;
+                                    padding: 7px 15px;
+                                    margin-top: 3px;
+                                    color: #000;
+                                    text-decoration: none;
+                                    font-weight: 400;
+                                    border: 1px solid #000;
+                                    border-radius: 3px;
+                                    height: 37px;
+
+                                    @media screen and (min-width: 768px){
+                                        height: auto;
+                                    }
+                                    &.add-to-cart {
+                                        @media screen and (min-width: 768px){
+                                            width: 100%;
+                                        }
+                                        &:hover {
+                                            background-color: #000000;
+                                            color: #FFFFFF;
+                                        }
+                                    }
+
+                                    &:not(.add-to-cart) {
+                                        background-color: #F0F0F0;
+                                    }
+                                }
+                            }
+                        }
+
+                        .modal-title,
+                        .product-option__item,
+                        .gigi-modal__button {
+                            font-family: 'F Grotesk';
+                            font-size: 12px;
+                            line-height: 12px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .hidden-desktop {
+        display: block;
+        @media screen and (min-width: 768px) {
+            display: none !important;
+        }
+    }
+    .hidden-mobile {
+        display: none;
+        @media screen and (min-width: 768px) {
+            display: block !important;
+        }
+    }
+}

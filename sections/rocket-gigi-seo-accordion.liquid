@@ -1,0 +1,521 @@
+<style>
+    #gigi-accordion-{{ section.id }} {
+        padding-top: {{ section.settings.padding_top_mb }}px;
+        padding-bottom: {{ section.settings.padding_bottom_mb }}px;
+        background-color: {{ section.settings.color_background }};
+        --item-spacing: {{ section.settings.spacing_mobile }}px;
+    }
+
+    #gigi-accordion-{{ section.id }} .gigi-accordion__header-title {
+        font-weight: {{ section.settings.font_weight_title }};
+        font-size: {{ section.settings.font_size_title_mb }}px;
+        line-height: {{ section.settings.font_size_title_mb | times: 1.25 }}px;
+        color: {{ section.settings.color_title }};
+    }
+
+    @media screen and (min-width: 768px) {
+        #gigi-accordion-{{ section.id }} {
+            padding-top: {{ section.settings.padding_top }}px;
+            padding-bottom: {{ section.settings.padding_bottom }}px;
+            --item-spacing: {{ section.settings.spacing_desktop }}px;
+        }
+
+        #gigi-accordion-{{ section.id }} .gigi-accordion__header-title {
+            font-size: {{ section.settings.font_size_title }}px;
+            line-height: {{ section.settings.font_size_title | times: 1.25 }}px;
+        }
+    }
+    #gigi-accordion-{{ section.id }} .gigi-accordion__tabs .gigi-accordion__tab:not(:first-child) {
+      margin-top: var(--item-spacing, 20px);
+  }
+</style>
+<div class="gigi-accordion" id="gigi-accordion-{{ section.id }}">
+  <div class="gigi-accordion__header">
+    <h2 class="gigi-accordion__header-title">{{ section.settings.heading }}</h2>
+  </div>
+  <div class="gigi-accordion__tabs">
+    {% if section.settings.metafield_enabled   %}
+      {%- liquid
+          assign metafield_key = section.settings.metafield_key
+          assign object = nil
+          case request.page_type
+          when 'product'
+            assign object = product
+          when 'collection'
+            assign object = collection
+          when 'blog'
+            assign object = blog
+          when 'article'
+            assign object = article
+          when 'page'
+            assign object = page
+          endcase
+          assign metafield = object.metafields.custom[metafield_key]
+          assign metafield_value = metafield.value
+          
+        -%}
+        {%- if metafield_value == blank -%}
+          {% style %}
+          #shopify-section-{{ section.id }} {
+              display: none;
+          }
+          {% endstyle %}
+        {% endif %}
+        {% for block in metafield_value %}
+          <div class="gigi-accordion__tab" id="accordion-{{ forloop.index }}">
+            <style>
+              {% if forloop.first %}
+              #gigi-accordion-{{ section.id }} #accordion-{{ forloop.index }} {
+                  padding-top: 16px;
+                  padding-bottom: 0
+              }
+              {% else %}
+              #gigi-accordion-{{ section.id }} #accordion-{{ forloop.index }} {
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+
+            {% endif %}
+    
+              #gigi-accordion-{{ section.id }} #accordion-{{ forloop.index }} .gigi-accordion__title-text {
+                  font-weight: 400;
+                  font-size: 12px;
+                  line-height: {{ 12 | times: 1.25 }}px;
+                  color: #000000;
+              }
+    
+              #gigi-accordion-{{ section.id }} #accordion-{{ forloop.index }} .gigi-accordion__desc-text {
+                  font-weight: 400;
+                  font-size: 12px;
+                  line-height: {{ 12 | times: 1.25 }}px;
+                  color: #242833
+              }
+    
+              @media screen and (min-width: 768px) {
+                {% if forloop.first %}
+                  #gigi-accordion-{{ section.id }} #accordion-{{ forloop.index }} {
+                      padding-top: 20px;
+                  }
+                {% endif %}
+                  #gigi-accordion-{{ section.id }} #accordion-{{ forloop.index }} .gigi-accordion__title-text {
+                      font-size: 14px;
+                      line-height: {{ 14 | times: 1.25 }}px;
+                  }
+    
+                  #gigi-accordion-{{ section.id }} #accordion-{{ forloop.index }} .gigi-accordion__desc-text {
+                      font-size: 12px;
+                      line-height: {{  12 | times: 1.25 }}px;
+                  }
+              }
+            </style>
+            <div class="gigi-accordion__tab-title">
+              <h2 class="gigi-accordion__title-text">{{ block.title }}</h2>
+              <div class="gigi-accordion__button">{% render 'icon-dropdown' %}</div>
+            </div>
+            <div class="gigi-accordion__tab-desc">
+              <div class="gigi-accordion__desc-text">{{ block.descriptions | metafield_tag }}</div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+    {% for block in section.blocks %}
+      <div class="gigi-accordion__tab" id="accordion-{{ block.id }}">
+        <style>
+          #gigi-accordion-{{ section.id }} #accordion-{{ block.id }} {
+              padding-top: {{ block.settings.padding_top_mb }}px;
+              padding-bottom: {{ block.settings.padding_bottom_mb }}px;
+
+          }
+
+          #gigi-accordion-{{ section.id }} #accordion-{{ block.id }} .gigi-accordion__title-text {
+              font-weight: {{ block.settings.font_weight_title }};
+              font-size: {{ block.settings.font_size_title_mb }}px;
+              line-height: {{ block.settings.font_size_title_mb | times: 1.25 }}px;
+              color: {{ block.settings.color_title }};
+          }
+
+          #gigi-accordion-{{ section.id }} #accordion-{{ block.id }} .gigi-accordion__desc-text {
+              font-weight: {{ block.settings.font_weight_desc }};
+              font-size: {{ block.settings.font_size_desc_mb }}px;
+              line-height: {{ block.settings.font_size_desc_mb | times: 1.25 }}px;
+              color: {{ block.settings.color_desc }};
+          }
+
+          @media screen and (min-width: 768px) {
+              #gigi-accordion-{{ section.id }} #accordion-{{ block.id }} {
+                  padding-top: {{ block.settings.padding_top }}px;
+                  padding-bottom: {{ block.settings.padding_bottom }}px;
+              }
+
+              #gigi-accordion-{{ section.id }} #accordion-{{ block.id }} .gigi-accordion__title-text {
+                  font-size: {{ block.settings.font_size_title }}px;
+                  line-height: {{ block.settings.font_size_title | times: 1.25 }}px;
+              }
+
+              #gigi-accordion-{{ section.id }} #accordion-{{ block.id }} .gigi-accordion__desc-text {
+                  font-size: {{ block.settings.font_size_desc }}px;
+                  line-height: {{ block.settings.font_size_desc | times: 1.25 }}px;
+              }
+          }
+        </style>
+        <div class="gigi-accordion__tab-title">
+          <h2 class="gigi-accordion__title-text">{{ block.settings.title }}</h2>
+          <div class="gigi-accordion__button">{% render 'icon-dropdown' %}</div>
+        </div>
+        <div class="gigi-accordion__tab-desc">
+          <div class="gigi-accordion__desc-text">{{ block.settings.description }}</div>
+        </div>
+      </div>
+    {% endfor %}
+  {% endif %}
+  </div>
+</div>
+<script>
+  const accordion = document.querySelector('#gigi-accordion-{{ section.id }}');
+
+  let accordionTabs = accordion.querySelectorAll('.gigi-accordion__tab');
+
+  accordionTabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      tab.classList.toggle('visible');
+    });
+  });
+</script>
+{% schema %}
+{
+  "name": "t:sections.accordion.name",
+  "tag": "section",
+  "class": "section section-seo-accordion",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.accordion.settings.content.name"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Gafas de Sol",
+      "label": "t:sections.accordion.settings.content.settings.title"
+    },
+    {
+      "type": "select",
+      "id": "font_weight_title",
+      "options": [
+        {
+          "value": "250",
+          "label": "t:sections.accordion.settings.content.settings.font_weight.options__1"
+        },
+        {
+          "value": "400",
+          "label": "t:sections.accordion.settings.content.settings.font_weight.options__2"
+        },
+        {
+          "value": "600",
+          "label": "t:sections.accordion.settings.content.settings.font_weight.options__3"
+        }
+      ],
+      "default": "600",
+      "label": "t:sections.accordion.settings.content.settings.font_weight.label_title"
+    },
+    {
+      "type": "range",
+      "id": "font_size_title",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "t:sections.accordion.settings.content.settings.font_size_title",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "font_size_title_mb",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "t:sections.accordion.settings.content.settings.font_size_title_mb",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Metafields"
+    },
+    {
+      "type": "checkbox",
+      "id": "metafield_enabled",
+      "label": "Use metafields to populate the accordion items",
+      "default": false,
+      "info": "Enable this option to use metafields to populate the accordion items instead of the blocks below."
+    },
+    {
+      "type": "text",
+      "id": "metafield_key",
+      "label": "Metafield key"
+    },
+     
+    {
+      "type": "header",
+      "content": "t:sections.accordion.settings.padding.section_padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mb",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "t:sections.accordion.settings.padding.padding_top_mb",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mb",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "t:sections.accordion.settings.padding.padding_bottom_mb",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "spacing_desktop",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Item spacing (desktop)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "spacing_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Item spacing (mobile)",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "t:sections.accordion.settings.colors.name"
+    },
+    {
+      "type": "color",
+      "id": "color_background",
+      "label": "t:sections.accordion.settings.colors.settings.background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "color_title",
+      "label": "t:sections.accordion.settings.colors.settings.title",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "content",
+      "name": "t:sections.accordion.block.name",
+      "settings": [
+        {
+          "type": "header",
+          "content": "t:sections.accordion.settings.content.name"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "default": "GIGI - Title",
+          "label": "t:sections.accordion.settings.content.settings.title"
+        },
+        {
+          "type": "select",
+          "id": "font_weight_title",
+          "options": [
+            {
+              "value": "250",
+              "label": "t:sections.accordion.settings.content.settings.font_weight.options__1"
+            },
+            {
+              "value": "400",
+              "label": "t:sections.accordion.settings.content.settings.font_weight.options__2"
+            },
+            {
+              "value": "600",
+              "label": "t:sections.accordion.settings.content.settings.font_weight.options__3"
+            }
+          ],
+          "default": "600",
+          "label": "t:sections.accordion.settings.content.settings.font_weight.label_title"
+        },
+        {
+          "type": "range",
+          "id": "font_size_title",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "t:sections.accordion.settings.content.settings.font_size_title",
+          "default": 14
+        },
+        {
+          "type": "range",
+          "id": "font_size_title_mb",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "t:sections.accordion.settings.content.settings.font_size_title_mb",
+          "default": 14
+        },
+        {
+          "type": "header",
+          "content": "t:sections.accordion.settings.description.name"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "t:sections.accordion.settings.description.name"
+        },
+        {
+          "type": "select",
+          "id": "font_weight_desc",
+          "options": [
+            {
+              "value": "250",
+              "label": "t:sections.accordion.settings.content.settings.font_weight.options__1"
+            },
+            {
+              "value": "400",
+              "label": "t:sections.accordion.settings.content.settings.font_weight.options__2"
+            },
+            {
+              "value": "600",
+              "label": "t:sections.accordion.settings.content.settings.font_weight.options__3"
+            }
+          ],
+          "default": "400",
+          "label": "t:sections.accordion.settings.content.settings.font_weight.label_desc"
+        },
+        {
+          "type": "range",
+          "id": "font_size_desc",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "t:sections.accordion.settings.description.settings.font_size_description",
+          "default": 12
+        },
+        {
+          "type": "range",
+          "id": "font_size_desc_mb",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "t:sections.accordion.settings.description.settings.font_size_description_mb",
+          "default": 12
+        },
+       
+        {
+          "type": "header",
+          "content": "t:sections.accordion.settings.padding.block_padding"
+        },
+        {
+          "type": "range",
+          "id": "padding_top",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "t:sections.all.padding.padding_top",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "t:sections.all.padding.padding_bottom",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding_top_mb",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "t:sections.accordion.settings.padding.padding_top_mb",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom_mb",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "t:sections.accordion.settings.padding.padding_bottom_mb",
+          "default": 0
+        },
+
+        {
+          "type": "header",
+          "content": "t:sections.accordion.settings.colors.name"
+        },
+        {
+          "type": "color",
+          "id": "color_title",
+          "label": "t:sections.accordion.settings.colors.settings.title",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "color_desc",
+          "label": "t:sections.accordion.settings.colors.settings.description",
+          "default": "#000000"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.accordion.name",
+      "blocks": [
+        {
+          "type": "content"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

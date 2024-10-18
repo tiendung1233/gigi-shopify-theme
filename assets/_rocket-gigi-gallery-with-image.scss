@@ -1,0 +1,117 @@
+.gigi-gallery-w-image_container {
+    @media ( min-width: 1024px) {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    .gigi-gallery-w-image_wrapper {
+        display: grid;
+        gap: 3px;
+        row-gap: 0;
+        @media ( min-width: 1024px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .gigi-gallery-w-image_products {
+            .gigi-gallery-w-image__product-card-wrapper:hover {
+                .gigi-gallery-w-image__product-card {
+                    .gigi-gallery-w-image_info {
+                        .gigi-gallery-w-image_title {
+                            display: block;
+                        }
+                    }
+                }
+            }
+        }    
+        .gigi-gallery-w-image_image {
+            img.gigi-signal-image {
+                width: 100%;
+                height: 100%;
+                display: none;
+                @media ( min-width: 1024px ) {
+                    display: block;
+                    object-fit: cover;
+                    max-height: calc(100% - 2px);
+                }
+            }
+            img.gigi-signal-image_mb {
+                width: 100%;
+                height: 100%;
+                @media ( min-width: 1024px ) {
+                    display: none;
+                }
+            }
+        }
+        .gigi-gallery-w-image_products {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 3px;
+            @media ( min-width: 1024px ) {
+                row-gap: 1px;
+            }
+            .gigi-gallery-w-image__product-card-wrapper {
+                .gigi-gallery-w-image__product-card {
+                    position: relative;
+                    text-decoration: none;
+                    height: 100%;
+                    display: block;
+                    .gigi-gallery-w-image_media {
+                        height: 100%;
+                    }
+                    .gigi-product-cards-gallery-w-image_img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
+                        background-color: #F0F0F0;
+                        aspect-ratio: 186/232;
+                        @media ( min-width: 1024px ) {
+                            min-height: unset;
+                            aspect-ratio: 350/437;
+                            max-height: calc(100% - 2px);
+                        }
+                    }
+                    .gigi-gallery-w-image_info {
+                        .gigi-gallery-w-image_title  {
+                            position: absolute;
+                            bottom: 17px;
+                            left: 14px;
+                            color: #000;
+                            gap: 2px;
+                            font-size: 10px;
+                            font-weight: 400; 
+                            @media ( min-width: 1024px ) {
+                                display: none;
+                                
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.gigi-gallery-w-image-_wrapper-top {
+    flex-direction: column;
+}
+.gigi-gallery-w-image-_wrapper-bottom {
+    flex-direction: column-reverse;
+    .gigi-gallery-w-image_image {
+        order: 1;
+    }
+}
+@media ( min-width:1024px ) {
+    .gigi-gallery-w-image-_wrapper-left {
+        &.gigi-gallery-w-image_wrapper {
+            .gigi-gallery-w-image_image {
+                order: -1;
+            }
+        }
+        flex-direction: row;
+    }
+    .gigi-gallery-w-image-_wrapper-right {
+        flex-direction: row-reverse;
+        &.gigi-gallery-w-image_wrapper {
+            .gigi-gallery-w-image_image {
+                order: 1;
+            }
+        }
+    }
+}
